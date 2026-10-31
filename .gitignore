@@ -1,0 +1,24 @@
+# secrets
+.env
+.env.*
+*.local.*
+
+# python
+__pycache__/
+.venv/
+*.pyc
+
+# local working data (データ本体は R2 に置く)
+data/
+tmp/
+*.parquet
+*.pmtiles
+*.tif
+*.tiff
+*.laz
+
+# os / editor
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
