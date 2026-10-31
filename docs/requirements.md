@@ -4,7 +4,8 @@
 
 ## 0. 前提
 
-- 対象は Cloudflare R2 のバケット `shi-works`。カスタムドメイン `https://shi-works.com/` で公開している。運用の記録は [shiwaku/cloudflare-infra](https://github.com/shiwaku/cloudflare-infra) にある。
+- 既存のデータは Cloudflare R2 のバケット `shi-works` にあり、カスタムドメイン `https://shi-works.com/` で公開している。運用の記録は [shiwaku/cloudflare-infra](https://github.com/shiwaku/cloudflare-infra) にある。
+- カタログは**別のバケット `shi-works-catalog`** に置き、`https://catalog.shi-works.com/` で公開する（第6章）。
 - Portolan は STAC 1.1 の静的カタログに要件を足したもの。正本はクラウドネイティブ形式で置き、README.md と AGENTS.md を必ず付ける。サーバーは使わない。
 - 根拠にした資料: [portolan-spec](https://github.com/portolan-sdi/portolan-spec) の `specs/portolan/core.md` と `formats.md`、[portolan-cli](https://github.com/portolan-sdi/portolan-cli) のソース（2026-10-31 時点）。
 
@@ -57,15 +58,15 @@
 - 既存のパスは**変えない**（利用者がいるため。MIGRATION.md で移行が済んだばかり）。
 - 新しいデータは、最初から Portolan の構成で置く。
 - 既存のデータは、次のどちらかでカタログに載せる（第2段階以降で決める）。
-  - **参照だけする**: カタログから既存の https URL を絶対パスで指す（`add-external`、または href を手で書く）。URL は変わらない。
-  - **コピーする**: カタログ用のフォルダにコピーし、既存のパスはそのまま残す。容量は倍になる。
+  - **参照だけする**: カタログから既存の https URL（`https://shi-works.com/...`）を絶対パスで指す（`add-external`、または href を手で書く）。URL は変わらない。
+  - **コピーする**: `shi-works-catalog` バケットにコピーし、既存のパスはそのまま残す。容量は倍になる。
 
 ## 6. ファイルの置き方
 
-**決定（2026-10-31）**: ルートは `catalog/`、下位カタログは**テーマ**で分ける。
+**決定（2026-10-31）**: カタログは専用バケット `shi-works-catalog` のルートに置き、`catalog.shi-works.com` で公開する。下位カタログは**テーマ**で分ける。
 
 ```
-s3://shi-works/catalog/          → https://shi-works.com/catalog/catalog.json
+s3://shi-works-catalog/          → https://catalog.shi-works.com/catalog.json
 ├── catalog.json / README.md / AGENTS.md
 ├── terrain/                     地形
 │   ├── osaka-csmap/             ← コレクション（COG と XYZ）
@@ -93,7 +94,9 @@ s3://shi-works/catalog/          → https://shi-works.com/catalog/catalog.json
 
 - **形式では分けない。** Portolan では、1つのコレクションに正本と表示用を別の形式で一緒に入れる。形式で分けると、1つのデータセットが2か所に分かれる。
 - **フォルダはテーマにする。** 地域と提供元は、メタデータ（bbox、providers、keywords）に書いて絞り込めるようにする。フォルダの階層は1つの軸でしか分けられない。
-- **ルート名を `catalog/` にする。** ツールの名前（portolan）を URL に入れないので、ツールを替えても名前が嘘にならない。
+- **専用バケットにする。** R2 の API トークンはバケット単位でしか絞れない。既存の `shi-works` と同じバケットにすると、push 用のトークンで既存データも上書きできてしまう。専用バケットなら、トークンをカタログだけに絞れる。CORS の設定と容量も、既存データと分けて管理できる。
+- **サブドメインで公開する。** R2 のカスタムドメインは1つのバケットに1つなので、`shi-works.com/catalog/` にはできない（Worker でパスを振り分ければできるが、仕組みが増える）。
+- **名前を `catalog` にする。** ツールの名前（portolan）を URL に入れないので、ツールを替えても名前が嘘にならない。
 
 決まりごと:
 
@@ -101,7 +104,8 @@ s3://shi-works/catalog/          → https://shi-works.com/catalog/catalog.json
 - コレクションの中にコレクションは入れられない（仕様の MUST）。
 - 子が20以上になったら、さらに下位カタログを足す（仕様の SHOULD）。例: CS立体図が20県を超えたら `terrain/csmap/` を1段足す。
 - テーマの一覧は、既存データをすべて割り振って確定させる（未決事項1）。
-- 書き込みは `portolan push s3://shi-works/catalog`。AWS プロファイル `r2-shiworks` を使う。
+- 書き込みは `portolan push s3://shi-works-catalog`。`shi-works-catalog` だけに書き込める R2 の API トークンを新しく作り、専用の AWS プロファイル `r2-shiworks-catalog` に入れる。既存の `r2-shiworks` は使わない。
+- 手元のカタログは、このリポジトリの `catalog/` に置く（メタデータは git で管理し、データ本体は .gitignore で除く）。
 
 ## 7. 作業環境
 
@@ -116,9 +120,9 @@ s3://shi-works/catalog/          → https://shi-works.com/catalog/catalog.json
 
 | 項目 | 要件 | 現状（2026-10-31 に確認） | 対応 |
 |---|---|---|---|
-| Range リクエスト | 206、`Accept-Ranges: bytes` | ✅ | — |
-| CORS: 許可するリクエストヘッダー | Range、If-Match、If-None-Match、If-Modified-Since、If-Unmodified-Since | ⚠️ **If-Modified-Since と If-Unmodified-Since は 403** | R2 の CORS ルールに追加する |
-| CORS: 公開するレスポンスヘッダー | Content-Type、Content-Length、Content-Range、Accept-Ranges、ETag | ⚠️ **Content-Type がない** | 追加する |
+| Range リクエスト | 206、`Accept-Ranges: bytes` | ✅（`shi-works`） | `shi-works-catalog` でも確かめる |
+| CORS: 許可するリクエストヘッダー | Range、If-Match、If-None-Match、If-Modified-Since、If-Unmodified-Since | ⚠️ `shi-works` は **If-Modified-Since と If-Unmodified-Since が 403** | `shi-works-catalog` は最初から満たすように設定する。`shi-works` も、既存データを参照で載せるなら追加する |
+| CORS: 公開するレスポンスヘッダー | Content-Type、Content-Length、Content-Range、Accept-Ranges、ETag | ⚠️ `shi-works` は **Content-Type がない** | 同上 |
 | キャッシュ | — | 512 MB を超えるファイルはエッジでキャッシュされない | GeoParquet は 2 GB を超えたら分割する。PMTiles の大きさの方針を決める |
 | コスト | — | R2 は転送料が無料 | 正本と表示用の両方を置くので容量が増える。段階ごとに見積もる |
 | 更新 | — | — | `versions.json` によるバージョン管理と、差し替えの手順を決める |
@@ -127,7 +131,7 @@ s3://shi-works/catalog/          → https://shi-works.com/catalog/catalog.json
 
 | 段階 | 内容 | 終わりの条件 |
 |---|---|---|
-| 0. 基盤 | CORS の修正、カタログのルート作成、作業環境の用意、tippecanoe と tylertoo の比較 | ルートの catalog.json が公開され、`check` に通る |
+| 0. 基盤 | `shi-works-catalog` バケット、カスタムドメイン `catalog.shi-works.com`、専用の API トークンと CORS の用意。`shi-works` の CORS の修正。カタログのルート作成、作業環境の用意、tippecanoe と tylertoo の比較 | `https://catalog.shi-works.com/catalog.json` が公開され、`check --live` に通る |
 | 1. 新しいベクタ | 新しいデータセット1件を GeoParquet と PMTiles の組で公開する | `check --strict` に通る |
 | 2. 既存のベクタ | `geoparquet/` と `pmtiles/` を載せる（参照するかコピーするかを決める）。PMTiles しかないものは GeoParquet を作る | 対象を一覧にし、順に載せる |
 | 3. ラスタ | COG の正本と、XYZ タイルの表示用の組。まず CS立体図から | `rel: "xyz"` を含めて `check` に通る |
@@ -137,7 +141,7 @@ s3://shi-works/catalog/          → https://shi-works.com/catalog/catalog.json
 
 ## 10. 未決事項
 
-1. ~~カタログのルートのフォルダ名と、下位カタログの分け方~~ → `catalog/` とテーマ別に決定（第6章）。残っているのは**テーマの一覧を確定させること**（既存データをすべて割り振って決める）
+1. ~~カタログの置き場所と、下位カタログの分け方~~ → 専用バケット `shi-works-catalog`（`catalog.shi-works.com`）とテーマ別に決定（第6章）。残っているのは**テーマの一覧を確定させること**（既存データをすべて割り振って決める）
 2. 第1段階で入れる新しいデータセット
 3. PMTiles を tippecanoe と tylertoo のどちらで作るか
 4. CORS の変更手順を cloudflare-infra の runbook として残すか
