@@ -46,6 +46,11 @@ license: "CC-BY-4.0"                # SPDX identifier (e.g., "CC-BY-4.0", "MIT")
 # `source_url` below and records each sync.
 # -----------------------------------------------------------------------------
 
+providers:
+  - name: "shi-works"
+    roles: ["host"]
+    url: "https://github.com/shiwaku/shi-works-catalog"
+
 # providers:
 #   - name: "National Statistics Institute"
 #     roles: ["producer", "licensor"]
