@@ -104,7 +104,7 @@ s3://shi-works-catalog/          → https://catalog.shi-works.com/catalog.json
 - コレクションの中にコレクションは入れられない（仕様の MUST）。
 - 子が20以上になったら、さらに下位カタログを足す（仕様の SHOULD）。例: CS立体図が20県を超えたら `terrain/csmap/` を1段足す。
 - テーマの一覧は、既存データをすべて割り振って確定させる（未決事項1）。
-- 書き込みは `portolan push s3://shi-works-catalog`。`shi-works-catalog` だけに書き込める R2 の API トークンを新しく作り、専用の AWS プロファイル（名前は第0段階で決める）に入れる。既存の `r2-shiworks` は使わない。
+- 書き込みは `portolan push s3://shi-works-catalog`。`shi-works-catalog` だけに書き込める R2 の API トークンを新しく作り、専用の AWS プロファイル `r2-shiworks-catalog` に入れる。既存の `r2-shiworks` は使わない。
 - 手元のカタログは、このリポジトリの `catalog/` に置く（メタデータは git で管理し、データ本体は .gitignore で除く）。
 
 ## 7. 作業環境
