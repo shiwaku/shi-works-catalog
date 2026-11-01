@@ -38,7 +38,7 @@
 |---|---|---|
 | `national/` | 9 | — |
 | `prefectures/` | 18 | 最大47。子はどれもカタログ（管理者）なので、PTL-CAT-001 の数には入らない |
-| `municipalities/` | 2 | — |
+| `municipalities/` | 3 | — |
 | `others/` | 10前後 | — |
 | `shi-works/` | 数個 | — |
 
@@ -84,7 +84,7 @@
 | `akita` | `pmtiles/pref-akita/` | 地震被害想定（震度、液状化など。想定地震ごとのレイヤー） |
 | `saitama` | `raster-tiles/pref-saitama/`、`3dtiles/pref-saitama/`、`3dtiles/saitama-rpc/` | CS立体図、河川の点群 |
 | `saitama`（推定） | `geoparquet/pcp/` | 点群を Point Cloud Parquet にした試作（平面直角座標系 第IX系、秩父付近の1図郭、約2.5億点）。試作なので、載せるかは移行（#7）で決める |
-| `tokyo` | `raster-tiles/tokyo-digitaltwin/`（CS立体図は1つのコレクションに地区ごとの Item、DSM）、`copc/tokyo-digitaltwin/`、`3dtiles/toyko-23ku-pc/`、`3dtiles/tokyo/`（要確認） | デジタルツインの点群、CS立体図、DSM |
+| `tokyo` | `raster-tiles/tokyo-digitaltwin/`（CS立体図は1つのコレクションに地区ごとの Item、DSM）、`copc/tokyo-digitaltwin/`、`3dtiles/toyko-23ku-pc/`、`3dtiles/tokyo/`（要確認: 範囲は東京駅・丸の内付近〔東経139.758〜139.776度、北緯35.676〜35.689度〕。提供元） | デジタルツインの点群、CS立体図、DSM |
 | `tokyo` | `pmtiles/tokyo/R03Building.pmtiles`、`mvt/13103_minato-ku_pref_2023_bldg_mvt/` | 都市計画基礎調査の建物 |
 | `tokyo` | `pmtiles/npa/hanzaiopendata/` | 犯罪（警視庁のオープンデータ。要確認） |
 | `kanagawa`、`kyoto`、`miyagi`、`nagano`、`okayama`、`osaka`、`toyama`、`wakayama`、`hiroshima` | `raster-tiles/pref-*/` | CS立体図 |
@@ -95,7 +95,6 @@
 | `tottori` | `raster-tiles/pref-tottori/`、`pmtiles/pref-tottori/`、`geojson/pref-tottori/` | CS立体図、標高、点群の範囲 |
 | `yamagata` | `raster-tiles/pref-yamagata/rpc-dsm/` | DSM |
 | `nagasaki` | `3dtiles/open_nagasaki/`、`cog/open-nagasaki/` | 3D（駅、ハウステンボスなど）、CS立体図 |
-| 要確認 | `3dtiles/nakano-sunplaza-pc/` | 中野サンプラザの点群。提供元（東京都か中野区か） |
 
 ### municipalities/ 市区町村
 
@@ -103,6 +102,7 @@
 |---|---|---|
 | `shizuoka-city` | `cog/city-shizuoka/`、`pmtiles/city-shizuoka/` | オルソ画像、基本図 |
 | `saitama-city` | `pmtiles/city-saitama/` | 建物、陰影 |
+| `nakano-city` | `3dtiles/nakano-sunplaza-pc/` | 中野サンプラザの点群（[中野区](https://www.city.tokyo-nakano.lg.jp/kanko/city-promotion/Sunplaza_3D.html)、CC BY 4.0。元は LAS、東京都オープンデータカタログで配布） |
 
 ### others/ 国外の機関、大学、民間、コミュニティ
 
