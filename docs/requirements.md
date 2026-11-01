@@ -1,11 +1,11 @@
 # shi-works への Portolan 導入 要件定義
 
-最終更新: 2026-10-31（たたき台）
+最終更新: 2026-11-01（たたき台）
 
 ## 0. 前提
 
 - 既存のデータは Cloudflare R2 のバケット `shi-works` にあり、カスタムドメイン `https://shi-works.com/` で公開している。運用の記録は [shiwaku/cloudflare-infra](https://github.com/shiwaku/cloudflare-infra) にある。
-- カタログは**別のバケット `shi-works-catalog`** に置き、`https://catalog.shi-works.com/` で公開する（第6章）。
+- カタログは**別のバケット `shi-works-catalog`** に置き、`https://catalog.shi-works.com/` で公開する（第6章）。このバケットはカタログ専用ではなく、**shi-works のデータ配信の本体**になる（データもカタログと同じツリーに置く）。
 - Portolan は STAC 1.1 の静的カタログに要件を足したもの。正本はクラウドネイティブ形式で置き、README.md と AGENTS.md を必ず付ける。サーバーは使わない。
 - 根拠にした資料: [portolan-spec](https://github.com/portolan-sdi/portolan-spec) の `specs/portolan/core.md` と `formats.md`、[portolan-cli](https://github.com/portolan-sdi/portolan-cli) のソース（2026-10-31 時点）。
 
@@ -65,6 +65,8 @@
 
 **決定（2026-10-31）**: カタログは専用バケット `shi-works-catalog` のルートに置き、`catalog.shi-works.com` で公開する。下位カタログは**テーマ**で分ける。
 
+**決定（2026-11-01、#2）**: `shi-works-catalog` はカタログ専用ではなく、**データ配信の本体**にする。バケット名とサブドメインは変えない。`shi-works.com` を Worker で新しいバケットへ振り分ける入口にするかどうかは、既存データの移行方針（#7）で決める。
+
 ```
 s3://shi-works-catalog/          → https://catalog.shi-works.com/catalog.json
 ├── catalog.json / README.md / AGENTS.md
@@ -97,6 +99,7 @@ s3://shi-works-catalog/          → https://catalog.shi-works.com/catalog.json
 - **専用バケットにする。** R2 の API トークンはバケット単位でしか絞れない。既存の `shi-works` と同じバケットにすると、push 用のトークンで既存データも上書きできてしまう。専用バケットなら、トークンをカタログだけに絞れる。CORS の設定と容量も、既存データと分けて管理できる。
 - **サブドメインで公開する。** R2 のカスタムドメインは1つのバケットに1つなので、`shi-works.com/catalog/` にはできない（Worker でパスを振り分ければできるが、仕組みが増える）。
 - **名前を `catalog` にする。** ツールの名前（portolan）を URL に入れないので、ツールを替えても名前が嘘にならない。
+- **データ配信の本体になっても名前は変えない。** Portolan では、データは各コレクションのフォルダに入り、カタログと同じツリーに置かれる。バケット全体が1つのカタログなので、`catalog` という名前は中身と合っている。作り直さないので、決めたこと（プロファイル名など）もそのまま使える。
 
 決まりごと:
 
@@ -147,3 +150,4 @@ s3://shi-works-catalog/          → https://catalog.shi-works.com/catalog.json
 4. CORS の変更手順を cloudflare-infra の runbook として残すか
 5. 既存データを参照で載せるかコピーで載せるか（`add-external` で作ったコレクションが strict の検証に通るかを確かめてから決める）
 6. 更新の運用とバージョン管理
+7. `shi-works.com` の位置づけ（Worker で `shi-works-catalog` へ振り分ける入口にするか）。既存データの移行方針（#7）と合わせて決める
