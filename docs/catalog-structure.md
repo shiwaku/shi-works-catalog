@@ -16,7 +16,7 @@
 
 | 区分 | 中身 | 管理者の例 |
 |---|---|---|
-| `national/` | 国の機関 | `gsi`（国土地理院）、`mlit`（国土交通省）、`ksj`（国土数値情報）、`plateau`、`npa`（警察庁）、`jma`（気象庁）、`digital-agency`（デジタル庁）、`rinya`（林野庁） |
+| `national/` | 国の機関 | `gsi`（国土地理院）、`mlit`（国土交通省）、`ksj`（国土数値情報）、`plateau`、`npa`（警察庁）、`stat`（総務省統計局）、`jma`（気象庁）、`digital-agency`（デジタル庁）、`rinya`（林野庁） |
 | `prefectures/` | 都道府県 | `osaka`、`shizuoka`、`tokyo` など |
 | `municipalities/` | 市区町村 | `shizuoka-city`、`saitama-city` |
 | `others/` | 国外の機関、大学、民間、コミュニティ | `osm`、`worldpop`、`google`、`usgs`、`gebco`、`mapterhorn`、`jartic`、`tohoku-u` |
@@ -36,7 +36,7 @@
 
 | 下位カタログ | 管理者の数（今） | 注意 |
 |---|---|---|
-| `national/` | 8 | — |
+| `national/` | 9 | — |
 | `prefectures/` | 18 | 最大47。20を超えると PTL-CAT-001（SHOULD）の警告が出る。下の「決めること」を参照 |
 | `municipalities/` | 2 | — |
 | `others/` | 10前後 | — |
@@ -60,12 +60,12 @@
 | `gsi` | `pmtiles/gsi/denshouhi/` | 自然災害伝承碑 |
 | `gsi` | `pmtiles/gsi/gsimaps_vector/` | 地理院地図ベクタ |
 | `gsi` | `pmtiles/gsi/optimal_bvmap/` | 最適化ベクタタイル（道路中心線など） |
-| `gsi` | `pmtiles/gsi/kokuarea/` | 要確認: 中身 |
+| `gsi` | `pmtiles/gsi/kokuarea/` | 空港等の周辺空域（地理院タイルの形式。元は航空局） |
 | `gsi` | `mvt/gsi-3dmap-bldg-tiles/`、`3dtiles/gsi-3dmap/` | 3D地図の建物 |
 | `mlit` | `json/mlit-road-traffic-census/`、`pmtiles/mlit-road-traffic-census/`、`pmtiles/traffic-census/traffic_census_*` | 道路交通センサス |
-| `mlit` | `pmtiles/mlit/toshik/a.pmtiles` | 要確認: 都市計画か |
+| `mlit` | `pmtiles/mlit/toshik/a.pmtiles` | 都市計画決定 GIS データ（防火地域、地区計画、都市計画道路など） |
 | `mlit` | `pmtiles/landform/` | 地形分類（要確認: 土地分類基本調査か） |
-| `mlit` | `pmtiles/boring-data-converter/` | ボーリング柱状図（要確認: 国土地盤情報か） |
+| `mlit` | `pmtiles/boring-data-converter/` | ボーリング柱状図（国土地盤情報の XML から作成） |
 | `ksj` | `pmtiles/ksj/`（A29、N02、N03、N05、N06、N07、P05、P11、W05、A16、prefectures） | 用途地域、鉄道、行政区域、高速道路、バス路線、役場、バス停、河川、DID、都道府県 |
 | `ksj` | `pmtiles/ksj-route-search/` | 道路（N13） |
 | `ksj` | `pmtiles/mlit-ksj/C28-21_Airport.pmtiles`、`L01-24.pmtiles`、`L03-b-21*`、`raster-tiles/mlit-ksj/` | 空港、地価公示、土地利用細分メッシュ |
@@ -76,20 +76,21 @@
 | `jma` | `pmtiles/jma-earthquake/`、`mlt/jma-earthquake/` | 震度・震源 |
 | `digital-agency` | `pmtiles/digital/abr/` | アドレス・ベース・レジストリ |
 | `rinya` | `raster-tiles/rinya/noto-2024-csmap-tiles/` | 能登の CS立体図 |
-| 要確認 | `pmtiles/r2DID/`、`pmtiles/traffic-census/2020_did_*` | 人口集中地区（2020）。総務省統計局なら管理者 `stat` を足す |
+| `stat` | `pmtiles/r2DID/`、`pmtiles/traffic-census/2020_did_*` | 人口集中地区（2020、総務省統計局の e-Stat 境界データ） |
 | 要確認 | `pmtiles/100m_mesh_pop2020/` | 100m メッシュ人口。元データの提供元 |
 
 ### prefectures/ 都道府県
 
 | 管理者 | 既存のパス | 中身 |
 |---|---|---|
-| `akita` | `pmtiles/pref-akita/` | 地震被害想定（要確認） |
+| `akita` | `pmtiles/pref-akita/` | 地震被害想定（震度、液状化など。想定地震ごとのレイヤー） |
 | `saitama` | `raster-tiles/pref-saitama/`、`3dtiles/pref-saitama/`、`3dtiles/saitama-rpc/` | CS立体図、河川の点群 |
+| `saitama`（推定） | `geoparquet/pcp/` | 点群を Point Cloud Parquet にした試作（平面直角座標系 第IX系、秩父付近の1図郭、約2.5億点）。試作なので、載せるかは移行（#7）で決める |
 | `tokyo` | `raster-tiles/tokyo-digitaltwin/`（CS立体図は1つのコレクションに地区ごとの Item、DSM）、`copc/tokyo-digitaltwin/`、`3dtiles/toyko-23ku-pc/`、`3dtiles/tokyo/`（要確認） | デジタルツインの点群、CS立体図、DSM |
 | `tokyo` | `pmtiles/tokyo/R03Building.pmtiles`、`mvt/13103_minato-ku_pref_2023_bldg_mvt/` | 都市計画基礎調査の建物 |
 | `tokyo` | `pmtiles/npa/hanzaiopendata/` | 犯罪（警視庁のオープンデータ。要確認） |
 | `kanagawa`、`kyoto`、`miyagi`、`nagano`、`okayama`、`osaka`、`toyama`、`wakayama`、`hiroshima` | `raster-tiles/pref-*/` | CS立体図 |
-| `toyama` | `pmtiles/pref-toyama/` | 樹木（単木） |
+| `toyama` | `pmtiles/pref-toyama/` | 森林の単木データ（樹種、胸高直径など） |
 | `ishikawa` | `raster-tiles/pref-ishikawa/notowest-red-tiles/` | 赤色立体地図（能登西部） |
 | `shizuoka` | `raster-tiles/pref-shizuoka/`、`cog/VIRTUAL_SHIZUOKA/`、`3dtiles/shizuoka-pc/` | CS立体図、標高、DSM、オルソ画像、点群 |
 | `yamanashi` | `raster-tiles/pref-yamanashi/`、`pmtiles/pref-yamanashi/` | CS立体図、標高 |
@@ -117,7 +118,8 @@
 | `mapterhorn` | `pmtiles/mapterhorn/` | 標高 |
 | `jartic` | `pmtiles/jartic-traffic-regulation-converter/`、`pmtiles/traffic-accident/*kisei*` | 交通規制 |
 | `tohoku-u` | `pmtiles/tohoku-u_tsunami/` | 津波の痕跡 |
-| 要確認 | `pmtiles/sharecycle/` | シェアサイクルのポート（ドコモ・バイクシェア、HELLO CYCLING。2社なので `shi-works/` かもしれない） |
+| `hello-cycling` | `pmtiles/sharecycle/hellocycling_*` | HELLO CYCLING のポート（GBFS） |
+| `docomo-bikeshare` | `pmtiles/sharecycle/docomo*` | ドコモ・バイクシェアのポート（GBFS） |
 | 要確認 | `pmtiles/gtfs-gis/railway_honsu/` | 鉄道の運行本数（GTFS-GIS か、複数社の GTFS から作ったなら `shi-works/`） |
 
 ### shi-works/ 複数の提供元を組み合わせて作ったもの
@@ -129,11 +131,10 @@
 
 ### 要確認（区分も決まらないもの）
 
-| 既存のパス | わからないこと |
-|---|---|
-| `geoparquet/pcp/` | 中身と提供元 |
-| `geojson/yamajiro/` | 山城の一覧の提供元 |
-| `raster-tiles/expo2025/` | 中身（空中写真か）と提供元 |
+| 既存のパス | わかったこと | わからないこと |
+|---|---|---|
+| `geojson/yamajiro/` | 城の一覧。各行に gosenzo.net の記事の URL がある | 提供元の利用条件。載せてよいか |
+| `raster-tiles/expo2025/` | 万博の「非公式マップ」の画像を COG とタイルにしたもの | 作者と利用条件。載せてよいか |
 
 ### どこにも入れないもの
 
