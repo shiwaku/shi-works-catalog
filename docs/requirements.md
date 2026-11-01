@@ -118,6 +118,7 @@ s3://shi-works-catalog/          → https://catalog.shi-works.com/catalog.json
 - コレクションの中にコレクションは入れられない（仕様の MUST）。
 - 子が20以上になったら、下位カタログでまとめる（仕様の SHOULD、PORTO-CORE-078。検査では PTL-CAT-001 の警告）。数えるのは、まとめられていない子（カタログの下のコレクションと、コレクションの下の Item）だけで、子のカタログは数えない。`check --strict` は警告でも失敗するので、第1段階からは守る。コレクションの Item が20を超えるときは、コレクションの下にカタログを置いて Item をまとめる（仕様で認められている。例: PLATEAU の市ごとの Item を都道府県でまとめる）。
 - 区分と管理者の一覧、既存データの割り振り、迷うものの決め方は [catalog-structure.md](catalog-structure.md) に書く。
+- URL、フォルダ名、ファイル名、分割したファイルの名前の規則は [naming.md](naming.md) に書く。
 - 書き込みは `portolan push s3://shi-works-catalog`。`shi-works-catalog` だけに書き込める R2 の API トークンを新しく作り、専用の AWS プロファイル `r2-shiworks-catalog` に入れる。既存の `r2-shiworks` は使わない。
 - 手元のカタログは、このリポジトリの `catalog/` に置く（メタデータは git で管理し、データ本体は .gitignore で除く）。
 

@@ -4,7 +4,7 @@
 
 下位カタログは、テーマではなく**データの管理者（元の提供元）**で分ける（[requirements.md](requirements.md) 第6章）。根拠は Portolan のベストプラクティス [philosophy.md](https://github.com/portolan-sdi/portolan-spec/blob/main/specs/best-practices/philosophy.md) の "Scope by steward, not by theme" と "Shallow and uniform beats deep and clever"。
 
-ここでは、`shi-works` バケットの既存データ（2026-11-01 時点）をすべて割り振る。フォルダ名は URL の一部になるので、後から変えにくい。フォルダ名の書き方（ハイフンかアンダースコアか、都道府県コードを付けるか）は #4 で決め、ここでは仮の名前を使う。
+ここでは、`shi-works` バケットの既存データ（2026-11-01 時点）をすべて割り振る。フォルダ名は URL の一部になるので、後から変えにくい。名前の付け方は [naming.md](naming.md) による。
 
 ## 構成
 
@@ -16,10 +16,10 @@
 
 | 区分 | 中身 | 管理者の例 |
 |---|---|---|
-| `national/` | 国の機関 | `gsi`（国土地理院）、`mlit`（国土交通省）、`ksj`（国土数値情報）、`plateau`、`npa`（警察庁）、`stat`（総務省統計局）、`jma`（気象庁）、`digital-agency`（デジタル庁）、`rinya`（林野庁） |
+| `national/` | 国の機関 | `gsi`（国土地理院）、`mlit`（国土交通省）、`ksj`（国土数値情報）、`plateau`、`npa`（警察庁）、`stat`（総務省統計局）、`jma`（気象庁）、`digital-agency`（デジタル庁）、`forestry-agency`（林野庁） |
 | `prefectures/` | 都道府県 | `osaka`、`shizuoka`、`tokyo` など |
-| `municipalities/` | 市区町村 | `shizuoka-city`、`saitama-city` |
-| `others/` | 国外の機関、大学、民間、コミュニティ | `osm`、`worldpop`、`google`、`usgs`、`gebco`、`mapterhorn`、`jartic`、`tohoku-u` |
+| `municipalities/` | 市区町村 | `shizuoka-shizuoka-city`、`saitama-saitama-city` |
+| `others/` | 国外の機関、大学、民間、コミュニティ | `osm`、`worldpop`、`google`、`usgs`、`gebco`、`mapterhorn`、`jartic`、`tohoku-university` |
 | `shi-works/` | shi-works が複数の提供元を組み合わせて作ったもの | 管理者の段は、作ったものの系統で分ける（例: `food-access`、`transport-analysis`） |
 
 `ksj` と `plateau` は国土交通省のデータだが、製品の系統ごとにデータが多く、利用条件もデータごとに決まっているので、`mlit` とは別の管理者の段にする（Portolan の「製品の系統で下位カタログにまとめる」に当たる）。
@@ -44,7 +44,7 @@
 
 ## 決めること
 
-- フォルダ名の書き方は #4 で決める。
+- フォルダ名の書き方は [naming.md](naming.md) に書く。
 
 ## 既存データの割り振り
 
@@ -76,7 +76,7 @@
 | `npa` | `pmtiles/npa/hanzaiopendata/` | 犯罪オープンデータ |
 | `jma` | `pmtiles/jma-earthquake/`、`mlt/jma-earthquake/` | 震度・震源 |
 | `digital-agency` | `pmtiles/digital/abr/` | アドレス・ベース・レジストリ |
-| `rinya` | `raster-tiles/rinya/noto-2024-csmap-tiles/` | 能登の CS立体図 |
+| `forestry-agency` | `raster-tiles/rinya/noto-2024-csmap-tiles/` | 能登の CS立体図 |
 | `stat` | `pmtiles/r2DID/`、`pmtiles/traffic-census/2020_did_*` | 人口集中地区（2020、総務省統計局の e-Stat 境界データ） |
 
 ### prefectures/ 都道府県
@@ -101,9 +101,9 @@
 
 | 管理者 | 既存のパス | 中身 |
 |---|---|---|
-| `shizuoka-city` | `cog/city-shizuoka/`、`pmtiles/city-shizuoka/` | オルソ画像、基本図 |
-| `saitama-city` | `pmtiles/city-saitama/` | 建物、陰影 |
-| `nakano-city` | `3dtiles/nakano-sunplaza-pc/` | 中野サンプラザの点群（[中野区](https://www.city.tokyo-nakano.lg.jp/kanko/city-promotion/Sunplaza_3D.html)、CC BY 4.0。元は LAS、東京都オープンデータカタログで配布） |
+| `shizuoka-shizuoka-city` | `cog/city-shizuoka/`、`pmtiles/city-shizuoka/` | オルソ画像、基本図 |
+| `saitama-saitama-city` | `pmtiles/city-saitama/` | 建物、陰影 |
+| `tokyo-nakano-city` | `3dtiles/nakano-sunplaza-pc/` | 中野サンプラザの点群（[中野区](https://www.city.tokyo-nakano.lg.jp/kanko/city-promotion/Sunplaza_3D.html)、CC BY 4.0。元は LAS、東京都オープンデータカタログで配布） |
 
 ### others/ 国外の機関、大学、民間、コミュニティ
 
@@ -116,7 +116,7 @@
 | `gebco` | `raster-tiles/gebco/` | 海底地形 |
 | `mapterhorn` | `pmtiles/mapterhorn/` | 標高 |
 | `jartic` | `pmtiles/jartic-traffic-regulation-converter/`、`pmtiles/traffic-accident/*kisei*` | 交通規制 |
-| `tohoku-u` | `pmtiles/tohoku-u_tsunami/` | 津波の痕跡 |
+| `tohoku-university` | `pmtiles/tohoku-u_tsunami/` | 津波の痕跡 |
 | `gosenzo-net` | `geojson/yamajiro/` | 城の一覧（[gosenzo.net](https://gosenzo.net/yamajiro/) の記事から作成。掲載の許可を得ている。ライセンスと出典の書き方は #13 で決める） |
 | `hello-cycling` | `pmtiles/sharecycle/hellocycling_*` | HELLO CYCLING のポート（GBFS） |
 | `docomo-bikeshare` | `pmtiles/sharecycle/docomo*` | ドコモ・バイクシェアのポート（GBFS） |
