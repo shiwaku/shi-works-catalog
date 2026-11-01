@@ -45,21 +45,28 @@
 
 共通の要件: 正本とは別に、README.md、AGENTS.md、サムネイル、ライセンス、出典（providers）を付ける。
 
+**メタデータは日英併記にする**（title、description、README.md、AGENTS.md、列の説明）。書き方の細部は #12 で決める。
+
+表示用は、事前に作ったファイルを置くのではなく、第4章の方式②（Worker でリクエストのたびに作る）で配ることを基本にする。表の「表示用」は、カタログから指す先の形式を表す。
+
 ## 4. 配信方式
 
 | 方式 | 採用 | 対象 |
 |---|---|---|
-| ① 事前にタイルを作る | **基本の方式** | PMTiles（ベクタ）、XYZ（ラスタ）、3D Tiles（点群） |
-| ② Worker でリクエストのたびに作る | 将来の選択肢 | COG から表示用タイルを作る。既存の `dem2tiles-tiles`（`tiles.shi-works.com`）を広げられるか調べる |
+| ① 事前にタイルを作る | 方式②で間に合わないときだけ | 3D Tiles（点群）、方式②で速さや費用が合わないデータ |
+| ② Worker でリクエストのたびに作る | **基本の方式** | GeoParquet からベクタタイル、COG からラスタタイルを作る。仕組みは #8 で決めて検証する |
 | ③ ブラウザで直接読む | 補助的に使う | COPC（Potree、viewer.copc.io）、小さい GeoParquet |
+
+**決定（2026-11-01、#20）**: タイルは動的に配信する（方式②を基本にする）。正本だけを置き、表示用のタイルを二重に持たないため（第8章の費用）。
 
 ## 5. 既存URLの扱い
 
-- 既存のパスは**変えない**（利用者がいるため。MIGRATION.md で移行が済んだばかり）。
+**決定（2026-11-01、#20）**: 既存のデータは `shi-works-catalog` に**コピー**し、新しい仕組みで配信できるようになってから `shi-works` から**削除する**。
+
 - 新しいデータは、最初から Portolan の構成で置く。
-- 既存のデータは、次のどちらかでカタログに載せる（第2段階以降で決める）。
-  - **参照だけする**: カタログから既存の https URL（`https://shi-works.com/...`）を絶対パスで指す（`add-external`、または href を手で書く）。URL は変わらない。
-  - **コピーする**: `shi-works-catalog` バケットにコピーし、既存のパスはそのまま残す。容量は倍になる。
+- 既存のデータは、コピーしてカタログに載せる。カタログから既存の URL を参照するだけの形（`add-external`）にはしない。
+- コピーしてから削除するまでの間だけ、容量が倍になる。データを長く二重に持たない（第8章の費用）。
+- 削除してよい条件と、既存の URL（`https://shi-works.com/...`）の利用者への対応（Worker で振り分けるか、告知して切り替えるか）は #7 で決める。
 
 ## 6. ファイルの置き方
 
@@ -124,22 +131,22 @@ s3://shi-works-catalog/          → https://catalog.shi-works.com/catalog.json
 | 項目 | 要件 | 現状（2026-10-31 に確認） | 対応 |
 |---|---|---|---|
 | Range リクエスト | 206、`Accept-Ranges: bytes` | ✅（`shi-works`） | `shi-works-catalog` でも確かめる |
-| CORS: 許可するリクエストヘッダー | Range、If-Match、If-None-Match、If-Modified-Since、If-Unmodified-Since | ⚠️ `shi-works` は **If-Modified-Since と If-Unmodified-Since が 403** | `shi-works-catalog` は最初から満たすように設定する。`shi-works` も、既存データを参照で載せるなら追加する |
+| CORS: 許可するリクエストヘッダー | Range、If-Match、If-None-Match、If-Modified-Since、If-Unmodified-Since | ⚠️ `shi-works` は **If-Modified-Since と If-Unmodified-Since が 403** | `shi-works-catalog` は設定済み（2026-10-31）。`shi-works` は既存データを参照で載せないので、直すかどうかは #16 で判断する |
 | CORS: 公開するレスポンスヘッダー | Content-Type、Content-Length、Content-Range、Accept-Ranges、ETag | ⚠️ `shi-works` は **Content-Type がない** | 同上 |
 | キャッシュ | — | 512 MB を超えるファイルはエッジでキャッシュされない | GeoParquet は 2 GB を超えたら分割する。PMTiles の大きさの方針を決める |
-| コスト | — | R2 は転送料が無料 | 正本と表示用の両方を置くので容量が増える。段階ごとに見積もる |
+| コスト | — | R2 は転送料が無料。今の利用量では、費用のほとんどが保存容量 | **データを二重に持たない**。表示用のタイルは事前に作らず動的に配信し、既存データは移行が済んだら削除する。Worker のリクエスト数と R2 の読み取り回数は、#8 の検証で見積もる |
 | 更新 | — | — | `versions.json` によるバージョン管理と、差し替えの手順を決める |
 
 ## 9. 段階的な進め方
 
 | 段階 | 内容 | 終わりの条件 |
 |---|---|---|
-| 0. 基盤 | `shi-works-catalog` バケット、カスタムドメイン `catalog.shi-works.com`、専用の API トークンと CORS の用意。`shi-works` の CORS の修正。カタログのルート作成、作業環境の用意、tippecanoe と tylertoo の比較 | `https://catalog.shi-works.com/catalog.json` が公開され、`check --live` に通る |
-| 1. 新しいベクタ | 新しいデータセット1件を GeoParquet と PMTiles の組で公開する | `check --strict` に通る |
-| 2. 既存のベクタ | `geoparquet/` と `pmtiles/` を載せる（参照するかコピーするかを決める）。PMTiles しかないものは GeoParquet を作る | 対象を一覧にし、順に載せる |
+| 0. 基盤 | `shi-works-catalog` バケット、カスタムドメイン `catalog.shi-works.com`、専用の API トークンと CORS の用意。カタログのルート作成、作業環境の用意 | `https://catalog.shi-works.com/catalog.json` が公開され、`check` に通る。Range と CORS は手で確かめる（データがないと `--live` は検査を飛ばすため）。**2026-11-01 に完了** |
+| 1. 新しいベクタ | 新しいデータセット1件を GeoParquet の正本で公開する | `check --strict` と `check --live` に通る |
+| 2. 既存のベクタ | `geoparquet/` と `pmtiles/` をコピーして載せる。PMTiles しかないものは GeoParquet を作る | 対象を一覧にし、順に載せる |
 | 3. ラスタ | COG の正本と、XYZ タイルの表示用の組。まず CS立体図から | `rel: "xyz"` を含めて `check` に通る |
 | 4. 点群と 3D | COPC と 3D Tiles。Portolan の点群仕様が固まってから | — |
-| 5. 動的配信 | Worker で COG からタイルを作れるか調べる | — |
+| 5. 動的配信 | 基本の方式なので、段階としては独立させない。仕組みの決定と検証は #8 で、第1段階と並行して進める | — |
 | 6. registry | portolan-registry への登録 | — |
 
 ## 10. 未決事項
@@ -148,6 +155,6 @@ s3://shi-works-catalog/          → https://catalog.shi-works.com/catalog.json
 2. 第1段階で入れる新しいデータセット
 3. PMTiles を tippecanoe と tylertoo のどちらで作るか
 4. CORS の変更手順を cloudflare-infra の runbook として残すか
-5. 既存データを参照で載せるかコピーで載せるか（`add-external` で作ったコレクションが strict の検証に通るかを確かめてから決める）
+5. ~~既存データを参照で載せるかコピーで載せるか~~ → コピーしてから削除すると決定（第5章）。削除の条件は #7
 6. 更新の運用とバージョン管理
 7. `shi-works.com` の位置づけ（Worker で `shi-works-catalog` へ振り分ける入口にするか）。既存データの移行方針（#7）と合わせて決める
