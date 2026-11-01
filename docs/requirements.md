@@ -79,22 +79,21 @@
 ```
 s3://shi-works-catalog/          → https://catalog.shi-works.com/catalog.json
 ├── catalog.json / README.md / AGENTS.md
-├── national/                    区分: 国の機関
-│   ├── gsi/                     ← 管理者（下位カタログ）
-│   └── npa/
-│       └── traffic-accident/    ← コレクション（GeoParquet）
-├── prefectures/                 区分: 都道府県
-│   └── osaka/
-│       └── csmap/               ← コレクション（CS立体図の COG）
-├── municipalities/              区分: 市区町村
-├── others/                      区分: 国外の機関、大学、民間、OSM など
-└── shi-works/                   区分: 複数の提供元を組み合わせて作ったもの
+├── jp-gsi/                      ← 管理者（下位カタログ）: 日本の国の機関は jp-
+├── jp-npa/
+│   └── traffic-accident/        ← コレクション（GeoParquet）
+├── jp-pref-osaka/               ← 日本の都道府県は jp-pref-
+│   └── csmap/                   ← コレクション（CS立体図の COG）
+├── jp-city-tokyo-nakano/        ← 日本の市区町村は jp-city- など
+├── us-usgs/                     ← 外国の国の機関は <国コード>-
+├── worldpop/                    ← 政府以外は頭なし
+└── shi-works-food-access/       ← 複数の提供元を組み合わせて作ったものは shi-works-
 ```
 
 1つのコレクションの中身（ベクタの場合）:
 
 ```
-<区分>/<管理者>/<collection>/
+<管理者>/<collection>/
 ├── collection.json / README.md / AGENTS.md
 ├── <name>.parquet               ← 正本
 ├── <name>.pmtiles               ← 表示用
@@ -106,7 +105,8 @@ s3://shi-works-catalog/          → https://catalog.shi-works.com/catalog.json
 
 - **形式では分けない。** Portolan では、1つのコレクションに正本と表示用を別の形式で一緒に入れる。形式で分けると、1つのデータセットが2か所に分かれる。
 - **フォルダは管理者にする。** 管理者ごとに分けると、1つの下位カタログが出典・ライセンス・連絡先を1つずつ受け継げる。shi-works のデータは、提供元ごとに利用条件が違う（政府標準利用規約、都道府県の条件、ODbL など）。テーマは見方で変わり、どちらに入れるか迷うものが多い（テーマ別の案では要確認が7件出た）が、管理者はめったに変わらない。テーマ・地域は、README の表とメタデータ（keywords、bbox）で探せるようにする。
-- **深さをそろえる。** どのコレクションも「ルート → 区分 → 管理者 → コレクション」の同じ深さに置く。管理者は今40ほどで、都道府県が増えると70近くになる。ルートに直接並べると一覧として読みにくいので、区分を1段置く（Portolan の「平らな一覧が読みにくくなったら中間のカタログを足す」に当たる。検査の規則 PTL-CAT-001 は子のカタログを数えないので、規則のためではない）。
+- **全球のデータも置けるようにする。** 政府の管理者の名前には ISO 3166-1 alpha-2 の国コードを付け（`jp-gsi`、`us-usgs`）、どの国でも同じ形で置く。国に属さない全球のデータ（WorldPop、GEBCO、OSM など）は、国コードなしの管理者名で置く。国ごとにバケットを分けることはしない（全球のデータの置き場所がなくなり、ドメイン・トークン・CORS の運用が国の数だけ増えるため）。
+- **浅く、深さをそろえる。** どのコレクションも「ルート → 管理者 → コレクション」の2段に置く（Portolan NL と同じ形、philosophy.md の "Shallow and uniform"）。国と種類（国の機関、都道府県など）はフォルダの段にせず、管理者の名前の頭（`jp-`、`jp-pref-` など）に入れる。ルートには管理者が40ほど（将来は70ほど）並ぶが、名前の頭でまとまり、種類ごと・テーマごとの表をルートの README に載せる。子はカタログなので PTL-CAT-001 の警告は出ない。
 - **専用バケットにする。** R2 の API トークンはバケット単位でしか絞れない。既存の `shi-works` と同じバケットにすると、push 用のトークンで既存データも上書きできてしまう。専用バケットなら、トークンをカタログだけに絞れる。CORS の設定と容量も、既存データと分けて管理できる。
 - **サブドメインで公開する。** R2 のカスタムドメインは1つのバケットに1つなので、`shi-works.com/catalog/` にはできない（Worker でパスを振り分ければできるが、仕組みが増える）。
 - **名前を `catalog` にする。** ツールの名前（portolan）を URL に入れないので、ツールを替えても名前が嘘にならない。
@@ -114,10 +114,11 @@ s3://shi-works-catalog/          → https://catalog.shi-works.com/catalog.json
 
 決まりごと:
 
-- コレクションの ID は、ルートからのパス（例: `national/npa/traffic-accident`）。
+- コレクションの ID は、ルートからのパス（例: `jp-npa/traffic-accident`）。
 - コレクションの中にコレクションは入れられない（仕様の MUST）。
 - 子が20以上になったら、下位カタログでまとめる（仕様の SHOULD、PORTO-CORE-078。検査では PTL-CAT-001 の警告）。数えるのは、まとめられていない子（カタログの下のコレクションと、コレクションの下の Item）だけで、子のカタログは数えない。`check --strict` は警告でも失敗するので、第1段階からは守る。コレクションの Item が20を超えるときは、コレクションの下にカタログを置いて Item をまとめる（仕様で認められている。例: PLATEAU の市ごとの Item を都道府県でまとめる）。
-- 区分と管理者の一覧、既存データの割り振り、迷うものの決め方は [catalog-structure.md](catalog-structure.md) に書く。
+- 管理者の一覧、既存データの割り振り、迷うものの決め方は [catalog-structure.md](catalog-structure.md) に書く。
+- URL、フォルダ名、ファイル名、分割したファイルの名前の規則は [naming.md](naming.md) に書く。
 - 書き込みは `portolan push s3://shi-works-catalog`。`shi-works-catalog` だけに書き込める R2 の API トークンを新しく作り、専用の AWS プロファイル `r2-shiworks-catalog` に入れる。既存の `r2-shiworks` は使わない。
 - 手元のカタログは、このリポジトリの `catalog/` に置く（メタデータは git で管理し、データ本体は .gitignore で除く）。
 
