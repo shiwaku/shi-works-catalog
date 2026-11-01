@@ -71,7 +71,9 @@
 | `ksj` | `pmtiles/traffic-accident/P29-21_primary_school.pmtiles`、`pmtiles/mlit/toshik/P05-*` | 学校、役場 |
 | `plateau` | `pmtiles/plateau/` | 建物 LOD1（市ごとに Item） |
 | `plateau` | `pmtiles/plateau-osaka-expo-2025-3d/`、`3dtiles/plateau/` | 万博会場、竹芝 |
+| `plateau`（推定） | `3dtiles/tokyo/` | 東京駅・丸の内付近の 3D Tiles（東経139.758〜139.776度、北緯35.676〜35.689度、約1.7GB）。タイルの作成ツールが `cesiumtiles-gltf`（PLATEAU GIS Converter が使うライブラリ）で、`{z}/{x}/{y}.glb` の構成も同じなので、PLATEAU の建物を変換したものと推定 |
 | `npa` | `geoparquet/npa-traffic-accident-analytics/`、`pmtiles/npa-traffic-accident/`、`pmtiles/traffic-accident/`（honhyo、mesh） | 交通事故統計 |
+| `npa` | `pmtiles/npa/hanzaiopendata/` | 犯罪オープンデータ |
 | `jma` | `pmtiles/jma-earthquake/`、`mlt/jma-earthquake/` | 震度・震源 |
 | `digital-agency` | `pmtiles/digital/abr/` | アドレス・ベース・レジストリ |
 | `rinya` | `raster-tiles/rinya/noto-2024-csmap-tiles/` | 能登の CS立体図 |
@@ -84,9 +86,8 @@
 | `akita` | `pmtiles/pref-akita/` | 地震被害想定（震度、液状化など。想定地震ごとのレイヤー） |
 | `saitama` | `raster-tiles/pref-saitama/`、`3dtiles/pref-saitama/`、`3dtiles/saitama-rpc/` | CS立体図、河川の点群 |
 | `saitama`（推定） | `geoparquet/pcp/` | 点群を Point Cloud Parquet にした試作（平面直角座標系 第IX系、秩父付近の1図郭、約2.5億点）。試作なので、載せるかは移行（#7）で決める |
-| `tokyo` | `raster-tiles/tokyo-digitaltwin/`（CS立体図は1つのコレクションに地区ごとの Item、DSM）、`copc/tokyo-digitaltwin/`、`3dtiles/toyko-23ku-pc/`、`3dtiles/tokyo/`（要確認: 範囲は東京駅・丸の内付近〔東経139.758〜139.776度、北緯35.676〜35.689度〕。提供元） | デジタルツインの点群、CS立体図、DSM |
+| `tokyo` | `raster-tiles/tokyo-digitaltwin/`（CS立体図は1つのコレクションに地区ごとの Item、DSM）、`copc/tokyo-digitaltwin/`、`3dtiles/toyko-23ku-pc/` | デジタルツインの点群、CS立体図、DSM |
 | `tokyo` | `pmtiles/tokyo/R03Building.pmtiles`、`mvt/13103_minato-ku_pref_2023_bldg_mvt/` | 都市計画基礎調査の建物 |
-| `tokyo` | `pmtiles/npa/hanzaiopendata/` | 犯罪（警視庁のオープンデータ。要確認） |
 | `kanagawa`、`kyoto`、`miyagi`、`nagano`、`okayama`、`osaka`、`toyama`、`wakayama`、`hiroshima` | `raster-tiles/pref-*/` | CS立体図 |
 | `toyama` | `pmtiles/pref-toyama/` | 森林の単木データ（樹種、胸高直径など） |
 | `ishikawa` | `raster-tiles/pref-ishikawa/notowest-red-tiles/` | 赤色立体地図（能登西部） |
