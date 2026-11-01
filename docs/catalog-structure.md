@@ -117,6 +117,7 @@
 | `mapterhorn` | `pmtiles/mapterhorn/` | 標高 |
 | `jartic` | `pmtiles/jartic-traffic-regulation-converter/`、`pmtiles/traffic-accident/*kisei*` | 交通規制 |
 | `tohoku-u` | `pmtiles/tohoku-u_tsunami/` | 津波の痕跡 |
+| `gosenzo-net` | `geojson/yamajiro/` | 城の一覧（[gosenzo.net](https://gosenzo.net/yamajiro/) の記事から作成。掲載の許可を得ている。ライセンスと出典の書き方は #13 で決める） |
 | `hello-cycling` | `pmtiles/sharecycle/hellocycling_*` | HELLO CYCLING のポート（GBFS） |
 | `docomo-bikeshare` | `pmtiles/sharecycle/docomo*` | ドコモ・バイクシェアのポート（GBFS） |
 | `gtfs-gis` | `pmtiles/100m_mesh_pop2020/` | 令和2年 簡易100mメッシュ人口（西沢明、[GTFS-GIS.jp](https://gtfs-gis.jp/teikyo/kani_100m_download2020.html)）。ページには免責の記載だけで、ライセンスと出典表記の指定がない（#13 で扱う） |
@@ -128,12 +129,6 @@
 |---|---|---|
 | `food-access` | `pmtiles/japan-food-access-analysis/`、`pmtiles/food-access/`、`pmtiles/japan-food-store-master/` | 食料品アクセス、フードデザート、食料品店 |
 | `transport-analysis` | `pmtiles/japan-legal-speed-30kmh-map/`、`pmtiles/mlit-ksj/transit_desert_*` | 法定速度 30km/h の道路、公共交通の空白地帯 |
-
-### 要確認（区分も決まらないもの）
-
-| 既存のパス | わかったこと | わからないこと |
-|---|---|---|
-| `geojson/yamajiro/` | 城の一覧。各行に gosenzo.net の記事の URL がある | 提供元の利用条件。載せてよいか |
 
 ### どこにも入れないもの
 
