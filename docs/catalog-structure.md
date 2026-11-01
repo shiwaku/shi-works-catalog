@@ -85,7 +85,7 @@
 |---|---|---|
 | `akita` | `pmtiles/pref-akita/` | 地震被害想定（震度、液状化など。想定地震ごとのレイヤー） |
 | `saitama` | `raster-tiles/pref-saitama/`、`3dtiles/pref-saitama/`、`3dtiles/saitama-rpc/` | CS立体図、河川の点群 |
-| 要確認 | `geoparquet/pcp/` | 点群を Point Cloud Parquet にした試作（`pointcloud-parquet-lab`）。図郭 09JC602（平面直角座標系 第IX系と判断）、北緯36.09度・東経138.97度付近（群馬県と埼玉県の境）、約2.5億点。元の `09jc602.zip` の入手元が記録にない。試作なので、載せるかは移行（#7）で決める |
+| `saitama` | `geoparquet/pcp/` | 点群を Point Cloud Parquet にした試作（`pointcloud-parquet-lab`）。図郭 09JC602（平面直角座標系 第IX系と判断）、東経138.967〜138.989度・北緯36.092〜36.105度で、範囲はすべて埼玉県の中（国土数値情報の県境と重ねて確認）、約2.5億点。試作なので、載せるかは移行（#7）で決める |
 | `tokyo` | `raster-tiles/tokyo-digitaltwin/`（CS立体図は1つのコレクションに地区ごとの Item、DSM）、`copc/tokyo-digitaltwin/`、`3dtiles/toyko-23ku-pc/` | デジタルツインの点群、CS立体図、DSM |
 | `tokyo` | `pmtiles/tokyo/R03Building.pmtiles`、`mvt/13103_minato-ku_pref_2023_bldg_mvt/` | 都市計画基礎調査の建物 |
 | `kanagawa`、`kyoto`、`miyagi`、`nagano`、`okayama`、`osaka`、`toyama`、`wakayama`、`hiroshima` | `raster-tiles/pref-*/` | CS立体図 |
