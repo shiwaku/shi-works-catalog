@@ -70,28 +70,31 @@
 
 ## 6. ファイルの置き方
 
-**決定（2026-10-31）**: カタログは専用バケット `shi-works-catalog` のルートに置き、`catalog.shi-works.com` で公開する。下位カタログは**テーマ**で分ける。
+**決定（2026-10-31）**: カタログは専用バケット `shi-works-catalog` のルートに置き、`catalog.shi-works.com` で公開する。
 
 **決定（2026-11-01、#2）**: `shi-works-catalog` はカタログ専用ではなく、**データ配信の本体**にする。バケット名とサブドメインは変えない。`shi-works.com` を Worker で新しいバケットへ振り分ける入口にするかどうかは、既存データの移行方針（#7）で決める。
+
+**決定（2026-11-01、#3）**: 下位カタログは、テーマではなく**データの管理者（元の提供元）**で分ける。Portolan のベストプラクティス（[philosophy.md](https://github.com/portolan-sdi/portolan-spec/blob/main/specs/best-practices/philosophy.md) の "Scope by steward, not by theme"）に従う。テーマでのまとまりは、ルートの README の表で示す。管理者の一覧と既存データの割り振りは [catalog-structure.md](catalog-structure.md) に書く。
 
 ```
 s3://shi-works-catalog/          → https://catalog.shi-works.com/catalog.json
 ├── catalog.json / README.md / AGENTS.md
-├── terrain/                     地形
-│   ├── osaka-csmap/             ← コレクション（COG と XYZ）
-│   └── shizuoka-csmap/
-├── transport/                   交通
-│   ├── npa-traffic-accident/    ← GeoParquet と PMTiles
-│   └── mlit-road-traffic-census/
-├── population/                  人口
-├── disaster/                    防災
-└── buildings/                   建物・3D
+├── national/                    区分: 国の機関
+│   ├── gsi/                     ← 管理者（下位カタログ）
+│   └── npa/
+│       └── traffic-accident/    ← コレクション（GeoParquet）
+├── prefectures/                 区分: 都道府県
+│   └── osaka/
+│       └── csmap/               ← コレクション（CS立体図の COG）
+├── municipalities/              区分: 市区町村
+├── others/                      区分: 国外の機関、大学、民間、OSM など
+└── shi-works/                   区分: 複数の提供元を組み合わせて作ったもの
 ```
 
 1つのコレクションの中身（ベクタの場合）:
 
 ```
-<theme>/<collection>/
+<区分>/<管理者>/<collection>/
 ├── collection.json / README.md / AGENTS.md
 ├── <name>.parquet               ← 正本
 ├── <name>.pmtiles               ← 表示用
@@ -102,7 +105,8 @@ s3://shi-works-catalog/          → https://catalog.shi-works.com/catalog.json
 決めた理由:
 
 - **形式では分けない。** Portolan では、1つのコレクションに正本と表示用を別の形式で一緒に入れる。形式で分けると、1つのデータセットが2か所に分かれる。
-- **フォルダはテーマにする。** 地域と提供元は、メタデータ（bbox、providers、keywords）に書いて絞り込めるようにする。フォルダの階層は1つの軸でしか分けられない。
+- **フォルダは管理者にする。** 管理者ごとに分けると、1つの下位カタログが出典・ライセンス・連絡先を1つずつ受け継げる。shi-works のデータは、提供元ごとに利用条件が違う（政府標準利用規約、都道府県の条件、ODbL など）。テーマは見方で変わり、どちらに入れるか迷うものが多い（テーマ別の案では要確認が7件出た）が、管理者はめったに変わらない。テーマ・地域は、README の表とメタデータ（keywords、bbox）で探せるようにする。
+- **深さをそろえる。** どのコレクションも「ルート → 区分 → 管理者 → コレクション」の同じ深さに置く。管理者は今40ほどで、都道府県が増えると70近くになる。ルートに直接並べると一覧として読みにくいので、区分を1段置く（Portolan の「平らな一覧が読みにくくなったら中間のカタログを足す」に当たる。検査の規則 PTL-CAT-001 は子のカタログを数えないので、規則のためではない）。
 - **専用バケットにする。** R2 の API トークンはバケット単位でしか絞れない。既存の `shi-works` と同じバケットにすると、push 用のトークンで既存データも上書きできてしまう。専用バケットなら、トークンをカタログだけに絞れる。CORS の設定と容量も、既存データと分けて管理できる。
 - **サブドメインで公開する。** R2 のカスタムドメインは1つのバケットに1つなので、`shi-works.com/catalog/` にはできない（Worker でパスを振り分ければできるが、仕組みが増える）。
 - **名前を `catalog` にする。** ツールの名前（portolan）を URL に入れないので、ツールを替えても名前が嘘にならない。
@@ -110,10 +114,10 @@ s3://shi-works-catalog/          → https://catalog.shi-works.com/catalog.json
 
 決まりごと:
 
-- コレクションの ID は、ルートからのパス（例: `transport/npa-traffic-accident`）。
+- コレクションの ID は、ルートからのパス（例: `national/npa/traffic-accident`）。
 - コレクションの中にコレクションは入れられない（仕様の MUST）。
-- 子が20以上になったら、さらに下位カタログを足す（仕様の SHOULD）。例: CS立体図が20県を超えたら `terrain/csmap/` を1段足す。
-- テーマの一覧は、既存データをすべて割り振って確定させる（未決事項1）。
+- 子が20以上になったら、下位カタログでまとめる（仕様の SHOULD、PORTO-CORE-078。検査では PTL-CAT-001 の警告）。数えるのは、まとめられていない子（カタログの下のコレクションと、コレクションの下の Item）だけで、子のカタログは数えない。`check --strict` は警告でも失敗するので、第1段階からは守る。コレクションの Item が20を超えるときは、コレクションの下にカタログを置いて Item をまとめる（仕様で認められている。例: PLATEAU の市ごとの Item を都道府県でまとめる）。
+- 区分と管理者の一覧、既存データの割り振り、迷うものの決め方は [catalog-structure.md](catalog-structure.md) に書く。
 - 書き込みは `portolan push s3://shi-works-catalog`。`shi-works-catalog` だけに書き込める R2 の API トークンを新しく作り、専用の AWS プロファイル `r2-shiworks-catalog` に入れる。既存の `r2-shiworks` は使わない。
 - 手元のカタログは、このリポジトリの `catalog/` に置く（メタデータは git で管理し、データ本体は .gitignore で除く）。
 
@@ -151,7 +155,7 @@ s3://shi-works-catalog/          → https://catalog.shi-works.com/catalog.json
 
 ## 10. 未決事項
 
-1. ~~カタログの置き場所と、下位カタログの分け方~~ → 専用バケット `shi-works-catalog`（`catalog.shi-works.com`）とテーマ別に決定（第6章）。残っているのは**テーマの一覧を確定させること**（既存データをすべて割り振って決める）
+1. ~~カタログの置き場所と、下位カタログの分け方~~ → 専用バケット `shi-works-catalog`（`catalog.shi-works.com`）と、管理者別に決定（第6章）。残っているのは、[catalog-structure.md](catalog-structure.md) の要確認の項目
 2. 第1段階で入れる新しいデータセット
 3. PMTiles を tippecanoe と tylertoo のどちらで作るか
 4. CORS の変更手順を cloudflare-infra の runbook として残すか
