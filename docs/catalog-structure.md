@@ -14,12 +14,15 @@
 
 どのコレクションもこの深さにそろえる。
 
+区分の名前には ISO 3166-1 の国コードを付ける。外国政府のデータは `<国コード>-national/`（州などは `<国コード>-<種類>/`）の形で増やす。政府以外の管理者は、国に関係なく `others/` に置く。
+
 | 区分 | 中身 | 管理者の例 |
 |---|---|---|
-| `national/` | 国の機関 | `gsi`（国土地理院）、`mlit`（国土交通省）、`ksj`（国土数値情報）、`plateau`、`npa`（警察庁）、`stat`（総務省統計局）、`jma`（気象庁）、`digital-agency`（デジタル庁）、`forestry-agency`（林野庁） |
-| `prefectures/` | 都道府県 | `osaka`、`shizuoka`、`tokyo` など |
-| `municipalities/` | 市区町村 | `shizuoka-shizuoka-city`、`saitama-saitama-city` |
-| `others/` | 国外の機関、大学、民間、コミュニティ | `osm`、`worldpop`、`google`、`usgs`、`gebco`、`mapterhorn`、`jartic`、`tohoku-university` |
+| `jp-national/` | 日本の国の機関 | `gsi`（国土地理院）、`mlit`（国土交通省）、`ksj`（国土数値情報）、`plateau`、`npa`（警察庁）、`stat`（総務省統計局）、`jma`（気象庁）、`digital-agency`（デジタル庁）、`forestry-agency`（林野庁） |
+| `jp-prefectures/` | 日本の都道府県 | `osaka`、`shizuoka`、`tokyo` など |
+| `jp-municipalities/` | 日本の市区町村 | `shizuoka-shizuoka-city`、`saitama-saitama-city`、`tokyo-nakano-city` |
+| `us-national/` | 米国の国の機関 | `usgs` |
+| `others/` | 政府以外（国際機関、大学、企業、コミュニティ） | `osm`、`worldpop`、`google`、`gebco`、`mapterhorn`、`jartic`、`tohoku-university` |
 | `shi-works/` | shi-works が複数の提供元を組み合わせて作ったもの | 管理者の段は、作ったものの系統で分ける（例: `food-access`、`transport-analysis`） |
 
 `ksj` と `plateau` は国土交通省のデータだが、製品の系統ごとにデータが多く、利用条件もデータごとに決まっているので、`mlit` とは別の管理者の段にする（Portolan の「製品の系統で下位カタログにまとめる」に当たる）。
@@ -36,9 +39,10 @@
 
 | 下位カタログ | 管理者の数（今） | 注意 |
 |---|---|---|
-| `national/` | 9 | — |
-| `prefectures/` | 18 | 最大47。子はどれもカタログ（管理者）なので、PTL-CAT-001 の数には入らない |
-| `municipalities/` | 3 | — |
+| `jp-national/` | 9 | — |
+| `jp-prefectures/` | 18 | 最大47。子はどれもカタログ（管理者）なので、PTL-CAT-001 の数には入らない |
+| `jp-municipalities/` | 3 | — |
+| `us-national/` | 1 | — |
 | `others/` | 10前後 | — |
 | `shi-works/` | 数個 | — |
 
@@ -50,7 +54,7 @@
 
 パスは `https://shi-works.com/` からの相対パス。古い版・作業用のファイル（`_v2` と無印が並ぶもの、CSV の中間ファイルなど）をどれだけ載せるかは、移行（#7）のときに決める。ここではフォルダ単位で割り振る。
 
-### national/ 国の機関
+### jp-national/ 日本の国の機関
 
 | 管理者 | 既存のパス | 中身 |
 |---|---|---|
@@ -79,7 +83,7 @@
 | `forestry-agency` | `raster-tiles/rinya/noto-2024-csmap-tiles/` | 能登の CS立体図 |
 | `stat` | `pmtiles/r2DID/`、`pmtiles/traffic-census/2020_did_*` | 人口集中地区（2020、総務省統計局の e-Stat 境界データ） |
 
-### prefectures/ 都道府県
+### jp-prefectures/ 日本の都道府県
 
 | 管理者 | 既存のパス | 中身 |
 |---|---|---|
@@ -97,7 +101,7 @@
 | `yamagata` | `raster-tiles/pref-yamagata/rpc-dsm/` | DSM |
 | `nagasaki` | `3dtiles/open_nagasaki/`、`cog/open-nagasaki/` | 3D（駅、ハウステンボスなど）、CS立体図 |
 
-### municipalities/ 市区町村
+### jp-municipalities/ 日本の市区町村
 
 | 管理者 | 既存のパス | 中身 |
 |---|---|---|
@@ -105,14 +109,19 @@
 | `saitama-saitama-city` | `pmtiles/city-saitama/` | 建物、陰影 |
 | `tokyo-nakano-city` | `3dtiles/nakano-sunplaza-pc/` | 中野サンプラザの点群（[中野区](https://www.city.tokyo-nakano.lg.jp/kanko/city-promotion/Sunplaza_3D.html)、CC BY 4.0。元は LAS、東京都オープンデータカタログで配布） |
 
-### others/ 国外の機関、大学、民間、コミュニティ
+### us-national/ 米国の国の機関
+
+| 管理者 | 既存のパス | 中身 |
+|---|---|---|
+| `usgs` | `mlt/usgs-hypocenter/` | 震源 |
+
+### others/ 政府以外（国際機関、大学、企業、コミュニティ）
 
 | 管理者 | 既存のパス | 中身 |
 |---|---|---|
 | `osm` | `pmtiles/osm/`、`pmtiles/protomaps/` | OpenMapTiles、Protomaps（日本） |
 | `worldpop` | `pmtiles/WorldPop/` | WorldPop |
 | `google` | `pmtiles/google/` | 建物ポリゴン |
-| `usgs` | `mlt/usgs-hypocenter/` | 震源 |
 | `gebco` | `raster-tiles/gebco/` | 海底地形 |
 | `mapterhorn` | `pmtiles/mapterhorn/` | 標高 |
 | `jartic` | `pmtiles/jartic-traffic-regulation-converter/`、`pmtiles/traffic-accident/*kisei*` | 交通規制 |
