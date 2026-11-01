@@ -7,12 +7,13 @@
 ## 1. URL の形
 
 ```
-https://catalog.shi-works.com/<区分>/<管理者>/<コレクション>/<ファイル>
+https://catalog.shi-works.com/<管理者>/<コレクション>/<ファイル>
 ```
 
-- 例: `https://catalog.shi-works.com/jp-national/npa/traffic-accident/npa-traffic-accident.parquet`
-- コレクションの ID は、ルートからのパス（例: `jp-national/npa/traffic-accident`）。Portolan の仕様どおり。
-- 区分と管理者の一覧は [catalog-structure.md](catalog-structure.md)。
+- 例: `https://catalog.shi-works.com/jp-npa/traffic-accident/jp-npa-traffic-accident.parquet`
+- コレクションの ID は、ルートからのパス（例: `jp-npa/traffic-accident`）。Portolan の仕様どおり。
+- 階層は「ルート → 管理者 → コレクション」の2段にそろえる。Portolan の手本の Portolan NL と同じ形（philosophy.md の "Shallow and uniform beats deep and clever"）。国や種類（国の機関、都道府県など）は、フォルダの段にせず管理者の名前の頭に入れる（第3章）。
+- 管理者の一覧は [catalog-structure.md](catalog-structure.md)。
 
 ## 2. 使える文字
 
@@ -25,46 +26,40 @@ https://catalog.shi-works.com/<区分>/<管理者>/<コレクション>/<ファ�
   - ベストプラクティス（philosophy.md）は snake_case を勧めているが、仕様はハイフンを認めていて、参照カタログとも食い違っている。ここでは既存の URL と参照カタログに合わせる。
 - 1つの名前の中でハイフンとアンダースコアを混ぜない。
 
-## 3. 区分の名前
-
-| 区分 | 付け方 |
-|---|---|
-| 政府 | `<国コード>-<種類>`。国コードは ISO 3166-1 alpha-2 の小文字。種類は `national`（国）、日本は `prefectures`、`municipalities` |
-| 政府以外 | `others` |
-| shi-works が作ったもの | `shi-works` |
-
-例: `jp-national`、`jp-prefectures`、`jp-municipalities`、`us-national`。
-
-## 4. 管理者の名前
+## 3. 管理者の名前
 
 | 種類 | 付け方 | 例 |
 |---|---|---|
-| 国の機関 | 英語の略称が広く使われていればそれ。なければ英語名 | `gsi`、`mlit`、`npa`、`jma`、`digital-agency`、`forestry-agency`、`stat`（総務省統計局。ドメインの `stat.go.jp` から） |
-| 国の製品の系統 | 製品名 | `ksj`（国土数値情報）、`plateau` |
-| 都道府県 | ローマ字（ヘボン式、長音記号なし）。「都・府・県」は付けない | `tokyo`、`osaka`、`hokkaido`、`kochi`、`oita` |
-| 市区町村 | `<都道府県>-<名前>-<種類>`。種類は自治体の英語表記に合わせて `city`、`town`、`village` | `shizuoka-shizuoka-city`、`saitama-saitama-city`、`tokyo-nakano-city` |
-| 外国の国の機関 | 英語の略称（`us-national/` などの下） | `usgs` |
-| その他 | 団体やサービスの略称。なければ英語名 | `osm`、`worldpop`、`google`、`gebco`、`jartic`、`tohoku-university`、`gtfs-gis`、`gosenzo-net` |
+| 日本の国の機関 | `jp-<略称>`。英語の略称が広く使われていればそれ、なければ英語名 | `jp-gsi`、`jp-mlit`、`jp-npa`、`jp-jma`、`jp-stat`（総務省統計局。ドメインの `stat.go.jp` から）、`jp-digital-agency`、`jp-forestry-agency` |
+| 日本の国の製品の系統 | `jp-<製品名>` | `jp-ksj`（国土数値情報）、`jp-plateau` |
+| 日本の都道府県 | `jp-pref-<名前>`。名前はローマ字（ヘボン式、長音記号なし）で、「都・府・県」は付けない | `jp-pref-tokyo`、`jp-pref-osaka`、`jp-pref-hokkaido`、`jp-pref-kochi` |
+| 日本の市区町村 | `jp-<種類>-<都道府県>-<名前>`。種類は自治体の英語表記に合わせて `city`、`town`、`village` | `jp-city-shizuoka-shizuoka`、`jp-city-saitama-saitama`、`jp-city-tokyo-nakano`、`jp-town-shizuoka-kawanehon` |
+| 外国の国の機関 | `<国コード>-<略称>` | `us-usgs` |
+| 政府以外（国際機関、大学、企業、コミュニティ） | 団体やサービスの略称。なければ英語名。国コードは付けない | `osm`、`worldpop`、`google`、`gebco`、`mapterhorn`、`jartic`、`tohoku-university`、`gtfs-gis`、`gosenzo-net` |
+| shi-works が複数の提供元を組み合わせて作ったもの | `shi-works-<系統>` | `shi-works-food-access`、`shi-works-transport-analysis` |
 
+- **国コードは ISO 3166-1 alpha-2 の小文字**（`jp`、`us`）。ISO 3166-2 の地域コード（`JP-13`、`US-CA`）、言語タグ（`ja-JP`）、Overture Maps の `country` 列と同じ体系になる。3文字（`jpn`、`usa`）は使わない。大文字は Portolan の検査（PTL-COL-003）で警告になるので使えない。
+- **政府のデータには国コードを付け、政府以外には付けない。** 全球のデータ（WorldPop、GEBCO、OSM など）は国に属さないので、管理者の名前だけにする。
+- `pref-` と `city-` は、既存のバケットの書き方（`pref-osaka`、`city-shizuoka`）に合わせた。
 - 都道府県コード・市区町村コードはフォルダ名に入れず、メタデータ（`keywords` と README）に書く。名前で探せるほうを優先する。
 - 市区町村に都道府県を必ず付けるのは、同じ名前の市が別の県にあるため（府中市、伊達市など）。重なったときだけ付ける形にすると、後から増えたときに書き方がそろわなくなる。
 - 東京の特別区は英語で "Nakano City" と名乗っているので `city` にする。
-- [catalog-structure.md](catalog-structure.md) の仮の名前のうち、次を変える: `rinya` → `forestry-agency`、`tohoku-u` → `tohoku-university`、`shizuoka-city` → `shizuoka-shizuoka-city`、`saitama-city` → `saitama-saitama-city`、`nakano-city` → `tokyo-nakano-city`。
+- ルートには管理者が40ほど（将来は70ほど）並ぶ。名前の頭（`jp-pref-`、`jp-city-` など）でまとまって並び、表示の順番は `catalog.json` のリンクの順で決められる。種類ごと・テーマごとの表はルートの README に載せる。子はどれもカタログなので、PTL-CAT-001 の警告は出ない。
 
-## 5. コレクションの名前
+## 4. コレクションの名前
 
 - **何のデータかを書く。** 形式（`pmtiles`、`fgb`）、ツールの名前、作業の段階（`converted`、`modified`、`v2`）は入れない。
-- **管理者の名前は繰り返さない。** パスに入っているので、`jp-national/npa/npa-traffic-accident` ではなく `jp-national/npa/traffic-accident`。
-- **定期的に更新される系列は、1つのコレクションにする。** 年次は Item か版で表し、コレクションの名前に入れない。例: 道路交通センサスの 2015 と 2021 は、`jp-national/mlit/road-traffic-census` の Item にする。
+- **管理者の名前は繰り返さない。** パスに入っているので、`jp-npa/npa-traffic-accident` ではなく `jp-npa/traffic-accident`。
+- **定期的に更新される系列は、1つのコレクションにする。** 年次は Item か版で表し、コレクションの名前に入れない。例: 道路交通センサスの 2015 と 2021 は、`jp-mlit/road-traffic-census` の Item にする。
 - **調査の年が中身を決めるものは、年を入れてよい。** 例: 国勢調査をもとにした `population-mesh-100m-2020` は、2025 年版が出ても別のデータとして並べる。
 - 短くする。説明は `title`（日英）に書く。
 
-## 6. ファイルの名前
+## 5. ファイルの名前
 
 コレクションの中:
 
 ```
-<区分>/<管理者>/<コレクション>/
+<管理者>/<コレクション>/
 ├── collection.json
 ├── README.md
 ├── AGENTS.md
@@ -77,7 +72,7 @@ https://catalog.shi-works.com/<区分>/<管理者>/<コレクション>/<ファ�
     └── <管理者>-<コレクション>-<Item の ID>.<拡張子>
 ```
 
-- **データのファイル名は `<管理者>-<コレクション>` にする。** 例: `npa-traffic-accident.parquet`、`osaka-csmap.tif`。ダウンロードしたファイルが手元で並んでも区別できるようにする（コレクション名だけの `csmap.tif` だと、県ごとのファイルが同じ名前になる）。
+- **データのファイル名は `<管理者>-<コレクション>` にする。** 例: `jp-npa-traffic-accident.parquet`、`jp-pref-osaka-csmap.tif`。ダウンロードしたファイルが手元で並んでも区別できるようにする（コレクション名だけの `csmap.tif` だと、県ごとのファイルが同じ名前になる）。
 - `collection.json`、`README.md`、`AGENTS.md`、`thumbnail.png` は Portolan の決まった名前のまま。
 - **ファイル名に版（`_v1` など）や日付を入れない。** 理由:
   - URL を変えずに、いつも最新のデータを指せる。利用者のスクリプトを書き換えずに済む。
@@ -85,7 +80,7 @@ https://catalog.shi-works.com/<区分>/<管理者>/<コレクション>/<ファ�
   - Portolan の仕様は、データの版を STAC の version 拡張で表すとしている（core.md）。
   - その代わり、上書きしたときにキャッシュに古い内容が残る問題が出る。キャッシュの扱い（短い TTL、Purge、ETag での再検証）は #5 と #6 で決める。
 
-## 7. 分割したファイルの名前
+## 6. 分割したファイルの名前
 
 GeoParquet が大きいとき（目安は 2 GB 超。1ファイル 200 MB〜1 GB にする。Portolan の formats.md）は分割する。
 
@@ -103,6 +98,6 @@ GeoParquet が大きいとき（目安は 2 GB 超。1ファイル 200 MB〜1 GB
 - `partition:glob` には `data/*/*.parquet` のように書く。
 - Hive 形式のキー（`pref_code`）だけはアンダースコアを使う。列名と合わせるため（第2章の例外）。
 
-## 8. タイルの URL
+## 7. タイルの URL
 
 タイルは事前に作らず、Worker でリクエストのたびに作る（requirements.md 第4章）。タイルの URL は #8 で決める。
