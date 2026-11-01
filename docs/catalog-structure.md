@@ -77,7 +77,6 @@
 | `digital-agency` | `pmtiles/digital/abr/` | アドレス・ベース・レジストリ |
 | `rinya` | `raster-tiles/rinya/noto-2024-csmap-tiles/` | 能登の CS立体図 |
 | `stat` | `pmtiles/r2DID/`、`pmtiles/traffic-census/2020_did_*` | 人口集中地区（2020、総務省統計局の e-Stat 境界データ） |
-| 要確認 | `pmtiles/100m_mesh_pop2020/` | 100m メッシュ人口。元データの提供元 |
 
 ### prefectures/ 都道府県
 
@@ -120,7 +119,8 @@
 | `tohoku-u` | `pmtiles/tohoku-u_tsunami/` | 津波の痕跡 |
 | `hello-cycling` | `pmtiles/sharecycle/hellocycling_*` | HELLO CYCLING のポート（GBFS） |
 | `docomo-bikeshare` | `pmtiles/sharecycle/docomo*` | ドコモ・バイクシェアのポート（GBFS） |
-| 要確認 | `pmtiles/gtfs-gis/railway_honsu/` | 鉄道の運行本数（GTFS-GIS か、複数社の GTFS から作ったなら `shi-works/`） |
+| `gtfs-gis` | `pmtiles/100m_mesh_pop2020/` | 令和2年 簡易100mメッシュ人口（西沢明、[GTFS-GIS.jp](https://gtfs-gis.jp/teikyo/kani_100m_download2020.html)）。ページには免責の記載だけで、ライセンスと出典表記の指定がない（#13 で扱う） |
+| `gtfs-gis`（推定） | `pmtiles/gtfs-gis/railway_honsu/` | 鉄道の運行本数（2024）。GTFS-GIS.jp のデータか要確認 |
 
 ### shi-works/ 複数の提供元を組み合わせて作ったもの
 
