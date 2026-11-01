@@ -61,7 +61,7 @@
 | `gsi` | `pmtiles/gsi/optimal_bvmap/` | 最適化ベクタタイル（道路中心線など） |
 | `gsi` | `pmtiles/gsi/kokuarea/` | 空港等の周辺空域（地理院タイルの形式。元は航空局） |
 | `gsi` | `mvt/gsi-3dmap-bldg-tiles/`、`3dtiles/gsi-3dmap/` | 3D地図の建物 |
-| `gsi` | `pmtiles/landform/` | 地形分類（自然地形）。地理院の GeoJSON タイルを PMTiles にしたもの（推定） |
+| `gsi` | `pmtiles/landform/` | 地形分類（自然地形）。地理院の GeoJSON タイル `experimental_landformclassification1` を PMTiles にしたもの |
 | `mlit` | `json/mlit-road-traffic-census/`、`pmtiles/mlit-road-traffic-census/`、`pmtiles/traffic-census/traffic_census_*` | 道路交通センサス |
 | `mlit` | `pmtiles/mlit/toshik/a.pmtiles` | 都市計画決定 GIS データ（防火地域、地区計画、都市計画道路など） |
 | `mlit` | `pmtiles/boring-data-converter/` | ボーリング柱状図（国土地盤情報の XML から作成） |
@@ -85,7 +85,7 @@
 |---|---|---|
 | `akita` | `pmtiles/pref-akita/` | 地震被害想定（震度、液状化など。想定地震ごとのレイヤー） |
 | `saitama` | `raster-tiles/pref-saitama/`、`3dtiles/pref-saitama/`、`3dtiles/saitama-rpc/` | CS立体図、河川の点群 |
-| `saitama`（推定） | `geoparquet/pcp/` | 点群を Point Cloud Parquet にした試作（平面直角座標系 第IX系、秩父付近の1図郭、約2.5億点）。試作なので、載せるかは移行（#7）で決める |
+| 要確認 | `geoparquet/pcp/` | 点群を Point Cloud Parquet にした試作（`pointcloud-parquet-lab`）。図郭 09JC602（平面直角座標系 第IX系と判断）、北緯36.09度・東経138.97度付近（群馬県と埼玉県の境）、約2.5億点。元の `09jc602.zip` の入手元が記録にない。試作なので、載せるかは移行（#7）で決める |
 | `tokyo` | `raster-tiles/tokyo-digitaltwin/`（CS立体図は1つのコレクションに地区ごとの Item、DSM）、`copc/tokyo-digitaltwin/`、`3dtiles/toyko-23ku-pc/` | デジタルツインの点群、CS立体図、DSM |
 | `tokyo` | `pmtiles/tokyo/R03Building.pmtiles`、`mvt/13103_minato-ku_pref_2023_bldg_mvt/` | 都市計画基礎調査の建物 |
 | `kanagawa`、`kyoto`、`miyagi`、`nagano`、`okayama`、`osaka`、`toyama`、`wakayama`、`hiroshima` | `raster-tiles/pref-*/` | CS立体図 |
