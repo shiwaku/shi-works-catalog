@@ -61,9 +61,9 @@
 | `gsi` | `pmtiles/gsi/optimal_bvmap/` | 最適化ベクタタイル（道路中心線など） |
 | `gsi` | `pmtiles/gsi/kokuarea/` | 空港等の周辺空域（地理院タイルの形式。元は航空局） |
 | `gsi` | `mvt/gsi-3dmap-bldg-tiles/`、`3dtiles/gsi-3dmap/` | 3D地図の建物 |
+| `gsi` | `pmtiles/landform/` | 地形分類（自然地形）。地理院の GeoJSON タイルを PMTiles にしたもの（推定） |
 | `mlit` | `json/mlit-road-traffic-census/`、`pmtiles/mlit-road-traffic-census/`、`pmtiles/traffic-census/traffic_census_*` | 道路交通センサス |
 | `mlit` | `pmtiles/mlit/toshik/a.pmtiles` | 都市計画決定 GIS データ（防火地域、地区計画、都市計画道路など） |
-| `mlit` | `pmtiles/landform/` | 地形分類（要確認: 土地分類基本調査か） |
 | `mlit` | `pmtiles/boring-data-converter/` | ボーリング柱状図（国土地盤情報の XML から作成） |
 | `ksj` | `pmtiles/ksj/`（A29、N02、N03、N05、N06、N07、P05、P11、W05、A16、prefectures） | 用途地域、鉄道、行政区域、高速道路、バス路線、役場、バス停、河川、DID、都道府県 |
 | `ksj` | `pmtiles/ksj-route-search/` | 道路（N13） |
