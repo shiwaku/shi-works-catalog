@@ -78,14 +78,19 @@
 s3://shi-works-catalog/          → https://catalog.shi-works.com/catalog.json
 ├── catalog.json / README.md / AGENTS.md
 ├── terrain/                     地形
-│   ├── osaka-csmap/             ← コレクション（COG と XYZ）
-│   └── shizuoka-csmap/
+│   └── csmap/                   ← 下位カタログ（CS立体図）
+│       └── osaka/               ← コレクション（COG）
+├── imagery/                     空中写真
+├── buildings/                   建物・3D都市
+│   └── plateau/                 ← 下位カタログ（PLATEAU）
 ├── transport/                   交通
-│   ├── npa-traffic-accident/    ← GeoParquet と PMTiles
-│   └── mlit-road-traffic-census/
+│   └── npa-traffic-accident/    ← コレクション（GeoParquet）
 ├── population/                  人口
 ├── disaster/                    防災
-└── buildings/                   建物・3D
+├── land/                        土地利用・都市計画
+├── boundaries/                  境界・住所
+├── livelihood/                  暮らし
+└── basemaps/                    ベースマップ
 ```
 
 1つのコレクションの中身（ベクタの場合）:
@@ -113,7 +118,7 @@ s3://shi-works-catalog/          → https://catalog.shi-works.com/catalog.json
 - コレクションの ID は、ルートからのパス（例: `transport/npa-traffic-accident`）。
 - コレクションの中にコレクションは入れられない（仕様の MUST）。
 - 子が20以上になったら、さらに下位カタログを足す（仕様の SHOULD）。例: CS立体図が20県を超えたら `terrain/csmap/` を1段足す。
-- テーマの一覧は、既存データをすべて割り振って確定させる（未決事項1）。
+- テーマの一覧と既存データの割り振り、迷うものの決め方は [themes.md](themes.md) に書く。
 - 書き込みは `portolan push s3://shi-works-catalog`。`shi-works-catalog` だけに書き込める R2 の API トークンを新しく作り、専用の AWS プロファイル `r2-shiworks-catalog` に入れる。既存の `r2-shiworks` は使わない。
 - 手元のカタログは、このリポジトリの `catalog/` に置く（メタデータは git で管理し、データ本体は .gitignore で除く）。
 
