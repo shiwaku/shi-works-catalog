@@ -3,7 +3,7 @@
 [shi-works.com](https://shi-works.com/) で配信している地理空間データを、[Portolan](https://github.com/portolan-sdi) の仕様に沿った STAC カタログとして整備するためのリポジトリ。
 
 - カタログの公開先（予定）: `https://catalog.shi-works.com/catalog.json`
-- データの置き場所: Cloudflare R2 の専用バケット `shi-works-catalog`（既存データは `shi-works` バケット、`https://shi-works.com/` のまま）
+- データの置き場所: Cloudflare R2 の専用バケット `shi-works-catalog`。カタログとデータを同じツリーに置き、shi-works のデータ配信の本体にする（既存データは移行が済むまで `shi-works` バケット、`https://shi-works.com/` のまま）
 - 手元のカタログ: [catalog/](catalog/)
 - 要件定義: [docs/requirements.md](docs/requirements.md)
 
