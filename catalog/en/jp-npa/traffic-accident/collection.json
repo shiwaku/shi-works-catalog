@@ -483,8 +483,8 @@
     "documentation": {
       "href": "./README.md",
       "type": "text/markdown",
-      "file:size": 17471,
-      "file:checksum": "12205f76219d776219acdeaeb4a5b7ae384903d366011bd2482091b0ef5850655e3e",
+      "file:size": 17306,
+      "file:checksum": "1220747aef253aee96d2a82934f7b18b5f1eda3603431150895a8cf9235d82828330",
       "roles": [
         "documentation"
       ]
