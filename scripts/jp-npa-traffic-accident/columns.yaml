@@ -1,0 +1,300 @@
+# 交通事故統計（本票）の列の定義
+#
+# この1ファイルから、変換の SQL（build.py）、collection.json の table:columns、
+# README の列の表を作る（docs/metadata.md 第5章「同じ元から作る」）。
+#
+#   name : 列名（英語の snake_case。日英で同じ）
+#   src  : 元の列名（npa-traffic-accident-analytics の honhyo_2019-2025.parquet）。足した列は null
+#   sql  : 値の式。省略すると NULLIF("<src>", '')（文字列のまま）
+#   ja   : 説明（日本語）。「元の列名: …」は自動で先頭に付く
+#   en   : 説明（英語）
+#
+# 当事者A・B の列（party_a_* / party_b_*）は、末尾の parties にまとめて書き、build.py が A と B に展開する。
+
+columns:
+  - name: statistics_year
+    src: 資料年次
+    sql: '"資料年次"::SMALLINT'
+    ja: 統計に計上された年。警察庁の公表件数と合わせるときはこの年で数える。年末に起きた事故の一部は翌年に計上されるので、事故が起きた年（occurred_year）とは一致しない。
+    en: Year in which the accident was counted in the statistics. Use this year to match the National Police Agency's published totals. Some accidents that occurred near the end of a year are counted in the following year, so it can differ from occurred_year.
+
+  - name: record_type
+    src: 資料区分
+    ja: 資料の区分。このデータはすべて「本票」。
+    en: Record type. Always "本票" (main record) in this dataset.
+
+  - name: prefecture
+    src: 都道府県名
+    ja: 事故を扱った都道府県警察の名前。北海道は方面本部ごと（「北海道（札幌方面）」など）に分かれる。
+    en: Name of the prefectural police that handled the accident (in Japanese). Hokkaido is split by regional headquarters, e.g. "北海道（札幌方面）".
+
+  - name: police_station
+    src: 警察署等名
+    ja: 事故を扱った警察署などの名前。
+    en: Name of the police station that handled the accident (in Japanese).
+
+  - name: record_number
+    src: 本票番号
+    ja: 警察署ごとの本票の番号（文字列、先頭の0を含む）。統計に計上された年・都道府県・警察署と組み合わせて1件を表す。
+    en: Record number within the police station (string, with leading zeros). Identifies one accident together with statistics_year, prefecture and police_station.
+
+  - name: accident_severity
+    src: 事故内容
+    ja: 死亡事故か負傷事故か。
+    en: Whether the accident was fatal ("死亡事故") or injury-only ("負傷事故").
+
+  - name: fatalities
+    src: 死者数
+    sql: '"死者数"::SMALLINT'
+    ja: 死者の数（人）。事故から24時間以内に亡くなった人。
+    en: Number of people killed (died within 24 hours of the accident).
+
+  - name: injuries
+    src: 負傷者数
+    sql: '"負傷者数"::SMALLINT'
+    ja: 負傷者の数（人）。
+    en: Number of people injured.
+
+  - name: route_name
+    src: 路線名
+    ja: 路線の名前（国道の番号、「一般市町村道」など）。
+    en: Road route name (national route number, "一般市町村道" (municipal road), etc.).
+
+  - name: direction
+    src: 上下線
+    ja: 上り線か下り線か。2022年以降は空。
+    en: Up or down carriageway. Null from 2022 onwards.
+
+  - name: location_code
+    src: 地点コード
+    ja: 路線の中の地点のコード（文字列）。
+    en: Location code along the route (string).
+
+  - name: municipality_code
+    src: 市区町村コード
+    ja: 警察庁の市区町村コード（3桁の文字列）。都道府県の中での番号で、総務省の全国地方公共団体コード（5桁）とは違う。
+    en: National Police Agency municipality code (3-digit string). It is numbered within each prefecture and is not the 5-digit local government code of the Ministry of Internal Affairs and Communications.
+
+  - name: occurred_at
+    src: null
+    sql: "make_timestamptz(\"発生日時_年\"::INT, \"発生日時_月\"::INT, \"発生日時_日\"::INT, \"発生日時_時\"::INT, \"発生日時_分\"::INT, 0, 'Asia/Tokyo')"
+    ja: 事故が起きた日時（日本時間）。発生日時の年・月・日・時・分から作った列。
+    en: Date and time the accident occurred (Japan Standard Time). Built from the occurred_* columns.
+
+  - name: occurred_year
+    src: 発生日時_年
+    sql: '"発生日時_年"::SMALLINT'
+    ja: 事故が起きた年。経年の推移には statistics_year を使う。
+    en: Year the accident occurred. Use statistics_year for year-on-year trends.
+
+  - name: occurred_month
+    src: 発生日時_月
+    sql: '"発生日時_月"::TINYINT'
+    ja: 事故が起きた月。
+    en: Month the accident occurred.
+
+  - name: occurred_day
+    src: 発生日時_日
+    sql: '"発生日時_日"::TINYINT'
+    ja: 事故が起きた日。
+    en: Day of month the accident occurred.
+
+  - name: occurred_hour
+    src: 発生日時_時
+    sql: '"発生日時_時"::TINYINT'
+    ja: 事故が起きた時（0〜23）。
+    en: Hour the accident occurred (0-23).
+
+  - name: occurred_minute
+    src: 発生日時_分
+    sql: '"発生日時_分"::TINYINT'
+    ja: 事故が起きた分（0〜59）。
+    en: Minute the accident occurred (0-59).
+
+  - name: day_of_week
+    src: 曜日(発生年月日)
+    ja: 事故が起きた日の曜日（「月」など）。
+    en: Day of the week of the accident (Japanese, e.g. "月" = Monday).
+
+  - name: holiday
+    src: 祝日(発生年月日)
+    ja: 事故が起きた日と祝日の関係（「当日」「前日」「その他」）。
+    en: Relation of the accident date to a public holiday ("当日" = on the holiday, "前日" = the day before, "その他" = other).
+
+  - name: sunrise_hour
+    src: 日の出時刻　　時
+    sql: TRY_CAST(NULLIF("日の出時刻　　時", '') AS TINYINT)
+    ja: 事故が起きた日の日の出の時。2019〜2021年は空。
+    en: Hour of sunrise on the day of the accident. Null for 2019-2021.
+
+  - name: sunrise_minute
+    src: 日の出時刻　　分
+    sql: TRY_CAST(NULLIF("日の出時刻　　分", '') AS TINYINT)
+    ja: 事故が起きた日の日の出の分。2019〜2021年は空。
+    en: Minute of sunrise on the day of the accident. Null for 2019-2021.
+
+  - name: sunset_hour
+    src: 日の入り時刻　　時
+    sql: TRY_CAST(NULLIF("日の入り時刻　　時", '') AS TINYINT)
+    ja: 事故が起きた日の日の入りの時。2019〜2021年は空。
+    en: Hour of sunset on the day of the accident. Null for 2019-2021.
+
+  - name: sunset_minute
+    src: 日の入り時刻　　分
+    sql: TRY_CAST(NULLIF("日の入り時刻　　分", '') AS TINYINT)
+    ja: 事故が起きた日の日の入りの分。2019〜2021年は空。
+    en: Minute of sunset on the day of the accident. Null for 2019-2021.
+
+  - name: day_night
+    src: 昼夜
+    ja: 昼か夜か（「昼－明」「夜－夜」など、日の出・日の入りとの関係を含む）。
+    en: Day or night, including twilight categories (Japanese labels).
+
+  - name: weather
+    src: 天候
+    ja: 天候（「晴」「曇」「雨」など）。
+    en: Weather (Japanese labels, e.g. "晴" = clear, "雨" = rain).
+
+  - name: terrain
+    src: 地形
+    ja: 地形（「市街地－人口集中」など）。
+    en: Area type (Japanese labels, e.g. "市街地－人口集中" = urban, densely inhabited district).
+
+  - name: road_surface
+    src: 路面状態
+    ja: 路面の状態（「舗装－乾燥」など）。
+    en: Road surface condition (Japanese labels).
+
+  - name: road_shape
+    src: 道路形状
+    ja: 道路の形状（「交差点－その他」「単路－カーブ」など）。
+    en: Road configuration, e.g. intersection or single road section (Japanese labels).
+
+  - name: roundabout_diameter
+    src: 環状交差点の直径
+    ja: 環状交差点の直径の区分。環状交差点でないときは「環状交差点以外」など。2019〜2021年は空。
+    en: Roundabout diameter class (Japanese labels). Null for 2019-2021.
+
+  - name: traffic_signal
+    src: 信号機
+    ja: 信号機の有無と種類（「点灯－３灯式」「信号機なし」など）。
+    en: Presence and type of traffic signal (Japanese labels).
+
+  - name: roadway_width
+    src: 車道幅員
+    ja: 車道の幅の区分（「単路－3.5m未満」「交差点－中（5.5m以上）－中」など）。交差点では交わる2本の道の幅を表す。生活道路（車道幅員5.5m未満）の判定に使う。
+    en: Roadway width class (Japanese labels). For intersections it describes both crossing roads. Used to identify residential roads (roadway narrower than 5.5 m).
+
+  - name: road_alignment
+    src: 道路線形
+    ja: 道路の線形（「直線－平坦」「カーブ・屈折－右－上り」など）。
+    en: Road alignment, e.g. straight/curve and grade (Japanese labels).
+
+  - name: collision_location
+    src: 衝突地点
+    ja: 衝突した地点（「単路」「交差点内」など）。
+    en: Where the collision occurred, e.g. road section or within an intersection (Japanese labels).
+
+  - name: zone_regulation
+    src: ゾーン規制
+    ja: ゾーン規制（「ゾーン30」「規制なし」など）。
+    en: Zone regulation such as "ゾーン30" (30 km/h zone) (Japanese labels).
+
+  - name: median
+    src: 中央分離帯施設等
+    ja: 中央分離帯などの施設（「中央線－ペイント」など）。
+    en: Median or centre-line facility (Japanese labels).
+
+  - name: sidewalk_separation
+    src: 歩車道区分
+    ja: 歩道と車道の区分（「区分あり－縁石・ブロック等」など）。
+    en: Separation between sidewalk and roadway (Japanese labels).
+
+  - name: accident_type
+    src: 事故類型
+    ja: 事故の類型（「人対車両－横断中」「車両相互－追突」「車両単独」など）。
+    en: Accident type, e.g. vehicle-pedestrian, vehicle-vehicle rear-end, single vehicle (Japanese labels).
+
+parties:
+  - name: stop_sign
+    src: 一時停止規制_標識（当事者{p}）
+    ja: 当事者{p}側の一時停止の標識。
+    en: Stop sign on party {p}'s approach (Japanese labels).
+
+  - name: stop_marking
+    src: 一時停止規制_表示（当事者{p}）
+    ja: 当事者{p}側の一時停止の表示（路面の標示）。
+    en: Stop road marking on party {p}'s approach (Japanese labels).
+
+  - name: age_group
+    src: 年齢（当事者{p}）
+    ja: 当事者{p}の年齢層（「0～24歳」「25～34歳」など）。実年齢ではない。最も若い区分が0〜24歳なので、10代・20代では数えられない。
+    en: Age group of party {p} (Japanese labels, e.g. "0～24歳"). Not the exact age; the youngest class is 0-24, so teenagers cannot be separated.
+
+  - name: type
+    src: 当事者種別（当事者{p}）
+    ja: 当事者{p}の種別（「乗用車－普通車」「歩行者」「自転車」など）。
+    en: Type of party {p}, e.g. passenger car, pedestrian, bicycle (Japanese labels).
+
+  - name: vehicle_use
+    src: 用途別（当事者{p}）
+    ja: 当事者{p}の車両の用途（「自家用」「事業用」など）。
+    en: Use of party {p}'s vehicle, e.g. private or commercial (Japanese labels).
+
+  - name: vehicle_shape
+    src: 車両形状（当事者{p}）
+    ja: 当事者{p}の車両の形状。
+    en: Body shape of party {p}'s vehicle (Japanese labels).
+
+  - name: speed_limit
+    src: 速度規制（指定のみ）（当事者{p}）
+    ja: 当事者{p}側の指定速度規制（「30㎞／ｈ以下」など）。法定速度は含まない。
+    en: Posted speed limit on party {p}'s road (Japanese labels). Statutory default limits are not included.
+
+  - name: impact_point
+    src: 車両の衝突部位（当事者{p}）
+    ja: 当事者{p}の車両の衝突部位（「前-無」など。最初と2番目の衝突部位）。
+    en: Impact points of party {p}'s vehicle (first and second; Japanese labels).
+
+  - name: vehicle_damage
+    src: 車両の損壊程度（当事者{p}）
+    ja: 当事者{p}の車両の損壊の程度（「大破」「中破」「小破」など）。
+    en: Damage level of party {p}'s vehicle (Japanese labels).
+
+  - name: airbag
+    src: エアバッグの装備（当事者{p}）
+    ja: 当事者{p}の車両のエアバッグの装備と作動。
+    en: Airbag fitted and deployed for party {p}'s vehicle (Japanese labels).
+
+  - name: side_airbag
+    src: サイドエアバッグの装備（当事者{p}）
+    ja: 当事者{p}の車両のサイドエアバッグの装備と作動。
+    en: Side airbag fitted and deployed for party {p}'s vehicle (Japanese labels).
+
+  - name: injury_severity
+    src: 人身損傷程度（当事者{p}）
+    ja: 当事者{p}の人身の損傷の程度（「死亡」「負傷」「損傷なし」「対象外当事者」）。
+    en: Injury severity of party {p} (Japanese labels, e.g. "死亡" = killed, "負傷" = injured).
+
+  - name: automatic
+    src: オートマチック車（当事者{p}）
+    sql: "CASE NULLIF(\"オートマチック車（当事者{p}）\", '') WHEN '1' THEN 'オートマチック車' WHEN '2' THEN 'その他' WHEN '0' THEN '対象外当事者' END"
+    ja: 当事者{p}の車両がオートマチック車か（「オートマチック車」「その他」「対象外当事者」）。乗用車・貨物車だけが対象。2019〜2021年は空。元データのコードを警察庁のコード表でラベルにした。
+    en: Whether party {p}'s vehicle is an automatic (Japanese labels). Applies to passenger cars and trucks only. Null for 2019-2021. Converted from the source codes using the official code table.
+
+  - name: support_car
+    src: サポカー（当事者{p}）
+    sql: "CASE NULLIF(\"サポカー（当事者{p}）\", '') WHEN '01' THEN 'サポカー' WHEN '11' THEN 'その他の車' WHEN '00' THEN '対象外当事者' END"
+    ja: 当事者{p}の車両がサポカー（安全運転サポート車）か（「サポカー」「その他の車」「対象外当事者」）。2019〜2021年は空。元データのコードを警察庁のコード表でラベルにした。
+    en: Whether party {p}'s vehicle is a "Support Car" with driver-assistance safety features (Japanese labels). Null for 2019-2021. Converted from the source codes using the official code table.
+
+  - name: cognitive_test_days
+    src: 認知機能検査経過日数（当事者{p}）
+    ja: 当事者{p}が認知機能検査を受けてから事故までの日数（4桁の文字列）。「9999」は受けていないか2,555日を超えるもの。2019〜2021年は空。元データのまま。
+    en: Days between party {p}'s cognitive function test and the accident (4-digit string). "9999" means no test taken or more than 2,555 days. Null for 2019-2021. Kept as in the source.
+
+  - name: driving_practice
+    src: 運転練習の方法（当事者{p}）
+    sql: "CASE NULLIF(\"運転練習の方法（当事者{p}）\", '') WHEN '1' THEN '一般（指定自動車教習所）' WHEN '2' THEN '一般（届出自動車教習所）' WHEN '3' THEN '一般（その他の自動車教習所）' WHEN '4' THEN '外国免許による試験の一部免除' WHEN '5' THEN 'その他' WHEN '6' THEN 'その他' WHEN '9' THEN '不明' WHEN '0' THEN '0' END"
+    ja: 当事者{p}の運転練習の方法（「一般（指定自動車教習所）」など）。2019〜2021年は空。元データのコードを警察庁のコード表でラベルにした。「0」はコード表にない値で、元データのまま残した。
+    en: How party {p} learned to drive (Japanese labels). Null for 2019-2021. Converted from the source codes using the official code table. "0" is not in the code table and is kept as in the source.

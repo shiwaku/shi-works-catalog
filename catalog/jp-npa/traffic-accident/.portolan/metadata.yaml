@@ -1,0 +1,33 @@
+# 交通事故統計（本票）のメタデータ（日本語。正本）
+# 英語版は scripts/jp-npa-traffic-accident/metadata.py が en/ の木に作る（docs/metadata.md 第2章）
+
+title: "交通事故統計（本票）"
+description: "警察庁の交通事故統計情報のオープンデータのうち、本票（人身事故1件ごとの記録）の2019〜2025年分、2,182,298件。発生地点の点と、日時・道路・当事者などの74項目を持つ。"
+
+license: "other"
+license_url: "https://www.npa.go.jp/rules/index.html"
+
+providers:
+  - name: "警察庁"
+    roles: ["producer", "licensor"]
+    url: "https://www.npa.go.jp/publications/statistics/koutsuu/opendata/index_opendata.html"
+  - name: "shi-works"
+    roles: ["processor", "host"]
+    url: "https://github.com/shiwaku/shi-works-catalog"
+
+source_url: "https://www.npa.go.jp/publications/statistics/koutsuu/opendata/index_opendata.html"
+
+attribution: "出典: 警察庁「交通事故統計情報のオープンデータ」を加工して作成"
+
+keywords:
+  - "交通"
+  - "交通事故"
+  - "人身事故"
+  - "日本"
+  - "全国"
+  - "警察庁"
+
+defaults:
+  temporal:
+    start: "2015-12-12"
+    end: "2025-12-31"

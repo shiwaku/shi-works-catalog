@@ -1,0 +1,513 @@
+{
+  "type": "Collection",
+  "id": "jp-npa/traffic-accident",
+  "stac_version": "1.1.0",
+  "description": "Main records (one record per injury accident) of the National Police Agency's open traffic accident statistics, 2019-2025, 2,182,298 accidents. Each record has the accident location as a point and 74 attributes on time, road and parties involved.",
+  "links": [
+    {
+      "rel": "root",
+      "href": "../../catalog.json",
+      "type": "application/json",
+      "title": "shi-works catalog"
+    },
+    {
+      "rel": "parent",
+      "href": "../catalog.json",
+      "type": "application/json",
+      "title": "Jp Npa"
+    },
+    {
+      "rel": "agents",
+      "href": "./AGENTS.md",
+      "type": "text/markdown",
+      "title": "Agent/LLM usage guide",
+      "hreflang": "ja"
+    },
+    {
+      "rel": "describedby",
+      "href": "./README.md",
+      "type": "text/markdown",
+      "title": "Human-readable documentation"
+    },
+    {
+      "rel": "license",
+      "href": "https://www.npa.go.jp/rules/index.html",
+      "title": "License"
+    },
+    {
+      "rel": "via",
+      "href": "https://www.npa.go.jp/publications/statistics/koutsuu/opendata/index_opendata.html",
+      "type": "text/html",
+      "title": "Original source"
+    },
+    {
+      "rel": "alternate",
+      "href": "../../../jp-npa/traffic-accident/collection.json",
+      "type": "application/json",
+      "hreflang": "ja",
+      "title": "日本語"
+    }
+  ],
+  "stac_extensions": [
+    "https://stac-extensions.github.io/table/v1.2.0/schema.json",
+    "https://stac-extensions.github.io/file/v2.1.0/schema.json",
+    "https://schemas.portolan-sdi.org/portolan/v0.2.0/schema.json",
+    "https://stac-extensions.github.io/language/v1.0.0/schema.json"
+  ],
+  "geoparquet:geometry_type": "Point",
+  "geoparquet:feature_count": 2182298,
+  "table:row_count": 2182298,
+  "table:primary_geometry": "geometry",
+  "table:columns": [
+    {
+      "name": "statistics_year",
+      "type": "int16",
+      "description": "Original column: 資料年次. Year in which the accident was counted in the statistics. Use this year to match the National Police Agency's published totals. Some accidents that occurred near the end of a year are counted in the following year, so it can differ from occurred_year."
+    },
+    {
+      "name": "record_type",
+      "type": "string",
+      "description": "Original column: 資料区分. Record type. Always \"本票\" (main record) in this dataset."
+    },
+    {
+      "name": "prefecture",
+      "type": "string",
+      "description": "Original column: 都道府県名. Name of the prefectural police that handled the accident (in Japanese). Hokkaido is split by regional headquarters, e.g. \"北海道（札幌方面）\"."
+    },
+    {
+      "name": "police_station",
+      "type": "string",
+      "description": "Original column: 警察署等名. Name of the police station that handled the accident (in Japanese)."
+    },
+    {
+      "name": "record_number",
+      "type": "string",
+      "description": "Original column: 本票番号. Record number within the police station (string, with leading zeros). Identifies one accident together with statistics_year, prefecture and police_station."
+    },
+    {
+      "name": "accident_severity",
+      "type": "string",
+      "description": "Original column: 事故内容. Whether the accident was fatal (\"死亡事故\") or injury-only (\"負傷事故\")."
+    },
+    {
+      "name": "fatalities",
+      "type": "int16",
+      "description": "Original column: 死者数. Number of people killed (died within 24 hours of the accident)."
+    },
+    {
+      "name": "injuries",
+      "type": "int16",
+      "description": "Original column: 負傷者数. Number of people injured."
+    },
+    {
+      "name": "route_name",
+      "type": "string",
+      "description": "Original column: 路線名. Road route name (national route number, \"一般市町村道\" (municipal road), etc.)."
+    },
+    {
+      "name": "direction",
+      "type": "string",
+      "description": "Original column: 上下線. Up or down carriageway. Null from 2022 onwards."
+    },
+    {
+      "name": "location_code",
+      "type": "string",
+      "description": "Original column: 地点コード. Location code along the route (string)."
+    },
+    {
+      "name": "municipality_code",
+      "type": "string",
+      "description": "Original column: 市区町村コード. National Police Agency municipality code (3-digit string). It is numbered within each prefecture and is not the 5-digit local government code of the Ministry of Internal Affairs and Communications."
+    },
+    {
+      "name": "occurred_at",
+      "type": "timestamp[us, tz=UTC]",
+      "description": "Added column (not in the source). Date and time the accident occurred (Japan Standard Time). Built from the occurred_* columns."
+    },
+    {
+      "name": "occurred_year",
+      "type": "int16",
+      "description": "Original column: 発生日時_年. Year the accident occurred. Use statistics_year for year-on-year trends."
+    },
+    {
+      "name": "occurred_month",
+      "type": "int8",
+      "description": "Original column: 発生日時_月. Month the accident occurred."
+    },
+    {
+      "name": "occurred_day",
+      "type": "int8",
+      "description": "Original column: 発生日時_日. Day of month the accident occurred."
+    },
+    {
+      "name": "occurred_hour",
+      "type": "int8",
+      "description": "Original column: 発生日時_時. Hour the accident occurred (0-23)."
+    },
+    {
+      "name": "occurred_minute",
+      "type": "int8",
+      "description": "Original column: 発生日時_分. Minute the accident occurred (0-59)."
+    },
+    {
+      "name": "day_of_week",
+      "type": "string",
+      "description": "Original column: 曜日(発生年月日). Day of the week of the accident (Japanese, e.g. \"月\" = Monday)."
+    },
+    {
+      "name": "holiday",
+      "type": "string",
+      "description": "Original column: 祝日(発生年月日). Relation of the accident date to a public holiday (\"当日\" = on the holiday, \"前日\" = the day before, \"その他\" = other)."
+    },
+    {
+      "name": "sunrise_hour",
+      "type": "int8",
+      "description": "Original column: 日の出時刻　　時. Hour of sunrise on the day of the accident. Null for 2019-2021."
+    },
+    {
+      "name": "sunrise_minute",
+      "type": "int8",
+      "description": "Original column: 日の出時刻　　分. Minute of sunrise on the day of the accident. Null for 2019-2021."
+    },
+    {
+      "name": "sunset_hour",
+      "type": "int8",
+      "description": "Original column: 日の入り時刻　　時. Hour of sunset on the day of the accident. Null for 2019-2021."
+    },
+    {
+      "name": "sunset_minute",
+      "type": "int8",
+      "description": "Original column: 日の入り時刻　　分. Minute of sunset on the day of the accident. Null for 2019-2021."
+    },
+    {
+      "name": "day_night",
+      "type": "string",
+      "description": "Original column: 昼夜. Day or night, including twilight categories (Japanese labels)."
+    },
+    {
+      "name": "weather",
+      "type": "string",
+      "description": "Original column: 天候. Weather (Japanese labels, e.g. \"晴\" = clear, \"雨\" = rain)."
+    },
+    {
+      "name": "terrain",
+      "type": "string",
+      "description": "Original column: 地形. Area type (Japanese labels, e.g. \"市街地－人口集中\" = urban, densely inhabited district)."
+    },
+    {
+      "name": "road_surface",
+      "type": "string",
+      "description": "Original column: 路面状態. Road surface condition (Japanese labels)."
+    },
+    {
+      "name": "road_shape",
+      "type": "string",
+      "description": "Original column: 道路形状. Road configuration, e.g. intersection or single road section (Japanese labels)."
+    },
+    {
+      "name": "roundabout_diameter",
+      "type": "string",
+      "description": "Original column: 環状交差点の直径. Roundabout diameter class (Japanese labels). Null for 2019-2021."
+    },
+    {
+      "name": "traffic_signal",
+      "type": "string",
+      "description": "Original column: 信号機. Presence and type of traffic signal (Japanese labels)."
+    },
+    {
+      "name": "roadway_width",
+      "type": "string",
+      "description": "Original column: 車道幅員. Roadway width class (Japanese labels). For intersections it describes both crossing roads. Used to identify residential roads (roadway narrower than 5.5 m)."
+    },
+    {
+      "name": "road_alignment",
+      "type": "string",
+      "description": "Original column: 道路線形. Road alignment, e.g. straight/curve and grade (Japanese labels)."
+    },
+    {
+      "name": "collision_location",
+      "type": "string",
+      "description": "Original column: 衝突地点. Where the collision occurred, e.g. road section or within an intersection (Japanese labels)."
+    },
+    {
+      "name": "zone_regulation",
+      "type": "string",
+      "description": "Original column: ゾーン規制. Zone regulation such as \"ゾーン30\" (30 km/h zone) (Japanese labels)."
+    },
+    {
+      "name": "median",
+      "type": "string",
+      "description": "Original column: 中央分離帯施設等. Median or centre-line facility (Japanese labels)."
+    },
+    {
+      "name": "sidewalk_separation",
+      "type": "string",
+      "description": "Original column: 歩車道区分. Separation between sidewalk and roadway (Japanese labels)."
+    },
+    {
+      "name": "accident_type",
+      "type": "string",
+      "description": "Original column: 事故類型. Accident type, e.g. vehicle-pedestrian, vehicle-vehicle rear-end, single vehicle (Japanese labels)."
+    },
+    {
+      "name": "party_a_stop_sign",
+      "type": "string",
+      "description": "Original column: 一時停止規制_標識（当事者A）. Stop sign on party A's approach (Japanese labels)."
+    },
+    {
+      "name": "party_a_stop_marking",
+      "type": "string",
+      "description": "Original column: 一時停止規制_表示（当事者A）. Stop road marking on party A's approach (Japanese labels)."
+    },
+    {
+      "name": "party_a_age_group",
+      "type": "string",
+      "description": "Original column: 年齢（当事者A）. Age group of party A (Japanese labels, e.g. \"0～24歳\"). Not the exact age; the youngest class is 0-24, so teenagers cannot be separated."
+    },
+    {
+      "name": "party_a_type",
+      "type": "string",
+      "description": "Original column: 当事者種別（当事者A）. Type of party A, e.g. passenger car, pedestrian, bicycle (Japanese labels)."
+    },
+    {
+      "name": "party_a_vehicle_use",
+      "type": "string",
+      "description": "Original column: 用途別（当事者A）. Use of party A's vehicle, e.g. private or commercial (Japanese labels)."
+    },
+    {
+      "name": "party_a_vehicle_shape",
+      "type": "string",
+      "description": "Original column: 車両形状（当事者A）. Body shape of party A's vehicle (Japanese labels)."
+    },
+    {
+      "name": "party_a_speed_limit",
+      "type": "string",
+      "description": "Original column: 速度規制（指定のみ）（当事者A）. Posted speed limit on party A's road (Japanese labels). Statutory default limits are not included."
+    },
+    {
+      "name": "party_a_impact_point",
+      "type": "string",
+      "description": "Original column: 車両の衝突部位（当事者A）. Impact points of party A's vehicle (first and second; Japanese labels)."
+    },
+    {
+      "name": "party_a_vehicle_damage",
+      "type": "string",
+      "description": "Original column: 車両の損壊程度（当事者A）. Damage level of party A's vehicle (Japanese labels)."
+    },
+    {
+      "name": "party_a_airbag",
+      "type": "string",
+      "description": "Original column: エアバッグの装備（当事者A）. Airbag fitted and deployed for party A's vehicle (Japanese labels)."
+    },
+    {
+      "name": "party_a_side_airbag",
+      "type": "string",
+      "description": "Original column: サイドエアバッグの装備（当事者A）. Side airbag fitted and deployed for party A's vehicle (Japanese labels)."
+    },
+    {
+      "name": "party_a_injury_severity",
+      "type": "string",
+      "description": "Original column: 人身損傷程度（当事者A）. Injury severity of party A (Japanese labels, e.g. \"死亡\" = killed, \"負傷\" = injured)."
+    },
+    {
+      "name": "party_a_automatic",
+      "type": "string",
+      "description": "Original column: オートマチック車（当事者A）. Whether party A's vehicle is an automatic (Japanese labels). Applies to passenger cars and trucks only. Null for 2019-2021. Converted from the source codes using the official code table."
+    },
+    {
+      "name": "party_a_support_car",
+      "type": "string",
+      "description": "Original column: サポカー（当事者A）. Whether party A's vehicle is a \"Support Car\" with driver-assistance safety features (Japanese labels). Null for 2019-2021. Converted from the source codes using the official code table."
+    },
+    {
+      "name": "party_a_cognitive_test_days",
+      "type": "string",
+      "description": "Original column: 認知機能検査経過日数（当事者A）. Days between party A's cognitive function test and the accident (4-digit string). \"9999\" means no test taken or more than 2,555 days. Null for 2019-2021. Kept as in the source."
+    },
+    {
+      "name": "party_a_driving_practice",
+      "type": "string",
+      "description": "Original column: 運転練習の方法（当事者A）. How party A learned to drive (Japanese labels). Null for 2019-2021. Converted from the source codes using the official code table. \"0\" is not in the code table and is kept as in the source."
+    },
+    {
+      "name": "party_b_stop_sign",
+      "type": "string",
+      "description": "Original column: 一時停止規制_標識（当事者B）. Stop sign on party B's approach (Japanese labels)."
+    },
+    {
+      "name": "party_b_stop_marking",
+      "type": "string",
+      "description": "Original column: 一時停止規制_表示（当事者B）. Stop road marking on party B's approach (Japanese labels)."
+    },
+    {
+      "name": "party_b_age_group",
+      "type": "string",
+      "description": "Original column: 年齢（当事者B）. Age group of party B (Japanese labels, e.g. \"0～24歳\"). Not the exact age; the youngest class is 0-24, so teenagers cannot be separated."
+    },
+    {
+      "name": "party_b_type",
+      "type": "string",
+      "description": "Original column: 当事者種別（当事者B）. Type of party B, e.g. passenger car, pedestrian, bicycle (Japanese labels)."
+    },
+    {
+      "name": "party_b_vehicle_use",
+      "type": "string",
+      "description": "Original column: 用途別（当事者B）. Use of party B's vehicle, e.g. private or commercial (Japanese labels)."
+    },
+    {
+      "name": "party_b_vehicle_shape",
+      "type": "string",
+      "description": "Original column: 車両形状（当事者B）. Body shape of party B's vehicle (Japanese labels)."
+    },
+    {
+      "name": "party_b_speed_limit",
+      "type": "string",
+      "description": "Original column: 速度規制（指定のみ）（当事者B）. Posted speed limit on party B's road (Japanese labels). Statutory default limits are not included."
+    },
+    {
+      "name": "party_b_impact_point",
+      "type": "string",
+      "description": "Original column: 車両の衝突部位（当事者B）. Impact points of party B's vehicle (first and second; Japanese labels)."
+    },
+    {
+      "name": "party_b_vehicle_damage",
+      "type": "string",
+      "description": "Original column: 車両の損壊程度（当事者B）. Damage level of party B's vehicle (Japanese labels)."
+    },
+    {
+      "name": "party_b_airbag",
+      "type": "string",
+      "description": "Original column: エアバッグの装備（当事者B）. Airbag fitted and deployed for party B's vehicle (Japanese labels)."
+    },
+    {
+      "name": "party_b_side_airbag",
+      "type": "string",
+      "description": "Original column: サイドエアバッグの装備（当事者B）. Side airbag fitted and deployed for party B's vehicle (Japanese labels)."
+    },
+    {
+      "name": "party_b_injury_severity",
+      "type": "string",
+      "description": "Original column: 人身損傷程度（当事者B）. Injury severity of party B (Japanese labels, e.g. \"死亡\" = killed, \"負傷\" = injured)."
+    },
+    {
+      "name": "party_b_automatic",
+      "type": "string",
+      "description": "Original column: オートマチック車（当事者B）. Whether party B's vehicle is an automatic (Japanese labels). Applies to passenger cars and trucks only. Null for 2019-2021. Converted from the source codes using the official code table."
+    },
+    {
+      "name": "party_b_support_car",
+      "type": "string",
+      "description": "Original column: サポカー（当事者B）. Whether party B's vehicle is a \"Support Car\" with driver-assistance safety features (Japanese labels). Null for 2019-2021. Converted from the source codes using the official code table."
+    },
+    {
+      "name": "party_b_cognitive_test_days",
+      "type": "string",
+      "description": "Original column: 認知機能検査経過日数（当事者B）. Days between party B's cognitive function test and the accident (4-digit string). \"9999\" means no test taken or more than 2,555 days. Null for 2019-2021. Kept as in the source."
+    },
+    {
+      "name": "party_b_driving_practice",
+      "type": "string",
+      "description": "Original column: 運転練習の方法（当事者B）. How party B learned to drive (Japanese labels). Null for 2019-2021. Converted from the source codes using the official code table. \"0\" is not in the code table and is kept as in the source."
+    },
+    {
+      "name": "bbox",
+      "type": "struct<xmin: double, ymin: double, xmax: double, ymax: double>",
+      "description": "Feature bounding box (xmin, ymin, xmax, ymax). The GeoParquet 1.1 bbox covering column, used to skip row groups in spatial filters."
+    },
+    {
+      "name": "geometry",
+      "type": "binary",
+      "description": "Accident location (point, EPSG:4326). Null where the source coordinates were (0, 0) or outside Japan."
+    }
+  ],
+  "updated": "2026-11-02T07:17:29Z",
+  "title": "Traffic accident statistics (main records)",
+  "extent": {
+    "spatial": {
+      "bbox": [
+        [
+          122.94131194444445,
+          24.28087888888889,
+          145.8030791666667,
+          45.517583055555555
+        ]
+      ]
+    },
+    "temporal": {
+      "interval": [
+        [
+          "2015-12-11T15:00:00Z",
+          "2025-12-31T14:59:59Z"
+        ]
+      ]
+    }
+  },
+  "license": "other",
+  "providers": [
+    {
+      "name": "National Police Agency",
+      "roles": [
+        "producer",
+        "licensor"
+      ],
+      "url": "https://www.npa.go.jp/publications/statistics/koutsuu/opendata/index_opendata.html"
+    },
+    {
+      "name": "shi-works",
+      "roles": [
+        "processor",
+        "host"
+      ],
+      "url": "https://github.com/shiwaku/shi-works-catalog"
+    }
+  ],
+  "assets": {
+    "jp-npa-traffic-accident": {
+      "href": "../../../jp-npa/traffic-accident/jp-npa-traffic-accident.parquet",
+      "type": "application/vnd.apache.parquet",
+      "file:size": 132101286,
+      "file:checksum": "12202806ff7341ecd9a0363379dfea258875f72f66a705532c4ac6cb93ba457057bb",
+      "roles": [
+        "data"
+      ]
+    },
+    "thumbnail": {
+      "href": "../../../jp-npa/traffic-accident/jp-npa-traffic-accident.thumb.jpg",
+      "type": "image/jpeg",
+      "file:size": 5601,
+      "file:checksum": "12207ab1d0fd8b979af16e82d315eeb6acc0adc0f5673fe2d06ee0335c4151a303a9",
+      "roles": [
+        "thumbnail"
+      ]
+    },
+    "documentation": {
+      "href": "./README.md",
+      "type": "text/markdown",
+      "file:size": 17471,
+      "file:checksum": "12205f76219d776219acdeaeb4a5b7ae384903d366011bd2482091b0ef5850655e3e",
+      "roles": [
+        "documentation"
+      ]
+    }
+  },
+  "keywords": [
+    "transport",
+    "traffic accident",
+    "injury accident",
+    "Japan",
+    "nationwide",
+    "National Police Agency",
+    "NPA"
+  ],
+  "language": {
+    "code": "en",
+    "name": "English"
+  },
+  "languages": [
+    {
+      "code": "ja",
+      "name": "日本語",
+      "alternate": "Japanese"
+    }
+  ]
+}

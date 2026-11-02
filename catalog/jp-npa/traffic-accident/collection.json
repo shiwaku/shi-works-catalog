@@ -1,0 +1,511 @@
+{
+  "type": "Collection",
+  "id": "jp-npa/traffic-accident",
+  "stac_version": "1.1.0",
+  "description": "警察庁の交通事故統計情報のオープンデータのうち、本票（人身事故1件ごとの記録）の2019〜2025年分、2,182,298件。発生地点の点と、日時・道路・当事者などの74項目を持つ。",
+  "links": [
+    {
+      "rel": "root",
+      "href": "../../catalog.json",
+      "type": "application/json",
+      "title": "shi-works catalog"
+    },
+    {
+      "rel": "parent",
+      "href": "../catalog.json",
+      "type": "application/json",
+      "title": "Jp Npa"
+    },
+    {
+      "rel": "agents",
+      "href": "./AGENTS.md",
+      "type": "text/markdown",
+      "title": "Agent/LLM usage guide"
+    },
+    {
+      "rel": "describedby",
+      "href": "./README.md",
+      "type": "text/markdown",
+      "title": "Human-readable documentation"
+    },
+    {
+      "rel": "license",
+      "href": "https://www.npa.go.jp/rules/index.html",
+      "title": "License"
+    },
+    {
+      "rel": "via",
+      "href": "https://www.npa.go.jp/publications/statistics/koutsuu/opendata/index_opendata.html",
+      "type": "text/html",
+      "title": "Original source"
+    },
+    {
+      "rel": "alternate",
+      "href": "../../en/jp-npa/traffic-accident/collection.json",
+      "type": "application/json",
+      "hreflang": "en",
+      "title": "English"
+    }
+  ],
+  "stac_extensions": [
+    "https://stac-extensions.github.io/table/v1.2.0/schema.json",
+    "https://stac-extensions.github.io/file/v2.1.0/schema.json",
+    "https://schemas.portolan-sdi.org/portolan/v0.2.0/schema.json",
+    "https://stac-extensions.github.io/language/v1.0.0/schema.json"
+  ],
+  "geoparquet:geometry_type": "Point",
+  "geoparquet:feature_count": 2182298,
+  "table:row_count": 2182298,
+  "table:primary_geometry": "geometry",
+  "table:columns": [
+    {
+      "name": "statistics_year",
+      "type": "int16",
+      "description": "元の列名: 資料年次。統計に計上された年。警察庁の公表件数と合わせるときはこの年で数える。年末に起きた事故の一部は翌年に計上されるので、事故が起きた年（occurred_year）とは一致しない。"
+    },
+    {
+      "name": "record_type",
+      "type": "string",
+      "description": "元の列名: 資料区分。資料の区分。このデータはすべて「本票」。"
+    },
+    {
+      "name": "prefecture",
+      "type": "string",
+      "description": "元の列名: 都道府県名。事故を扱った都道府県警察の名前。北海道は方面本部ごと（「北海道（札幌方面）」など）に分かれる。"
+    },
+    {
+      "name": "police_station",
+      "type": "string",
+      "description": "元の列名: 警察署等名。事故を扱った警察署などの名前。"
+    },
+    {
+      "name": "record_number",
+      "type": "string",
+      "description": "元の列名: 本票番号。警察署ごとの本票の番号（文字列、先頭の0を含む）。統計に計上された年・都道府県・警察署と組み合わせて1件を表す。"
+    },
+    {
+      "name": "accident_severity",
+      "type": "string",
+      "description": "元の列名: 事故内容。死亡事故か負傷事故か。"
+    },
+    {
+      "name": "fatalities",
+      "type": "int16",
+      "description": "元の列名: 死者数。死者の数（人）。事故から24時間以内に亡くなった人。"
+    },
+    {
+      "name": "injuries",
+      "type": "int16",
+      "description": "元の列名: 負傷者数。負傷者の数（人）。"
+    },
+    {
+      "name": "route_name",
+      "type": "string",
+      "description": "元の列名: 路線名。路線の名前（国道の番号、「一般市町村道」など）。"
+    },
+    {
+      "name": "direction",
+      "type": "string",
+      "description": "元の列名: 上下線。上り線か下り線か。2022年以降は空。"
+    },
+    {
+      "name": "location_code",
+      "type": "string",
+      "description": "元の列名: 地点コード。路線の中の地点のコード（文字列）。"
+    },
+    {
+      "name": "municipality_code",
+      "type": "string",
+      "description": "元の列名: 市区町村コード。警察庁の市区町村コード（3桁の文字列）。都道府県の中での番号で、総務省の全国地方公共団体コード（5桁）とは違う。"
+    },
+    {
+      "name": "occurred_at",
+      "type": "timestamp[us, tz=UTC]",
+      "description": "元データにない、足した列。事故が起きた日時（日本時間）。発生日時の年・月・日・時・分から作った列。"
+    },
+    {
+      "name": "occurred_year",
+      "type": "int16",
+      "description": "元の列名: 発生日時_年。事故が起きた年。経年の推移には statistics_year を使う。"
+    },
+    {
+      "name": "occurred_month",
+      "type": "int8",
+      "description": "元の列名: 発生日時_月。事故が起きた月。"
+    },
+    {
+      "name": "occurred_day",
+      "type": "int8",
+      "description": "元の列名: 発生日時_日。事故が起きた日。"
+    },
+    {
+      "name": "occurred_hour",
+      "type": "int8",
+      "description": "元の列名: 発生日時_時。事故が起きた時（0〜23）。"
+    },
+    {
+      "name": "occurred_minute",
+      "type": "int8",
+      "description": "元の列名: 発生日時_分。事故が起きた分（0〜59）。"
+    },
+    {
+      "name": "day_of_week",
+      "type": "string",
+      "description": "元の列名: 曜日(発生年月日)。事故が起きた日の曜日（「月」など）。"
+    },
+    {
+      "name": "holiday",
+      "type": "string",
+      "description": "元の列名: 祝日(発生年月日)。事故が起きた日と祝日の関係（「当日」「前日」「その他」）。"
+    },
+    {
+      "name": "sunrise_hour",
+      "type": "int8",
+      "description": "元の列名: 日の出時刻　　時。事故が起きた日の日の出の時。2019〜2021年は空。"
+    },
+    {
+      "name": "sunrise_minute",
+      "type": "int8",
+      "description": "元の列名: 日の出時刻　　分。事故が起きた日の日の出の分。2019〜2021年は空。"
+    },
+    {
+      "name": "sunset_hour",
+      "type": "int8",
+      "description": "元の列名: 日の入り時刻　　時。事故が起きた日の日の入りの時。2019〜2021年は空。"
+    },
+    {
+      "name": "sunset_minute",
+      "type": "int8",
+      "description": "元の列名: 日の入り時刻　　分。事故が起きた日の日の入りの分。2019〜2021年は空。"
+    },
+    {
+      "name": "day_night",
+      "type": "string",
+      "description": "元の列名: 昼夜。昼か夜か（「昼－明」「夜－夜」など、日の出・日の入りとの関係を含む）。"
+    },
+    {
+      "name": "weather",
+      "type": "string",
+      "description": "元の列名: 天候。天候（「晴」「曇」「雨」など）。"
+    },
+    {
+      "name": "terrain",
+      "type": "string",
+      "description": "元の列名: 地形。地形（「市街地－人口集中」など）。"
+    },
+    {
+      "name": "road_surface",
+      "type": "string",
+      "description": "元の列名: 路面状態。路面の状態（「舗装－乾燥」など）。"
+    },
+    {
+      "name": "road_shape",
+      "type": "string",
+      "description": "元の列名: 道路形状。道路の形状（「交差点－その他」「単路－カーブ」など）。"
+    },
+    {
+      "name": "roundabout_diameter",
+      "type": "string",
+      "description": "元の列名: 環状交差点の直径。環状交差点の直径の区分。環状交差点でないときは「環状交差点以外」など。2019〜2021年は空。"
+    },
+    {
+      "name": "traffic_signal",
+      "type": "string",
+      "description": "元の列名: 信号機。信号機の有無と種類（「点灯－３灯式」「信号機なし」など）。"
+    },
+    {
+      "name": "roadway_width",
+      "type": "string",
+      "description": "元の列名: 車道幅員。車道の幅の区分（「単路－3.5m未満」「交差点－中（5.5m以上）－中」など）。交差点では交わる2本の道の幅を表す。生活道路（車道幅員5.5m未満）の判定に使う。"
+    },
+    {
+      "name": "road_alignment",
+      "type": "string",
+      "description": "元の列名: 道路線形。道路の線形（「直線－平坦」「カーブ・屈折－右－上り」など）。"
+    },
+    {
+      "name": "collision_location",
+      "type": "string",
+      "description": "元の列名: 衝突地点。衝突した地点（「単路」「交差点内」など）。"
+    },
+    {
+      "name": "zone_regulation",
+      "type": "string",
+      "description": "元の列名: ゾーン規制。ゾーン規制（「ゾーン30」「規制なし」など）。"
+    },
+    {
+      "name": "median",
+      "type": "string",
+      "description": "元の列名: 中央分離帯施設等。中央分離帯などの施設（「中央線－ペイント」など）。"
+    },
+    {
+      "name": "sidewalk_separation",
+      "type": "string",
+      "description": "元の列名: 歩車道区分。歩道と車道の区分（「区分あり－縁石・ブロック等」など）。"
+    },
+    {
+      "name": "accident_type",
+      "type": "string",
+      "description": "元の列名: 事故類型。事故の類型（「人対車両－横断中」「車両相互－追突」「車両単独」など）。"
+    },
+    {
+      "name": "party_a_stop_sign",
+      "type": "string",
+      "description": "元の列名: 一時停止規制_標識（当事者A）。当事者A側の一時停止の標識。"
+    },
+    {
+      "name": "party_a_stop_marking",
+      "type": "string",
+      "description": "元の列名: 一時停止規制_表示（当事者A）。当事者A側の一時停止の表示（路面の標示）。"
+    },
+    {
+      "name": "party_a_age_group",
+      "type": "string",
+      "description": "元の列名: 年齢（当事者A）。当事者Aの年齢層（「0～24歳」「25～34歳」など）。実年齢ではない。最も若い区分が0〜24歳なので、10代・20代では数えられない。"
+    },
+    {
+      "name": "party_a_type",
+      "type": "string",
+      "description": "元の列名: 当事者種別（当事者A）。当事者Aの種別（「乗用車－普通車」「歩行者」「自転車」など）。"
+    },
+    {
+      "name": "party_a_vehicle_use",
+      "type": "string",
+      "description": "元の列名: 用途別（当事者A）。当事者Aの車両の用途（「自家用」「事業用」など）。"
+    },
+    {
+      "name": "party_a_vehicle_shape",
+      "type": "string",
+      "description": "元の列名: 車両形状（当事者A）。当事者Aの車両の形状。"
+    },
+    {
+      "name": "party_a_speed_limit",
+      "type": "string",
+      "description": "元の列名: 速度規制（指定のみ）（当事者A）。当事者A側の指定速度規制（「30㎞／ｈ以下」など）。法定速度は含まない。"
+    },
+    {
+      "name": "party_a_impact_point",
+      "type": "string",
+      "description": "元の列名: 車両の衝突部位（当事者A）。当事者Aの車両の衝突部位（「前-無」など。最初と2番目の衝突部位）。"
+    },
+    {
+      "name": "party_a_vehicle_damage",
+      "type": "string",
+      "description": "元の列名: 車両の損壊程度（当事者A）。当事者Aの車両の損壊の程度（「大破」「中破」「小破」など）。"
+    },
+    {
+      "name": "party_a_airbag",
+      "type": "string",
+      "description": "元の列名: エアバッグの装備（当事者A）。当事者Aの車両のエアバッグの装備と作動。"
+    },
+    {
+      "name": "party_a_side_airbag",
+      "type": "string",
+      "description": "元の列名: サイドエアバッグの装備（当事者A）。当事者Aの車両のサイドエアバッグの装備と作動。"
+    },
+    {
+      "name": "party_a_injury_severity",
+      "type": "string",
+      "description": "元の列名: 人身損傷程度（当事者A）。当事者Aの人身の損傷の程度（「死亡」「負傷」「損傷なし」「対象外当事者」）。"
+    },
+    {
+      "name": "party_a_automatic",
+      "type": "string",
+      "description": "元の列名: オートマチック車（当事者A）。当事者Aの車両がオートマチック車か（「オートマチック車」「その他」「対象外当事者」）。乗用車・貨物車だけが対象。2019〜2021年は空。元データのコードを警察庁のコード表でラベルにした。"
+    },
+    {
+      "name": "party_a_support_car",
+      "type": "string",
+      "description": "元の列名: サポカー（当事者A）。当事者Aの車両がサポカー（安全運転サポート車）か（「サポカー」「その他の車」「対象外当事者」）。2019〜2021年は空。元データのコードを警察庁のコード表でラベルにした。"
+    },
+    {
+      "name": "party_a_cognitive_test_days",
+      "type": "string",
+      "description": "元の列名: 認知機能検査経過日数（当事者A）。当事者Aが認知機能検査を受けてから事故までの日数（4桁の文字列）。「9999」は受けていないか2,555日を超えるもの。2019〜2021年は空。元データのまま。"
+    },
+    {
+      "name": "party_a_driving_practice",
+      "type": "string",
+      "description": "元の列名: 運転練習の方法（当事者A）。当事者Aの運転練習の方法（「一般（指定自動車教習所）」など）。2019〜2021年は空。元データのコードを警察庁のコード表でラベルにした。「0」はコード表にない値で、元データのまま残した。"
+    },
+    {
+      "name": "party_b_stop_sign",
+      "type": "string",
+      "description": "元の列名: 一時停止規制_標識（当事者B）。当事者B側の一時停止の標識。"
+    },
+    {
+      "name": "party_b_stop_marking",
+      "type": "string",
+      "description": "元の列名: 一時停止規制_表示（当事者B）。当事者B側の一時停止の表示（路面の標示）。"
+    },
+    {
+      "name": "party_b_age_group",
+      "type": "string",
+      "description": "元の列名: 年齢（当事者B）。当事者Bの年齢層（「0～24歳」「25～34歳」など）。実年齢ではない。最も若い区分が0〜24歳なので、10代・20代では数えられない。"
+    },
+    {
+      "name": "party_b_type",
+      "type": "string",
+      "description": "元の列名: 当事者種別（当事者B）。当事者Bの種別（「乗用車－普通車」「歩行者」「自転車」など）。"
+    },
+    {
+      "name": "party_b_vehicle_use",
+      "type": "string",
+      "description": "元の列名: 用途別（当事者B）。当事者Bの車両の用途（「自家用」「事業用」など）。"
+    },
+    {
+      "name": "party_b_vehicle_shape",
+      "type": "string",
+      "description": "元の列名: 車両形状（当事者B）。当事者Bの車両の形状。"
+    },
+    {
+      "name": "party_b_speed_limit",
+      "type": "string",
+      "description": "元の列名: 速度規制（指定のみ）（当事者B）。当事者B側の指定速度規制（「30㎞／ｈ以下」など）。法定速度は含まない。"
+    },
+    {
+      "name": "party_b_impact_point",
+      "type": "string",
+      "description": "元の列名: 車両の衝突部位（当事者B）。当事者Bの車両の衝突部位（「前-無」など。最初と2番目の衝突部位）。"
+    },
+    {
+      "name": "party_b_vehicle_damage",
+      "type": "string",
+      "description": "元の列名: 車両の損壊程度（当事者B）。当事者Bの車両の損壊の程度（「大破」「中破」「小破」など）。"
+    },
+    {
+      "name": "party_b_airbag",
+      "type": "string",
+      "description": "元の列名: エアバッグの装備（当事者B）。当事者Bの車両のエアバッグの装備と作動。"
+    },
+    {
+      "name": "party_b_side_airbag",
+      "type": "string",
+      "description": "元の列名: サイドエアバッグの装備（当事者B）。当事者Bの車両のサイドエアバッグの装備と作動。"
+    },
+    {
+      "name": "party_b_injury_severity",
+      "type": "string",
+      "description": "元の列名: 人身損傷程度（当事者B）。当事者Bの人身の損傷の程度（「死亡」「負傷」「損傷なし」「対象外当事者」）。"
+    },
+    {
+      "name": "party_b_automatic",
+      "type": "string",
+      "description": "元の列名: オートマチック車（当事者B）。当事者Bの車両がオートマチック車か（「オートマチック車」「その他」「対象外当事者」）。乗用車・貨物車だけが対象。2019〜2021年は空。元データのコードを警察庁のコード表でラベルにした。"
+    },
+    {
+      "name": "party_b_support_car",
+      "type": "string",
+      "description": "元の列名: サポカー（当事者B）。当事者Bの車両がサポカー（安全運転サポート車）か（「サポカー」「その他の車」「対象外当事者」）。2019〜2021年は空。元データのコードを警察庁のコード表でラベルにした。"
+    },
+    {
+      "name": "party_b_cognitive_test_days",
+      "type": "string",
+      "description": "元の列名: 認知機能検査経過日数（当事者B）。当事者Bが認知機能検査を受けてから事故までの日数（4桁の文字列）。「9999」は受けていないか2,555日を超えるもの。2019〜2021年は空。元データのまま。"
+    },
+    {
+      "name": "party_b_driving_practice",
+      "type": "string",
+      "description": "元の列名: 運転練習の方法（当事者B）。当事者Bの運転練習の方法（「一般（指定自動車教習所）」など）。2019〜2021年は空。元データのコードを警察庁のコード表でラベルにした。「0」はコード表にない値で、元データのまま残した。"
+    },
+    {
+      "name": "bbox",
+      "type": "struct<xmin: double, ymin: double, xmax: double, ymax: double>",
+      "description": "地物の範囲（xmin、ymin、xmax、ymax）。GeoParquet 1.1 の bbox 列で、範囲で絞るときに行グループを読み飛ばすのに使う。"
+    },
+    {
+      "name": "geometry",
+      "type": "binary",
+      "description": "事故の発生地点（点、EPSG:4326）。座標が日本の外か (0, 0) だった行は空。"
+    }
+  ],
+  "updated": "2026-11-02T07:17:29Z",
+  "title": "交通事故統計（本票）",
+  "extent": {
+    "spatial": {
+      "bbox": [
+        [
+          122.94131194444445,
+          24.28087888888889,
+          145.8030791666667,
+          45.517583055555555
+        ]
+      ]
+    },
+    "temporal": {
+      "interval": [
+        [
+          "2015-12-11T15:00:00Z",
+          "2025-12-31T14:59:59Z"
+        ]
+      ]
+    }
+  },
+  "license": "other",
+  "providers": [
+    {
+      "name": "警察庁",
+      "roles": [
+        "producer",
+        "licensor"
+      ],
+      "url": "https://www.npa.go.jp/publications/statistics/koutsuu/opendata/index_opendata.html"
+    },
+    {
+      "name": "shi-works",
+      "roles": [
+        "processor",
+        "host"
+      ],
+      "url": "https://github.com/shiwaku/shi-works-catalog"
+    }
+  ],
+  "assets": {
+    "jp-npa-traffic-accident": {
+      "href": "./jp-npa-traffic-accident.parquet",
+      "type": "application/vnd.apache.parquet",
+      "file:size": 132101286,
+      "file:checksum": "12202806ff7341ecd9a0363379dfea258875f72f66a705532c4ac6cb93ba457057bb",
+      "roles": [
+        "data"
+      ]
+    },
+    "thumbnail": {
+      "href": "./jp-npa-traffic-accident.thumb.jpg",
+      "type": "image/jpeg",
+      "file:size": 5601,
+      "file:checksum": "12207ab1d0fd8b979af16e82d315eeb6acc0adc0f5673fe2d06ee0335c4151a303a9",
+      "roles": [
+        "thumbnail"
+      ]
+    },
+    "documentation": {
+      "href": "./README.md",
+      "type": "text/markdown",
+      "file:size": 18614,
+      "file:checksum": "12203200a3288547b506634a58d43da99f470885ed3bd41678744e6c63c826cdc8d9",
+      "roles": [
+        "documentation"
+      ]
+    }
+  },
+  "keywords": [
+    "交通",
+    "交通事故",
+    "人身事故",
+    "日本",
+    "全国",
+    "警察庁"
+  ],
+  "language": {
+    "code": "ja",
+    "name": "日本語",
+    "alternate": "Japanese"
+  },
+  "languages": [
+    {
+      "code": "en",
+      "name": "English"
+    }
+  ]
+}

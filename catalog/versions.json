@@ -2,5 +2,13 @@
   "schema_version": "1.0.0",
   "catalog_id": "shi-works",
   "created": "2026-10-31T13:08:44.875153+00:00",
-  "collections": {}
+  "collections": {
+    "jp-npa/traffic-accident": {
+      "current_version": "1.0.1",
+      "updated": "2026-11-02T07:17:29.497145+00:00",
+      "asset_count": 3,
+      "total_size_bytes": 132110172
+    }
+  },
+  "updated": "2026-11-02T07:17:29.497145+00:00"
 }

@@ -1,6 +1,6 @@
 # メタデータの整備方針
 
-最終更新: 2026-11-02（案。#12）
+最終更新: 2026-11-02（#12。作り方は #19 で確かめて書き足した）
 
 メタデータの整備が、この仕組みの肝になる。portolan-cli が自動で作るのは、列の名前と型、範囲、統計値くらいで、データの意味は人が書く。この文書は、コレクションごとに何を、どこに、どの言語で書くかを決める。
 
@@ -52,7 +52,7 @@ catalog/
 - **両方の言語で同じにするもの:** コレクション ID、アセットのキー、列名、スタイルのレイヤー ID、座標参照系、ライセンスの識別子。
 - **翻訳するもの:** タイトル、説明、キーワード、列の説明、README.md。提供元の名前は、それぞれの言語の正式名にする（警察庁 / National Police Agency）。
 - **AGENTS.md は日本語だけで書く。** Portolan では原語のままでよい。英語の木にも AGENTS.md は必要（PTL-FIL-001）なので、日本語のものを置き、`agents` リンクに `hreflang: "ja"` を付ける。
-- **英語版は日本語版から作る。** 直すときは日本語版を先に直し、同じ PR で英語版を更新する。英語版を直接直さない。portolan-cli には言語版を作る機能がないので、作るスクリプトをこのリポジトリに置く（作り方は #19 で決める）。
+- **英語版は日本語版から作る。** 直すときは日本語版を先に直し、同じ PR で英語版を更新する。英語版を直接直さない。portolan-cli には言語版を作る機能がないので、[`scripts/finalize_metadata.py`](../scripts/finalize_metadata.py) で作る。英語の文言は [`scripts/i18n/en.yaml`](../scripts/i18n/en.yaml)（タイトル、説明、キーワード、提供元の名前）と、コレクションごとの `columns.yaml`（列の説明）に置く。README.md は英語版を `en/` に手で書く。
 - **用語集をルートの AGENTS.md に置く。** 訳語がぶれると検索と意味が崩れるため。例: 交通事故 / traffic accident、人身事故 / injury accident、当事者 / party、生活道路 / residential road。
 
 ## 3. コレクションごとに書く項目
@@ -74,7 +74,13 @@ catalog/
 | 加工の記録 | README（要約）、AGENTS.md（コマンド） | 元データから何をしたか（列名の変更、型、不正な座標の扱いなど） |
 | 使い方の例 | README（1つ）、AGENTS.md（いくつか） | 公開 URL を使った、そのまま動く DuckDB のクエリ。載せる前に実行して確かめる |
 
-- `title`、`description`、`providers`、`license`、`keywords` などは `.portolan/metadata.yaml` に書き、portolan-cli に `collection.json` を作らせる。portolan-cli の項目にないもの（`via` のリンク、Language 拡張など）は、作ったあとにスクリプトで足す（#19 で確かめる）。
+- `title`、`description`、`providers`、`license`、`keywords` などは `.portolan/metadata.yaml` に書き、portolan-cli に `collection.json` を作らせる。portolan-cli の項目にないものは、作ったあとに `scripts/finalize_metadata.py` で足す。#19 で確かめた portolan-cli 0.8.0 の振る舞い:
+  - `collection.json` に書くもの: `title`、`description`、`providers`、`license`（`other` なら `license_url` から `rel: "license"` のリンク）、`source_url` から `via` のリンク
+  - 書かないもの（スクリプトで足す）: `keywords`、`defaults.temporal`（Item にしか使わず、コレクションの `extent.temporal` は空のまま）、列の説明、Language 拡張、`alternate` のリンク
+  - README.md と AGENTS.md は、既にあれば上書きしない。手で書いたものがそのまま残る
+  - metadata.yaml を直しただけでは反映されない。`portolan add <ファイル> --force` で作り直す
+  - サムネイルは `<ファイル名>.thumb.jpg` で作られ、PTL-VIZ-001 はこれで通る（第1章の `thumbnail.png` でなくてよい）
+- 作る順番: `portolan add --force` → `python scripts/finalize_metadata.py` → `portolan check --strict`。
 - 変更はすべて PR で確かめる。
 
 ## 4. 提供元（providers）

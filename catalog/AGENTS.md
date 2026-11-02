@@ -1,19 +1,31 @@
 # AGENTS.md — shi-works catalog
 
-Guidance for AI agents and LLMs working with this catalog. This file supplements the README with practical, agent-oriented notes. Replace the prompts below with real content; delete anything that does not apply.
+shi-works.com の地理空間データのカタログ。エージェント向けの手引き。
 
-## Overview
+## 構成
 
-<!-- What this catalog publishes and how it is organized. -->
+- `catalog.json` → 管理者のカタログ（`<管理者>/catalog.json`）→ コレクション（`<管理者>/<コレクション>/collection.json`）の2段。
+- 日本語が正本。英語版は `en/` に同じ形の木で置き、データは日本語の木のファイルを指す。
+- データの URL は `https://catalog.shi-works.com/<管理者>/<コレクション>/<管理者>-<コレクション>.<拡張子>`。ベクタは GeoParquet 1.1（EPSG:4326、Hilbert 曲線の順、bbox 列あり）。
+- コレクションごとの AGENTS.md に、落とし穴と集計の例がある。使う前に読むこと。
 
-## Collections
+## コレクション
 
-<!-- Brief description of each collection, with pointers to their AGENTS.md. -->
+- `jp-npa/traffic-accident`: 交通事故統計（本票）。警察庁。人身事故1件ごとの点
 
-## Data access patterns
+## 用語集
 
-<!-- Base URLs / object-store paths, CRS conventions, and code examples. -->
+日英で訳語をそろえるための一覧。英語版のメタデータはこれに従う。
 
-## License
-
-<!-- License information for the catalog's data. -->
+| 日本語 | 英語 |
+|---|---|
+| 交通事故 | traffic accident |
+| 人身事故 | injury accident |
+| 物損事故 | property-damage-only accident |
+| 死亡事故 | fatal accident |
+| 本票 | main record |
+| 当事者 | party |
+| 生活道路 | residential road |
+| 車道幅員 | roadway width |
+| 統計に計上された年 | statistics year |
+| 警察庁 | National Police Agency (NPA) |

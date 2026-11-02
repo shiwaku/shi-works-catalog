@@ -1,0 +1,2 @@
+# カタログのファイルは LF のまま置く（collection.json の README のチェックサムを Windows でも合わせるため）
+catalog/** text=auto eol=lf

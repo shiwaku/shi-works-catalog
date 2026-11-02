@@ -1,0 +1,27 @@
+# 英語版の文言（docs/metadata.md 第2章）
+#
+# 日本語の木（catalog/）の STAC ファイルごとに、英語に置き換える項目を書く。
+# キーは catalog/ からのパス。列の説明は scripts/<コレクション>/columns.yaml の en にある。
+# 訳語はルートの AGENTS.md の用語集に従う。
+
+catalog.json:
+  title: "shi-works catalog"
+  description: "Catalog of geospatial data served by shi-works.com"
+
+jp-npa/catalog.json:
+  title: "National Police Agency"
+  description: "Data published by the National Police Agency (NPA) of Japan."
+
+jp-npa/traffic-accident/collection.json:
+  title: "Traffic accident statistics (main records)"
+  description: "Main records (one record per injury accident) of the National Police Agency's open traffic accident statistics, 2019-2025, 2,182,298 accidents. Each record has the accident location as a point and 74 attributes on time, road and parties involved."
+  keywords:
+    - "transport"
+    - "traffic accident"
+    - "injury accident"
+    - "Japan"
+    - "nationwide"
+    - "National Police Agency"
+    - "NPA"
+  providers:
+    "警察庁": "National Police Agency"
