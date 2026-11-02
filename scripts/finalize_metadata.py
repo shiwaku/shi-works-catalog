@@ -60,7 +60,9 @@ def read_json(path: Path) -> dict:
 
 def write_json(path: Path, data: dict) -> None:
     path.parent.mkdir(parents=True, exist_ok=True)
-    path.write_text(json.dumps(data, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+    # LF で書く。Windows の既定の CRLF だと、git の LF 固定（.gitattributes）と
+    # README のチェックサムが食い違う
+    path.write_text(json.dumps(data, ensure_ascii=False, indent=2) + "\n", encoding="utf-8", newline="\n")
 
 
 def rel(target: Path, start_dir: Path) -> str:
@@ -154,7 +156,7 @@ def fill_readme_columns(readme: Path, doc: dict, descs: dict, lang: str) -> None
     table = "\n".join(rows)
     before, rest = text.split(start, 1)
     _, after = rest.split(end, 1)
-    readme.write_text(f"{before}{start}\n{table}\n{end}{after}", encoding="utf-8")
+    readme.write_text(f"{before}{start}\n{table}\n{end}{after}", encoding="utf-8", newline="\n")
 
 
 def refresh_doc_asset(doc: dict, directory: Path) -> None:
