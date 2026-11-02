@@ -1,6 +1,6 @@
 # shi-works への Portolan 導入 要件定義
 
-最終更新: 2026-11-01（たたき台）
+最終更新: 2026-11-02（たたき台）
 
 ## 0. 前提
 
@@ -45,7 +45,7 @@
 
 共通の要件: 正本とは別に、README.md、AGENTS.md、サムネイル、ライセンス、出典（providers）を付ける。
 
-**メタデータは日英併記にする**（title、description、README.md、AGENTS.md、列の説明）。書き方の細部は #12 で決める。
+**メタデータは日本語と英語の両方で書く。** 日本語を正本にし、英語版は `en/` に別の木として置く（Portolan の推奨。2026-11-02、#12）。書く項目と書き方は [metadata.md](metadata.md)。GeoParquet の作り方は [geoparquet.md](geoparquet.md)（#9）。
 
 表示用は、事前に作ったファイルを置くのではなく、第4章の方式②（Worker でリクエストのたびに作る）で配ることを基本にする。表の「表示用」は、カタログから指す先の形式を表す。
 
@@ -157,7 +157,7 @@ s3://shi-works-catalog/          → https://catalog.shi-works.com/catalog.json
 ## 10. 未決事項
 
 1. ~~カタログの置き場所と、下位カタログの分け方~~ → 専用バケット `shi-works-catalog`（`catalog.shi-works.com`）と、管理者別に決定（第6章）。残っているのは、[catalog-structure.md](catalog-structure.md) の要確認の項目
-2. 第1段階で入れる新しいデータセット
+2. ~~第1段階で入れる新しいデータセット~~ → 交通事故統計（警察庁の本票、2019〜2025年）を1ファイルの GeoParquet で載せる（2026-11-02、#19）
 3. PMTiles を tippecanoe と tylertoo のどちらで作るか
 4. CORS の変更手順を cloudflare-infra の runbook として残すか
 5. ~~既存データを参照で載せるかコピーで載せるか~~ → コピーしてから削除すると決定（第5章）。削除の条件は #7
