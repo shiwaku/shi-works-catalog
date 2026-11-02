@@ -1,0 +1,63 @@
+{
+  "spec_version": "1.0.0",
+  "current_version": "1.0.1",
+  "versions": [
+    {
+      "version": "1.0.0",
+      "created": "2026-11-02T07:15:50.132022Z",
+      "breaking": false,
+      "assets": {
+        "jp-npa-traffic-accident.parquet": {
+          "sha256": "2806ff7341ecd9a0363379dfea258875f72f66a705532c4ac6cb93ba457057bb",
+          "size_bytes": 132101286,
+          "href": "jp-npa/traffic-accident/jp-npa-traffic-accident.parquet",
+          "source_mtime": 1793603749.558772,
+          "mtime": 1793603749.558772,
+          "feature_count": 2182298,
+          "schema_fingerprint": "b1cc9f207e0951e0"
+        },
+        "jp-npa-traffic-accident.thumb.jpg": {
+          "sha256": "7ab1d0fd8b979af16e82d315eeb6acc0adc0f5673fe2d06ee0335c4151a303a9",
+          "size_bytes": 5601,
+          "href": "jp-npa/traffic-accident/jp-npa-traffic-accident.thumb.jpg",
+          "mtime": 1793603754.0355043
+        }
+      },
+      "changes": [
+        "jp-npa-traffic-accident.parquet",
+        "jp-npa-traffic-accident.thumb.jpg"
+      ]
+    },
+    {
+      "version": "1.0.1",
+      "created": "2026-11-02T07:17:29.497145Z",
+      "breaking": false,
+      "assets": {
+        "jp-npa-traffic-accident.parquet": {
+          "sha256": "2806ff7341ecd9a0363379dfea258875f72f66a705532c4ac6cb93ba457057bb",
+          "size_bytes": 132101286,
+          "href": "jp-npa/traffic-accident/jp-npa-traffic-accident.parquet",
+          "source_mtime": 1793603749.558772,
+          "mtime": 1793603749.558772,
+          "feature_count": 2182298,
+          "schema_fingerprint": "b1cc9f207e0951e0"
+        },
+        "jp-npa-traffic-accident.thumb.jpg": {
+          "sha256": "7ab1d0fd8b979af16e82d315eeb6acc0adc0f5673fe2d06ee0335c4151a303a9",
+          "size_bytes": 5601,
+          "href": "jp-npa/traffic-accident/jp-npa-traffic-accident.thumb.jpg",
+          "mtime": 1793603754.0355043
+        },
+        "README.md": {
+          "sha256": "e8753fa704abed3510011500d50ad123811a11e7f63bfd04ec48a9a159cd04ec",
+          "size_bytes": 3285,
+          "href": "jp-npa/traffic-accident/README.md",
+          "mtime": 1793603750.182834
+        }
+      },
+      "changes": [
+        "README.md"
+      ]
+    }
+  ]
+}
