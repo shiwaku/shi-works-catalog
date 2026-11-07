@@ -17,7 +17,8 @@ providers:
 
 source_url: "https://www.npa.go.jp/publications/statistics/koutsuu/opendata/index_opendata.html"
 
-attribution: "出典: 警察庁「交通事故統計情報のオープンデータ」を加工して作成"
+# 出典の表示。警察庁の利用規約の「加工して作成」の書き方に合わせる（docs/license.md 第3章）
+attribution: "「交通事故統計情報のオープンデータ」（警察庁）を加工して作成"
 
 keywords:
   - "交通"

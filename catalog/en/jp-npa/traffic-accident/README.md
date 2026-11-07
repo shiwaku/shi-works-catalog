@@ -142,14 +142,16 @@ Not suitable for:
 
 ## License and source
 
-License: The [National Police Agency's terms of use](https://www.npa.go.jp/rules/index.html), based on the Public Data License (Version 1.0) (PDL1.0). You may copy, modify and redistribute the data if you credit the source and state that it has been modified. You may not use it in a way that suggests it was produced by the government.
+License: The [National Police Agency's terms of use](https://www.npa.go.jp/rules/index.html), based on the Public Data License (Version 1.0) (PDL1.0). You may copy, modify and redistribute the data if you credit the source and state that it has been modified. You may not use it in a way that suggests it was produced by the government. PDL1.0 is compatible with CC BY 4.0 (section 1.7.3 of PDL1.0).
 
-Source: National Police Agency, "[Open data of traffic accident statistics](https://www.npa.go.jp/publications/statistics/koutsuu/opendata/index_opendata.html)" (main records, 2019-2025), modified
+Source: "[Open data of traffic accident statistics](https://www.npa.go.jp/publications/statistics/koutsuu/opendata/index_opendata.html)" (National Police Agency) (main records, 2019-2025), modified
 
-When showing the data on maps or in documents, credit it as:
+When showing the data on maps or in documents, credit it in the form the National Police Agency's terms give:
 
-> 出典: 警察庁「交通事故統計情報のオープンデータ」を加工して作成
-> (Source: National Police Agency, open data of traffic accident statistics, modified)
+> 「交通事故統計情報のオープンデータ」（警察庁）（https://www.npa.go.jp/publications/statistics/koutsuu/opendata/index_opendata.html）を加工して作成
+> ("Open data of traffic accident statistics" (National Police Agency) (https://www.npa.go.jp/publications/statistics/koutsuu/opendata/index_opendata.html), modified)
+
+Where a URL does not fit, such as the corner of a map, write: "Open data of traffic accident statistics" (National Police Agency), modified, and make it a link. If you modify the data further, still state that it has been modified.
 
 ## Processing
 

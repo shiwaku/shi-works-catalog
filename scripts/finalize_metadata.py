@@ -8,6 +8,8 @@
   - 列の説明（table:columns の description）: scripts/<コレクション>/columns.yaml から
   - キーワードと期間（keywords、extent.temporal）: 各コレクションの .portolan/metadata.yaml から
     （portolan-cli 0.8.0 は README にしか使わず、collection.json に書かないため）
+  - 出典の表示（attribution）と STAC の attribution 拡張: 同じく .portolan/metadata.yaml から
+    （portolan-cli 0.8.0 は attribution を扱わないため。docs/license.md 第3章）
   - STAC の Language 拡張と、英語版への alternate リンク
   - README の列の表（<!-- columns:start --> と <!-- columns:end --> の間）と、README のアセットの大きさ・チェックサム
 
@@ -35,6 +37,7 @@ EN = CAT / "en"
 SCRIPTS = ROOT / "scripts"
 
 LANG_EXT = "https://stac-extensions.github.io/language/v1.0.0/schema.json"
+ATTR_EXT = "https://stac-extensions.github.io/attribution/v0.1.0/schema.json"
 LANG = {
     "ja": {"code": "ja", "name": "日本語", "alternate": "Japanese"},
     "en": {"code": "en", "name": "English"},
@@ -131,10 +134,14 @@ def set_link(links: list[dict], rel_name: str, href: str, **extra) -> None:
     links.append({"rel": rel_name, "href": href, "type": extra.pop("type", "application/json"), **extra})
 
 
-def add_language(doc: dict, lang: str) -> None:
+def add_extension(doc: dict, ext: str) -> None:
     exts = doc.setdefault("stac_extensions", [])
-    if LANG_EXT not in exts:
-        exts.append(LANG_EXT)
+    if ext not in exts:
+        exts.append(ext)
+
+
+def add_language(doc: dict, lang: str) -> None:
+    add_extension(doc, LANG_EXT)
     doc["language"] = LANG[lang]
     doc["languages"] = [LANG[l] for l in LANG if l != lang]
 
@@ -183,6 +190,9 @@ def finalize(r: Path, en_text: dict) -> None:
     if is_collection:
         if meta.get("keywords"):
             doc["keywords"] = list(meta["keywords"])
+        if meta.get("attribution"):
+            add_extension(doc, ATTR_EXT)
+            doc["attribution"] = meta["attribution"]
         interval = temporal_interval(meta)
         if interval:
             doc.setdefault("extent", {})["temporal"] = {"interval": [interval]}
@@ -198,11 +208,13 @@ def finalize(r: Path, en_text: dict) -> None:
     # --- 英語版 ---
     en_doc = copy.deepcopy(doc)
     t = en_text.get(r.as_posix(), {})
-    for key in ("title", "description", "keywords"):
+    for key in ("title", "description", "keywords", "attribution"):
         if key in t:
             en_doc[key] = t[key]
     for p in en_doc.get("providers", []):
         p["name"] = t.get("providers", {}).get(p["name"], p["name"])
+    if "attribution" in en_doc and "attribution" not in t:
+        raise SystemExit(f"{r.as_posix()}: scripts/i18n/en.yaml に attribution の英訳がない")
     if is_collection:
         for c in en_doc.get("table:columns", []):
             if c["name"] in descs:

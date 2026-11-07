@@ -23,5 +23,6 @@ jp-npa/traffic-accident/collection.json:
     - "nationwide"
     - "National Police Agency"
     - "NPA"
+  attribution: "\"Open data of traffic accident statistics\" (National Police Agency), modified"
   providers:
     "警察庁": "National Police Agency"

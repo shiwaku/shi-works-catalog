@@ -45,7 +45,7 @@
 
 共通の要件: 正本とは別に、README.md、AGENTS.md、サムネイル、ライセンス、出典（providers）を付ける。
 
-**メタデータは日本語と英語の両方で書く。** 日本語を正本にし、英語版は `en/` に別の木として置く（Portolan の推奨。2026-11-02、#12）。書く項目と書き方は [metadata.md](metadata.md)。GeoParquet の作り方は [geoparquet.md](geoparquet.md)（#9）。
+**メタデータは日本語と英語の両方で書く。** 日本語を正本にし、英語版は `en/` に別の木として置く（Portolan の推奨。2026-11-02、#12）。書く項目と書き方は [metadata.md](metadata.md)。GeoParquet の作り方は [geoparquet.md](geoparquet.md)（#9）。ライセンスと出典の書き方は [license.md](license.md)（#13）。
 
 表示用は、事前に作ったファイルを置くのではなく、第4章の方式②（Worker でリクエストのたびに作る）で配ることを基本にする。表の「表示用」は、カタログから指す先の形式を表す。
 
