@@ -25,3 +25,24 @@ jp-npa/traffic-accident/collection.json:
     - "NPA"
   providers:
     "警察庁": "National Police Agency"
+
+jp-ksj/catalog.json:
+  title: "National Land Numerical Information"
+  description: "National Land Numerical Information (KSJ) maintained and published by the Ministry of Land, Infrastructure, Transport and Tourism: basic geospatial data on Japan such as administrative boundaries and schools."
+
+jp-ksj/admin-boundaries/collection.json:
+  title: "Administrative boundaries"
+  description: "Administrative boundary data (N03) of the National Land Numerical Information, as of 1 January 2026. Boundaries of all 1,905 municipalities in Japan (wards for designated cities), one multipolygon row per municipality."
+  keywords:
+    - "boundaries"
+    - "administrative boundaries"
+    - "municipalities"
+    - "Japan"
+    - "nationwide"
+    - "National Land Numerical Information"
+    - "KSJ"
+    - "Ministry of Land, Infrastructure, Transport and Tourism"
+    - "MLIT"
+  attribution: "\"National Land Numerical Information (administrative boundaries)\" (Ministry of Land, Infrastructure, Transport and Tourism), modified"
+  providers:
+    "国土交通省": "Ministry of Land, Infrastructure, Transport and Tourism"

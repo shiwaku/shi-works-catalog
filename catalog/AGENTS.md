@@ -12,6 +12,7 @@ shi-works.com の地理空間データのカタログ。エージェント向け
 ## コレクション
 
 - `jp-npa/traffic-accident`: 交通事故統計（本票）。警察庁。人身事故1件ごとの点
+- `jp-ksj/admin-boundaries`: 行政区域（N03）。国土交通省（国土数値情報）。市区町村ごとのマルチポリゴン。交通事故統計とは空間結合で組み合わせる
 
 ## 用語集
 
@@ -29,3 +30,10 @@ shi-works.com の地理空間データのカタログ。エージェント向け
 | 車道幅員 | roadway width |
 | 統計に計上された年 | statistics year |
 | 警察庁 | National Police Agency (NPA) |
+| 国土交通省 | Ministry of Land, Infrastructure, Transport and Tourism (MLIT) |
+| 国土数値情報 | National Land Numerical Information (KSJ) |
+| 行政区域 | administrative boundaries |
+| 市区町村 | municipality |
+| 政令指定都市 | designated city |
+| 所属未定地 | area of undetermined jurisdiction |
+| 全国地方公共団体コード | local government code |

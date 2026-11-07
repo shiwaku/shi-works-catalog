@@ -298,3 +298,7 @@ parties:
     sql: "CASE NULLIF(\"運転練習の方法（当事者{p}）\", '') WHEN '1' THEN '一般（指定自動車教習所）' WHEN '2' THEN '一般（届出自動車教習所）' WHEN '3' THEN '一般（その他の自動車教習所）' WHEN '4' THEN '外国免許による試験の一部免除' WHEN '5' THEN 'その他' WHEN '6' THEN 'その他' WHEN '9' THEN '不明' WHEN '0' THEN '0' END"
     ja: 当事者{p}の運転練習の方法（「一般（指定自動車教習所）」など）。2019〜2021年は空。元データのコードを警察庁のコード表でラベルにした。「0」はコード表にない値で、元データのまま残した。
     en: How party {p} learned to drive (Japanese labels). Null for 2019-2021. Converted from the source codes using the official code table. "0" is not in the code table and is kept as in the source.
+
+geometry:
+  ja: 事故の発生地点（点、EPSG:4326）。座標が日本の外か (0, 0) だった行は空。
+  en: Accident location (point, EPSG:4326). Null where the source coordinates were (0, 0) or outside Japan.

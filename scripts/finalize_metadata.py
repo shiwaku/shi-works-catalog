@@ -41,15 +41,12 @@ LANG = {
 }
 JST = timezone(timedelta(hours=9))
 
-# どの表にも出る、GeoParquet が足す列の説明
+# どの表にも出る、GeoParquet が足す列の説明。geometry の説明はコレクションごとに
+# scripts/<コレクション>/columns.yaml の geometry に書く
 EXTRA_COLUMNS = {
     "bbox": {
         "ja": "地物の範囲（xmin、ymin、xmax、ymax）。GeoParquet 1.1 の bbox 列で、範囲で絞るときに行グループを読み飛ばすのに使う。",
         "en": "Feature bounding box (xmin, ymin, xmax, ymax). The GeoParquet 1.1 bbox covering column, used to skip row groups in spatial filters.",
-    },
-    "geometry": {
-        "ja": "事故の発生地点（点、EPSG:4326）。座標が日本の外か (0, 0) だった行は空。",
-        "en": "Accident location (point, EPSG:4326). Null where the source coordinates were (0, 0) or outside Japan.",
     },
 }
 
@@ -113,6 +110,10 @@ def column_descriptions(collection_id: str) -> dict[str, dict[str, str]]:
             en = f"Added column (not in the source). {en}"
         out[c["name"]] = {"ja": ja, "en": en}
     out.update(EXTRA_COLUMNS)
+    spec = yaml.safe_load((SCRIPTS / collection_id.replace("/", "-") / "columns.yaml").read_text(encoding="utf-8"))
+    if not (spec.get("geometry") or {}).get("ja"):
+        raise SystemExit(f"{collection_id}: columns.yaml に geometry の説明（ja、en）がない")
+    out["geometry"] = spec["geometry"]
     return out
 
 

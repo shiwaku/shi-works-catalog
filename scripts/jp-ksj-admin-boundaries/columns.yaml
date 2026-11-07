@@ -1,0 +1,51 @@
+# 行政区域（国土数値情報 N03）の列の定義
+#
+# この1ファイルから、変換の SQL（build.py）、collection.json の table:columns、
+# README の列の表を作る（docs/metadata.md 第5章「同じ元から作る」）。
+#
+#   name : 列名（英語の snake_case。日英で同じ）
+#   src  : 元の属性名（N03_001 など）。足した列は null
+#   sql  : 値の式。省略すると NULLIF("<src>", '')（文字列のまま）
+#   ja   : 説明（日本語）。「元の列名: …」は自動で先頭に付く
+#   en   : 説明（英語）
+
+columns:
+  - name: admin_code
+    src: N03_007
+    ja: 全国地方公共団体コード（5桁の文字列。チェックディジットなし）。都道府県コード2桁と市区町村コード3桁。政令指定都市は区ごとのコード。所属未定地は「<都道府県コード>000」。1行に1つで、重複しない。
+    en: Local government code (5-digit string, without the check digit) - 2-digit prefecture code followed by a 3-digit municipality code. Designated cities are split into wards, each with its own code. Areas of undetermined jurisdiction are "<prefecture code>000". Unique per row.
+
+  - name: pref_code
+    src: null
+    sql: left(N03_007, 2)
+    ja: 都道府県コード（2桁の文字列。01 北海道 〜 47 沖縄県）。admin_code の先頭2桁。
+    en: Prefecture code (2-digit string, 01 Hokkaido to 47 Okinawa). The first two digits of admin_code.
+
+  - name: pref_name
+    src: N03_001
+    ja: 都道府県名。
+    en: Prefecture name (in Japanese).
+
+  - name: subprefecture_name
+    src: N03_002
+    ja: 北海道の振興局名。北海道以外は空。
+    en: Name of the Hokkaido subprefecture (in Japanese). Null outside Hokkaido.
+
+  - name: county_name
+    src: N03_003
+    ja: 郡名。郡に属する町村だけにあり、市・区・郡に属さない町村（島しょなど）は空。
+    en: County name (in Japanese). Only for towns and villages that belong to a county; null for cities, wards and towns or villages outside a county.
+
+  - name: municipality_name
+    src: N03_004
+    ja: 市区町村名（市、町、村、東京都の特別区）。政令指定都市の区の行では市の名前（「札幌市」など）で、区の名前は ward_name にある。所属未定地の行は「所属未定地」。
+    en: Municipality name (city, town, village, or special ward of Tokyo; in Japanese). On rows for wards of designated cities this is the city name (e.g. "札幌市") and the ward is in ward_name. "所属未定地" on rows for areas of undetermined jurisdiction.
+
+  - name: ward_name
+    src: N03_005
+    ja: 政令指定都市の行政区名（「中央区」など）。政令指定都市以外は空。東京都の特別区はここではなく municipality_name にある。
+    en: Ward name of a designated city (in Japanese, e.g. "中央区"). Null outside designated cities. Tokyo's special wards are in municipality_name, not here.
+
+geometry:
+  ja: 市区町村（政令指定都市は区）の範囲（マルチポリゴン、EPSG:4326）。元データでは島ごとに別の行だったものを、1つのマルチポリゴンにまとめた（形は変えていない）。
+  en: Boundary of the municipality (ward for designated cities) as a multipolygon in EPSG:4326. Islands that were separate rows in the source are combined into one multipolygon; the shapes are unchanged.
