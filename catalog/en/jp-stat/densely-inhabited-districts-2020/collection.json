@@ -1,0 +1,185 @@
+{
+  "type": "Collection",
+  "id": "jp-stat/densely-inhabited-districts-2020",
+  "stac_version": "1.1.0",
+  "description": "Boundary data of the densely inhabited districts (DID) of the 2020 Census (Statistics Bureau of Japan, e-Stat). Boundaries, population and area of all 1,463 districts in Japan, one multipolygon row per district.",
+  "links": [
+    {
+      "rel": "root",
+      "href": "../../catalog.json",
+      "type": "application/json"
+    },
+    {
+      "rel": "license",
+      "href": "https://www.e-stat.go.jp/terms-of-use",
+      "title": "License"
+    },
+    {
+      "rel": "via",
+      "href": "https://www.e-stat.go.jp/gis/statmap-search?page=1&type=2&aggregateUnitForBoundary=D&toukeiCode=00200521&toukeiYear=2020&serveyId=D002005112020&datum=2011",
+      "type": "text/html",
+      "title": "Original source"
+    },
+    {
+      "rel": "parent",
+      "href": "../catalog.json",
+      "type": "application/json"
+    },
+    {
+      "rel": "agents",
+      "href": "./AGENTS.md",
+      "type": "text/markdown",
+      "title": "Agent/LLM usage guide",
+      "hreflang": "ja"
+    },
+    {
+      "rel": "describedby",
+      "href": "./README.md",
+      "type": "text/markdown",
+      "title": "Human-readable documentation"
+    },
+    {
+      "rel": "alternate",
+      "href": "../../../jp-stat/densely-inhabited-districts-2020/collection.json",
+      "type": "application/json",
+      "hreflang": "ja",
+      "title": "日本語"
+    }
+  ],
+  "stac_extensions": [
+    "https://stac-extensions.github.io/table/v1.2.0/schema.json",
+    "https://stac-extensions.github.io/file/v2.1.0/schema.json",
+    "https://schemas.portolan-sdi.org/portolan/v0.2.0/schema.json",
+    "https://stac-extensions.github.io/attribution/v0.1.0/schema.json",
+    "https://stac-extensions.github.io/language/v1.0.0/schema.json"
+  ],
+  "updated": "2026-11-08T01:22:50Z",
+  "geoparquet:geometry_type": "MultiPolygon",
+  "geoparquet:feature_count": 1463,
+  "table:row_count": 1463,
+  "table:primary_geometry": "geometry",
+  "table:columns": [
+    {
+      "name": "admin_code",
+      "type": "string",
+      "description": "Added column (not in the source). Local government code (5-digit string, without the check digit), joining the source KEN (prefecture code) and CITY (municipality code). Codes as of 1 October 2020; designated cities are split into wards."
+    },
+    {
+      "name": "pref_code",
+      "type": "string",
+      "description": "Original column: KEN. Prefecture code (2-digit string, 01 Hokkaido to 47 Okinawa)."
+    },
+    {
+      "name": "municipality_name",
+      "type": "string",
+      "description": "Original column: CITYNAME. Municipality name as of 1 October 2020 (in Japanese). Wards of designated cities include the city name, e.g. \"札幌市北区\"."
+    },
+    {
+      "name": "did_number",
+      "type": "int32",
+      "description": "Original column: CLASS. Number of the densely inhabited district within the municipality (from 1), in descending order of population; 1 is the largest. admin_code and did_number together identify a row."
+    },
+    {
+      "name": "population",
+      "type": "int32",
+      "description": "Original column: JINKO. Population of the densely inhabited district (persons, 2020 Census)."
+    },
+    {
+      "name": "area_km2",
+      "type": "double",
+      "description": "Original column: MENSEKI. Area of the densely inhabited district (km², two decimal places). The source value, not computed from the geometry."
+    },
+    {
+      "name": "bbox",
+      "type": "struct<xmin: double, ymin: double, xmax: double, ymax: double>",
+      "description": "Feature bounding box (xmin, ymin, xmax, ymax). The GeoParquet 1.1 bbox covering column, used to skip row groups in spatial filters."
+    },
+    {
+      "name": "geometry",
+      "type": "binary",
+      "description": "Boundary of the densely inhabited district as a multipolygon in EPSG:4326. Invalid shapes (such as self-touching rings) in five source rows were repaired with ST_MakeValid; the areas are unchanged."
+    }
+  ],
+  "title": "Densely inhabited districts (2020)",
+  "extent": {
+    "spatial": {
+      "bbox": [
+        [
+          124.13719586768804,
+          24.331134126690074,
+          145.60882651309228,
+          45.443487869655726
+        ]
+      ]
+    },
+    "temporal": {
+      "interval": [
+        [
+          "2020-09-30T15:00:00Z",
+          "2020-10-01T14:59:59Z"
+        ]
+      ]
+    }
+  },
+  "license": "other",
+  "providers": [
+    {
+      "name": "Statistics Bureau of Japan",
+      "roles": [
+        "producer",
+        "licensor"
+      ],
+      "url": "https://www.e-stat.go.jp/gis/statmap-search?page=1&type=2&aggregateUnitForBoundary=D&toukeiCode=00200521&toukeiYear=2020&serveyId=D002005112020&datum=2011"
+    },
+    {
+      "name": "shi-works",
+      "roles": [
+        "processor",
+        "host"
+      ],
+      "url": "https://github.com/shiwaku/shi-works-catalog"
+    }
+  ],
+  "assets": {
+    "jp-stat-densely-inhabited-districts-2020": {
+      "href": "../../../jp-stat/densely-inhabited-districts-2020/jp-stat-densely-inhabited-districts-2020.parquet",
+      "type": "application/vnd.apache.parquet",
+      "file:size": 21421987,
+      "file:checksum": "12204b18edb5e4539e2236ef584ba2104d4fe97e3e981c92d099456d24452072931f",
+      "roles": [
+        "data"
+      ]
+    },
+    "thumbnail": {
+      "href": "../../../jp-stat/densely-inhabited-districts-2020/jp-stat-densely-inhabited-districts-2020.thumb.jpg",
+      "type": "image/jpeg",
+      "roles": [
+        "thumbnail"
+      ],
+      "file:size": 8063,
+      "file:checksum": "122010c23744f652f6d662b031fbe226893d38c0dba17987fded9b1da2599aacbeff"
+    }
+  },
+  "keywords": [
+    "population",
+    "densely inhabited district",
+    "DID",
+    "census",
+    "Japan",
+    "nationwide",
+    "Statistics Bureau of Japan",
+    "e-Stat"
+  ],
+  "attribution": "\"2020 Population Census, boundary data of densely inhabited districts\" (Statistics Bureau of Japan), modified",
+  "language": {
+    "code": "en",
+    "name": "English"
+  },
+  "languages": [
+    {
+      "code": "ja",
+      "name": "日本語",
+      "alternate": "Japanese"
+    }
+  ]
+}

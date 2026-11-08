@@ -1,0 +1,59 @@
+{
+  "type": "Catalog",
+  "id": "jp-stat",
+  "stac_version": "1.1.0",
+  "title": "総務省統計局",
+  "description": "総務省統計局の統計（国勢調査など）と、政府統計の総合窓口（e-Stat）で公開されている境界データ。",
+  "links": [
+    {
+      "rel": "root",
+      "href": "../catalog.json",
+      "type": "application/json"
+    },
+    {
+      "rel": "parent",
+      "href": "../catalog.json",
+      "type": "application/json"
+    },
+    {
+      "rel": "agents",
+      "href": "./AGENTS.md",
+      "type": "text/markdown",
+      "title": "Agent/LLM usage guide"
+    },
+    {
+      "rel": "child",
+      "href": "./densely-inhabited-districts-2020/collection.json",
+      "type": "application/json",
+      "title": "人口集中地区（2020年）"
+    },
+    {
+      "rel": "describedby",
+      "href": "./README.md",
+      "type": "text/markdown",
+      "title": "Human-readable documentation"
+    },
+    {
+      "rel": "alternate",
+      "href": "../en/jp-stat/catalog.json",
+      "type": "application/json",
+      "hreflang": "en",
+      "title": "English"
+    }
+  ],
+  "stac_extensions": [
+    "https://schemas.portolan-sdi.org/portolan/v0.2.0/schema.json",
+    "https://stac-extensions.github.io/language/v1.0.0/schema.json"
+  ],
+  "language": {
+    "code": "ja",
+    "name": "日本語",
+    "alternate": "Japanese"
+  },
+  "languages": [
+    {
+      "code": "en",
+      "name": "English"
+    }
+  ]
+}
