@@ -47,3 +47,22 @@ jp-ksj/admin-boundaries/collection.json:
   attribution: "\"National Land Numerical Information (administrative boundaries)\" (Ministry of Land, Infrastructure, Transport and Tourism), modified"
   providers:
     "国土交通省": "Ministry of Land, Infrastructure, Transport and Tourism"
+
+gtfs-gis/catalog.json:
+  title: "GTFS-GIS.jp"
+  description: "Data created and processed by Akira Nishizawa (Center for Spatial Information Science, the University of Tokyo) and published on the regional data page of GTFS-GIS.jp, such as the simplified 100 m mesh population and railway service frequency."
+
+gtfs-gis/population-mesh-100m-2020/collection.json:
+  title: "Simplified 100 m mesh population (2020)"
+  description: "Estimated population of 100 m mesh cells, apportioning the 250 m mesh population of the 2020 Census by building floor area (Akira Nishizawa, GTFS-GIS.jp). Total population and population by age group for 4,979,919 cells across Japan, one polygon row per cell."
+  keywords:
+    - "population"
+    - "population mesh"
+    - "100 m mesh"
+    - "census"
+    - "Japan"
+    - "nationwide"
+    - "GTFS-GIS.jp"
+  attribution: "\"Simplified 100 m mesh population (2020)\" (Akira Nishizawa, GTFS-GIS.jp, CC BY 4.0), modified"
+  providers:
+    "西澤明（GTFS-GIS.jp）": "Akira Nishizawa (GTFS-GIS.jp)"

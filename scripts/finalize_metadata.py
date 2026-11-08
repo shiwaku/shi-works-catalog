@@ -225,6 +225,11 @@ def finalize(r: Path, en_text: dict) -> None:
     for link in en_doc["links"]:
         if link.get("rel") == "agents":
             link["hreflang"] = "ja"
+        if link.get("rel") == "child" and "title" in link:
+            # 子のリンクの題名も英語にする（portolan-cli は日本語の題名を写す）
+            child = (r.parent / link["href"]).as_posix().removeprefix("./")
+            child = os.path.normpath(child).replace(os.sep, "/")
+            link["title"] = en_text.get(child, {}).get("title", link["title"])
     for key, asset in (en_doc.get("assets") or {}).items():
         if key == "documentation":
             continue

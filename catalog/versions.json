@@ -14,7 +14,13 @@
       "updated": "2026-11-07T22:55:39.199802+00:00",
       "asset_count": 1,
       "total_size_bytes": 179034431
+    },
+    "gtfs-gis/population-mesh-100m-2020": {
+      "current_version": "1.0.0",
+      "updated": "2026-11-08T01:10:25.468771+00:00",
+      "asset_count": 1,
+      "total_size_bytes": 180371344
     }
   },
-  "updated": "2026-11-07T22:55:39.199802+00:00"
+  "updated": "2026-11-08T01:10:25.468771+00:00"
 }
