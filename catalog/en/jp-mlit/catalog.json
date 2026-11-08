@@ -1,0 +1,60 @@
+{
+  "type": "Catalog",
+  "id": "jp-mlit",
+  "stac_version": "1.1.0",
+  "title": "Ministry of Land, Infrastructure, Transport and Tourism",
+  "description": "Road and transport data of the Ministry of Land, Infrastructure, Transport and Tourism (MLIT), such as the road traffic census. National Land Numerical Information and PLATEAU are separate stewards (jp-ksj, jp-plateau).",
+  "links": [
+    {
+      "rel": "root",
+      "href": "../catalog.json",
+      "type": "application/json"
+    },
+    {
+      "rel": "parent",
+      "href": "../catalog.json",
+      "type": "application/json"
+    },
+    {
+      "rel": "agents",
+      "href": "./AGENTS.md",
+      "type": "text/markdown",
+      "title": "Agent/LLM usage guide",
+      "hreflang": "ja"
+    },
+    {
+      "rel": "child",
+      "href": "./road-traffic-census-2021/collection.json",
+      "type": "application/json",
+      "title": "Road traffic census (2021)"
+    },
+    {
+      "rel": "describedby",
+      "href": "./README.md",
+      "type": "text/markdown",
+      "title": "Human-readable documentation"
+    },
+    {
+      "rel": "alternate",
+      "href": "../../jp-mlit/catalog.json",
+      "type": "application/json",
+      "hreflang": "ja",
+      "title": "日本語"
+    }
+  ],
+  "stac_extensions": [
+    "https://schemas.portolan-sdi.org/portolan/v0.2.0/schema.json",
+    "https://stac-extensions.github.io/language/v1.0.0/schema.json"
+  ],
+  "language": {
+    "code": "en",
+    "name": "English"
+  },
+  "languages": [
+    {
+      "code": "ja",
+      "name": "日本語",
+      "alternate": "Japanese"
+    }
+  ]
+}

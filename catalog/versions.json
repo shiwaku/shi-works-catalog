@@ -26,7 +26,13 @@
       "updated": "2026-11-08T11:39:55.132285+00:00",
       "asset_count": 3,
       "total_size_bytes": 20602243
+    },
+    "jp-mlit/road-traffic-census-2021": {
+      "current_version": "1.0.2",
+      "updated": "2026-11-08T11:46:06.990635+00:00",
+      "asset_count": 3,
+      "total_size_bytes": 56493497
     }
   },
-  "updated": "2026-11-08T11:39:55.132285+00:00"
+  "updated": "2026-11-08T11:46:06.990635+00:00"
 }

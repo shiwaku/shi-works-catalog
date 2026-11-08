@@ -12,6 +12,7 @@ shi-works.com の地理空間データのカタログ。エージェント向け
 ## コレクション
 
 - `jp-npa/traffic-accident`: 交通事故統計（本票）。警察庁。人身事故1件ごとの点
+- `jp-mlit/road-traffic-census-2021`: 道路交通センサス（令和3年度 一般交通量調査 箇所別基本表）。国土交通省。幹線道路の区間ごとのマルチライン。交通量・旅行速度・道路状況。事故の起きた道路の交通量や構造を調べるのに使う。市町村道はほぼ入っていない
 - `jp-ksj/admin-boundaries`: 行政区域（N03）。国土交通省（国土数値情報）。市区町村ごとのマルチポリゴン。交通事故統計とは空間結合で組み合わせる
 - `gtfs-gis/population-mesh-100m-2020`: 令和2年 簡易100mメッシュ人口。西澤明（GTFS-GIS.jp）。国勢調査の250mメッシュ人口を100mメッシュに按分した推計。範囲の人口の足し上げ、事故の発生率の分母に使う
 - `jp-stat/densely-inhabited-districts-2020`: 人口集中地区（令和2年国勢調査）。総務省統計局（e-Stat）。地区ごとのマルチポリゴン。市街地かどうかの区分に使う
@@ -47,3 +48,14 @@ shi-works.com の地理空間データのカタログ。エージェント向け
 | 総務省統計局 | Statistics Bureau of Japan |
 | 人口集中地区 | densely inhabited district (DID) |
 | 境界データ | boundary data |
+| 道路交通センサス（全国道路・街路交通情勢調査） | road traffic census |
+| 一般交通量調査 | general traffic volume survey |
+| 箇所別基本表 | section table |
+| 交通調査基本区間 | basic traffic survey section |
+| 調査単位区間 | survey unit section |
+| 旅行速度 | travel speed |
+| 混雑度 | congestion degree |
+| 大型車混入率 | share of large vehicles |
+| 昼夜率 | day-night ratio |
+| 走行台キロ | vehicle-kilometres |
+| 車道部幅員 | roadway section width |

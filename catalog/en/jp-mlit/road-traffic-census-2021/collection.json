@@ -1,0 +1,937 @@
+{
+  "type": "Collection",
+  "id": "jp-mlit/road-traffic-census-2021",
+  "stac_version": "1.1.0",
+  "description": "Section table (箇所別基本表) of the general traffic volume survey of the 2021 Road Traffic Census (MLIT). Traffic volume, travel speed, congestion degree and road conditions such as lanes, widths and sidewalks for all 99,417 sections of expressways, national highways and prefectural roads in Japan, one multilinestring row per section.",
+  "links": [
+    {
+      "rel": "root",
+      "href": "../../catalog.json",
+      "type": "application/json",
+      "title": "shi-works catalog"
+    },
+    {
+      "rel": "license",
+      "href": "https://www.mlit.go.jp/link.html",
+      "title": "License"
+    },
+    {
+      "rel": "via",
+      "href": "https://www.mlit.go.jp/road/census/r3/index.html",
+      "type": "text/html",
+      "title": "Original source"
+    },
+    {
+      "rel": "parent",
+      "href": "../catalog.json",
+      "type": "application/json",
+      "title": "国土交通省"
+    },
+    {
+      "rel": "agents",
+      "href": "./AGENTS.md",
+      "type": "text/markdown",
+      "title": "Agent/LLM usage guide",
+      "hreflang": "ja"
+    },
+    {
+      "rel": "describedby",
+      "href": "./README.md",
+      "type": "text/markdown",
+      "title": "Human-readable documentation"
+    },
+    {
+      "rel": "alternate",
+      "href": "../../../jp-mlit/road-traffic-census-2021/collection.json",
+      "type": "application/json",
+      "hreflang": "ja",
+      "title": "日本語"
+    }
+  ],
+  "stac_extensions": [
+    "https://stac-extensions.github.io/table/v1.2.0/schema.json",
+    "https://stac-extensions.github.io/file/v2.1.0/schema.json",
+    "https://schemas.portolan-sdi.org/portolan/v0.2.0/schema.json",
+    "https://stac-extensions.github.io/attribution/v0.1.0/schema.json",
+    "https://stac-extensions.github.io/language/v1.0.0/schema.json"
+  ],
+  "updated": "2026-11-08T11:46:06Z",
+  "geoparquet:geometry_type": "MultiLineString",
+  "geoparquet:feature_count": 99417,
+  "table:row_count": 99417,
+  "table:primary_geometry": "geometry",
+  "table:columns": [
+    {
+      "name": "section_id",
+      "type": "string",
+      "description": "Original column: 交通調査基本区間番号. Traffic survey basic section number (11-character string): prefecture (2) + road type (1) + route number (4) + sequence (4), ascending from the start to the end of the route. One row per section; unique."
+    },
+    {
+      "name": "pref_code",
+      "type": "string",
+      "description": "Added column (not in the source). Prefecture code (2-character string), the first two characters of section_id."
+    },
+    {
+      "name": "generation_split",
+      "type": "int16",
+      "description": "Original column: 世代管理番号（十の位）. Tens digit of the generation number: how many times the section has been split since the 2010 survey."
+    },
+    {
+      "name": "generation_change",
+      "type": "int16",
+      "description": "Original column: 世代管理番号（一の位）. Units digit of the generation number: how many times the attributes of the section have changed."
+    },
+    {
+      "name": "road_type",
+      "type": "string",
+      "description": "Original column: 道路種別. Road type. Values are the category names (in Japanese) of the MLIT explanation document, converted from the source codes (listed with their codes in the Japanese description): 1 national expressway (高速自動車国道), 2 urban expressway, 3 national highway (一般国道), 4 major local road (prefectural), 5 major local road (designated city), 6 general prefectural road, 7 general city road of a designated city."
+    },
+    {
+      "name": "route_number",
+      "type": "int16",
+      "description": "Original column: 路線番号. Route number. The national highway number for national highways, the signed number for prefectural roads, and the number in the MLIT code table for expressways."
+    },
+    {
+      "name": "route_name",
+      "type": "string",
+      "description": "Original column: 路線名. Official route name (in Japanese)."
+    },
+    {
+      "name": "start_connection_type",
+      "type": "string",
+      "description": "Original column: 起点側／接続区分. How the start point of the section connects. Values are the category names (in Japanese) of the MLIT explanation document, converted from the source codes (listed with their codes in the Japanese description): e.g. connection to another branch route, prefectural or municipal boundary, access point to a large facility, end of the branch route."
+    },
+    {
+      "name": "start_connected_section_id",
+      "type": "string",
+      "description": "Original column: 起点側／交通調査基本区間番号. Section number of the section connected at the start point (for connections to another branch route or at a prefectural boundary)."
+    },
+    {
+      "name": "start_connected_generation_split",
+      "type": "int16",
+      "description": "Original column: 起点側／世代管理番号（十の位）. Tens digit of the generation number of the section connected at the start point."
+    },
+    {
+      "name": "start_connected_route_name",
+      "type": "string",
+      "description": "Original column: 起点側／路線名等. Name of the route connected at the start point, or the boundary name (e.g. \"○○市・△△町 境\") at a municipal boundary (in Japanese)."
+    },
+    {
+      "name": "start_remarks",
+      "type": "string",
+      "description": "Original column: 起点側／備考. Remarks on the start point, such as interchange or junction names on motorways, or the kind of large facility (in Japanese)."
+    },
+    {
+      "name": "end_connection_type",
+      "type": "string",
+      "description": "Original column: 終点側／接続区分. How the end point of the section connects. Values are the category names (in Japanese) of the MLIT explanation document, converted from the source codes (listed with their codes in the Japanese description): e.g. connection to another branch route, prefectural or municipal boundary, access point to a large facility, end of the branch route."
+    },
+    {
+      "name": "end_connected_section_id",
+      "type": "string",
+      "description": "Original column: 終点側／交通調査基本区間番号. Section number of the section connected at the end point (for connections to another branch route or at a prefectural boundary)."
+    },
+    {
+      "name": "end_connected_generation_split",
+      "type": "int16",
+      "description": "Original column: 終点側／世代管理番号（十の位）. Tens digit of the generation number of the section connected at the end point."
+    },
+    {
+      "name": "end_connected_route_name",
+      "type": "string",
+      "description": "Original column: 終点側／路線名等. Name of the route connected at the end point, or the boundary name (e.g. \"○○市・△△町 境\") at a municipal boundary (in Japanese)."
+    },
+    {
+      "name": "end_remarks",
+      "type": "string",
+      "description": "Original column: 終点側／備考. Remarks on the end point, such as interchange or junction names on motorways, or the kind of large facility (in Japanese)."
+    },
+    {
+      "name": "old_new_road_type",
+      "type": "string",
+      "description": "Original column: 現道旧道区分. Whether the road is the current road, an old road or a new road. Values are the category names (in Japanese) of the MLIT explanation document, converted from the source codes (listed with their codes in the Japanese description): 現道 current, 旧道 old, 新道 new, 旧道集約 aggregated old road."
+    },
+    {
+      "name": "administrator",
+      "type": "string",
+      "description": "Original column: 管理区分. Road administrator (the actual administrator for sections under delegated authority). Values are the category names (in Japanese) of the MLIT explanation document, converted from the source codes (listed with their codes in the Japanese description): e.g. 国土交通大臣 Minister of MLIT, 都道府県知事又は都道府県 prefecture, 指定市の長又は指定市 designated city, expressway companies."
+    },
+    {
+      "name": "admin_code",
+      "type": "string",
+      "description": "Original column: 市区町村コード. Municipality code (5-character string, without the check digit), standard area code as of 1 April 2021, with designated cities split into wards. The leading zero dropped in the source has been restored."
+    },
+    {
+      "name": "is_motorway",
+      "type": "bool",
+      "description": "Original column: 自動車専用道路の別. True for motorway sections (national expressways or roads under Article 48-2 of the Road Act). Source codes 1 (motorway) and 0 (other)."
+    },
+    {
+      "name": "section_type",
+      "type": "string",
+      "description": "Original column: 区間種別. Section type. Values are the category names (in Japanese) of the MLIT explanation document, converted from the source codes (listed with their codes in the Japanese description): 通常区間 normal, 上下線分離区間 directionally separated, 複断面区間 multi-deck/parallel, 交通不能区間 impassable to motor vehicles, 循環区間 loop, 部分供用区間 partially open."
+    },
+    {
+      "name": "separation_type",
+      "type": "string",
+      "description": "Original column: 分離区間／分離区分. For separated or multi-deck sections, which direction or deck this row is. Values are the category names (in Japanese) of the MLIT explanation document, converted from the source codes (listed with their codes in the Japanese description): 分離なし none, 上り線 up line, 下り線 down line or main deck, 上り複断面 up secondary deck, 複断面 secondary deck."
+    },
+    {
+      "name": "separation_main_section_id",
+      "type": "string",
+      "description": "Original column: 分離区間／交通調査基本区間番号. Section number of the corresponding main line, for up lines and secondary decks."
+    },
+    {
+      "name": "length_km",
+      "type": "double",
+      "description": "Original column: 区間延長（ｋｍ）. Section length along the road centre line (km, one decimal place)."
+    },
+    {
+      "name": "high_standard_road",
+      "type": "string",
+      "description": "Original column: 高規格道路の別. Whether the road is a high-standard road. Values are the category names (in Japanese) of the MLIT explanation document, converted from the source codes (listed with their codes in the Japanese description): 高規格幹線道路 high-standard arterial highway, 地域高規格道路 regional high-standard highway, 高規格道路以外の道路 other."
+    },
+    {
+      "name": "national_road_designated_section",
+      "type": "string",
+      "description": "Original column: 一般国道指定区間. Whether the national highway section is a designated section (managed by the national government). Values are the category names (in Japanese) of the MLIT explanation document, converted from the source codes (listed with their codes in the Japanese description): 一般国道（指定区間） designated, 一般国道（指定区間外） not designated, 一般国道以外の道路 not a national highway."
+    },
+    {
+      "name": "one_way",
+      "type": "string",
+      "description": "Original column: 一方通行フラグ. Permanent one-way restriction. Values are the category names (in Japanese) of the MLIT explanation document, converted from the source codes (listed with their codes in the Japanese description): なし none, 起点から終点方向 start to end, 終点から起点方向 end to start."
+    },
+    {
+      "name": "h27_section_id",
+      "type": "string",
+      "description": "Original column: 平成２７年度／交通調査基本区間番号. Section number in the 2015 survey corresponding to this section. Use it to join the 2015 data."
+    },
+    {
+      "name": "h27_generation_split",
+      "type": "int16",
+      "description": "Original column: 平成２７年度／世代管理番号（十の位）. Tens digit of the generation number of the 2015 section."
+    },
+    {
+      "name": "h27_generation_change",
+      "type": "int16",
+      "description": "Original column: 平成２７年度／世代管理番号（一の位）. Units digit of the generation number of the 2015 section."
+    },
+    {
+      "name": "traffic_unit_area_code",
+      "type": "string",
+      "description": "Original column: 交通量／都道府県指定市コード. Area code of the traffic volume survey (5-character string): code of the area (prefecture, designated city, etc.) within which the survey unit sections are numbered. Leading zeros restored."
+    },
+    {
+      "name": "traffic_unit_section_number",
+      "type": "string",
+      "description": "Original column: 交通量／調査単位区間番号. Traffic volume survey unit section number (5-character string): number of the survey unit section that groups basic sections. Identifies a unit section together with the area code. Leading zeros restored. Traffic volumes are the same for all basic sections in a unit section."
+    },
+    {
+      "name": "up_observation_section_id",
+      "type": "string",
+      "description": "Original column: 上り／観測地点交通調査基本区間番号. Section number of the basic section containing the observation point for the up direction (observed sections only)."
+    },
+    {
+      "name": "up_observation_place",
+      "type": "string",
+      "description": "Original column: 上り／交通量観測地点地名. Place name of the observation point for the up direction, or the interchange section name (observed sections only; in Japanese)."
+    },
+    {
+      "name": "up_traffic_observed",
+      "type": "string",
+      "description": "Original column: 上り／令和３年度調査交通量観測・非観測の別. Whether the up direction traffic volume was observed in 2021 or estimated. Values are the category names (in Japanese) of the MLIT explanation document, converted from the source codes (listed with their codes in the Japanese description): 観測 observed, 非観測（推定値） estimated. Null where it could not be estimated. The MLIT document notes that estimates may differ from actual traffic."
+    },
+    {
+      "name": "up_individual_survey_used",
+      "type": "bool",
+      "description": "Original column: 上り／個別調査結果活用の別. True if the up direction traffic volume uses values from an individual survey after 2015. Source codes 1 (used) and 0 (not used)."
+    },
+    {
+      "name": "up_observation_hours",
+      "type": "string",
+      "description": "Original column: 上り／１２時間・２４時間観測の別. Whether the up direction observation was 12-hour or 24-hour. Values are the category names (in Japanese) of the MLIT explanation document, converted from the source codes (listed with their codes in the Japanese description): 12時間観測地点 12-hour, 24時間観測地点 24-hour, 調査対象区間外（非観測） not observed."
+    },
+    {
+      "name": "up_observation_date",
+      "type": "string",
+      "description": "Original column: 上り／交通量観測年月日. Observation date for the up direction (8-character string YYYYMMDD). The day is \"00\" when data from several days (e.g. permanent counters) were used."
+    },
+    {
+      "name": "up_traffic_12h_small",
+      "type": "int32",
+      "description": "Original column: 上り／昼間１２時間自動車類交通量／小型車（台）. Daytime 12-hour (7:00-19:00) motor vehicle traffic in the up direction, small vehicles (vehicles)."
+    },
+    {
+      "name": "up_traffic_12h_large",
+      "type": "int32",
+      "description": "Original column: 上り／昼間１２時間自動車類交通量／大型車（台）. Daytime 12-hour (7:00-19:00) motor vehicle traffic in the up direction, large vehicles (vehicles)."
+    },
+    {
+      "name": "up_traffic_12h",
+      "type": "int32",
+      "description": "Original column: 上り／昼間１２時間自動車類交通量／合計（台）. Daytime 12-hour (7:00-19:00) motor vehicle traffic in the up direction, all vehicles (vehicles)."
+    },
+    {
+      "name": "up_traffic_24h_small",
+      "type": "int32",
+      "description": "Original column: 上り／２４時間自動車類交通量／小型車（台）. 24-hour motor vehicle traffic in the up direction, small vehicles (vehicles)."
+    },
+    {
+      "name": "up_traffic_24h_large",
+      "type": "int32",
+      "description": "Original column: 上り／２４時間自動車類交通量／大型車（台）. 24-hour motor vehicle traffic in the up direction, large vehicles (vehicles)."
+    },
+    {
+      "name": "up_traffic_24h",
+      "type": "int32",
+      "description": "Original column: 上り／２４時間自動車類交通量／合計（台）. 24-hour motor vehicle traffic in the up direction, all vehicles (vehicles)."
+    },
+    {
+      "name": "down_observation_section_id",
+      "type": "string",
+      "description": "Original column: 下り／観測地点交通調査基本区間番号. Section number of the basic section containing the observation point for the down direction (observed sections only)."
+    },
+    {
+      "name": "down_observation_place",
+      "type": "string",
+      "description": "Original column: 下り／交通量観測地点地名. Place name of the observation point for the down direction, or the interchange section name (observed sections only; in Japanese)."
+    },
+    {
+      "name": "down_traffic_observed",
+      "type": "string",
+      "description": "Original column: 下り／令和３年度調査交通量観測・非観測の別. Whether the down direction traffic volume was observed in 2021 or estimated. Values are the category names (in Japanese) of the MLIT explanation document, converted from the source codes (listed with their codes in the Japanese description): 観測 observed, 非観測（推定値） estimated. Null where it could not be estimated. The MLIT document notes that estimates may differ from actual traffic."
+    },
+    {
+      "name": "down_individual_survey_used",
+      "type": "bool",
+      "description": "Original column: 下り／個別調査結果活用の別. True if the down direction traffic volume uses values from an individual survey after 2015. Source codes 1 (used) and 0 (not used)."
+    },
+    {
+      "name": "down_observation_hours",
+      "type": "string",
+      "description": "Original column: 下り／１２時間・２４時間観測の別. Whether the down direction observation was 12-hour or 24-hour. Values are the category names (in Japanese) of the MLIT explanation document, converted from the source codes (listed with their codes in the Japanese description): 12時間観測地点 12-hour, 24時間観測地点 24-hour, 調査対象区間外（非観測） not observed."
+    },
+    {
+      "name": "down_observation_date",
+      "type": "string",
+      "description": "Original column: 下り／交通量観測年月日. Observation date for the down direction (8-character string YYYYMMDD). The day is \"00\" when data from several days (e.g. permanent counters) were used."
+    },
+    {
+      "name": "down_traffic_12h_small",
+      "type": "int32",
+      "description": "Original column: 下り／昼間１２時間自動車類交通量／小型車（台）. Daytime 12-hour (7:00-19:00) motor vehicle traffic in the down direction, small vehicles (vehicles)."
+    },
+    {
+      "name": "down_traffic_12h_large",
+      "type": "int32",
+      "description": "Original column: 下り／昼間１２時間自動車類交通量／大型車（台）. Daytime 12-hour (7:00-19:00) motor vehicle traffic in the down direction, large vehicles (vehicles)."
+    },
+    {
+      "name": "down_traffic_12h",
+      "type": "int32",
+      "description": "Original column: 下り／昼間１２時間自動車類交通量／合計（台）. Daytime 12-hour (7:00-19:00) motor vehicle traffic in the down direction, all vehicles (vehicles)."
+    },
+    {
+      "name": "down_traffic_24h_small",
+      "type": "int32",
+      "description": "Original column: 下り／２４時間自動車類交通量／小型車（台）. 24-hour motor vehicle traffic in the down direction, small vehicles (vehicles)."
+    },
+    {
+      "name": "down_traffic_24h_large",
+      "type": "int32",
+      "description": "Original column: 下り／２４時間自動車類交通量／大型車（台）. 24-hour motor vehicle traffic in the down direction, large vehicles (vehicles)."
+    },
+    {
+      "name": "down_traffic_24h",
+      "type": "int32",
+      "description": "Original column: 下り／２４時間自動車類交通量／合計（台）. 24-hour motor vehicle traffic in the down direction, all vehicles (vehicles)."
+    },
+    {
+      "name": "traffic_12h_small",
+      "type": "int32",
+      "description": "Original column: 昼間１２時間自動車類交通量（上下合計）／小型車（台）. Daytime 12-hour (7:00-19:00) motor vehicle traffic, both directions, small vehicles (vehicles)."
+    },
+    {
+      "name": "traffic_12h_large",
+      "type": "int32",
+      "description": "Original column: 昼間１２時間自動車類交通量（上下合計）／大型車（台）. Daytime 12-hour (7:00-19:00) motor vehicle traffic, both directions, large vehicles (vehicles)."
+    },
+    {
+      "name": "traffic_12h",
+      "type": "int32",
+      "description": "Original column: 昼間１２時間自動車類交通量（上下合計）／合計（台）. Daytime 12-hour (7:00-19:00) motor vehicle traffic, both directions, all vehicles (vehicles)."
+    },
+    {
+      "name": "traffic_24h_small",
+      "type": "int32",
+      "description": "Original column: ２４時間自動車類交通量（上下合計）／小型車（台）. 24-hour motor vehicle traffic, both directions, small vehicles (vehicles). For 12-hour observations and estimated sections it is estimated from the day-night ratio."
+    },
+    {
+      "name": "traffic_24h_large",
+      "type": "int32",
+      "description": "Original column: ２４時間自動車類交通量（上下合計）／大型車（台）. 24-hour motor vehicle traffic, both directions, large vehicles (vehicles). For 12-hour observations and estimated sections it is estimated from the day-night ratio."
+    },
+    {
+      "name": "traffic_24h",
+      "type": "int32",
+      "description": "Original column: ２４時間自動車類交通量（上下合計）／合計（台）. 24-hour motor vehicle traffic, both directions, all vehicles (vehicles). This is the column usually used for traffic volume. For 12-hour observations and estimated sections it is estimated from the day-night ratio."
+    },
+    {
+      "name": "day_night_ratio",
+      "type": "double",
+      "description": "Original column: 昼夜率. Day-night ratio (24-hour traffic / daytime 12-hour traffic)."
+    },
+    {
+      "name": "peak_ratio_12h_pct",
+      "type": "double",
+      "description": "Original column: 昼間１２時間ピーク比率（％）. Peak-hour ratio (%): traffic in the busiest hour / daytime 12-hour traffic."
+    },
+    {
+      "name": "large_vehicle_ratio_12h_pct",
+      "type": "double",
+      "description": "Original column: 昼間１２時間大型車混入率（％）. Share of large vehicles in daytime 12-hour traffic (%)."
+    },
+    {
+      "name": "congestion_degree",
+      "type": "double",
+      "description": "Original column: 混雑度. Congestion degree (daytime 12-hour traffic / 12-hour traffic capacity). Above 1.0, traffic exceeds capacity."
+    },
+    {
+      "name": "h27_traffic_unit_area_code",
+      "type": "string",
+      "description": "Original column: 平成２７年度／交通量／都道府県指定市コード. Area code of the corresponding 2015 traffic survey unit section (5-character string): code of the area (prefecture, designated city, etc.) within which the survey unit sections are numbered. Leading zeros restored."
+    },
+    {
+      "name": "h27_traffic_unit_section_number",
+      "type": "string",
+      "description": "Original column: 平成２７年度／交通量／調査単位区間番号. Corresponding 2015 traffic survey unit section number (5-character string): number of the survey unit section that groups basic sections. Identifies a unit section together with the area code. Leading zeros restored."
+    },
+    {
+      "name": "h27_traffic_12h",
+      "type": "int32",
+      "description": "Original column: 平成２７年度／昼間１２時間自動車類交通量（台）. Daytime 12-hour motor vehicle traffic in 2015, both directions (vehicles)."
+    },
+    {
+      "name": "h27_traffic_24h",
+      "type": "int32",
+      "description": "Original column: 平成２７年度／２４時間自動車類交通量（台）. 24-hour motor vehicle traffic in 2015, both directions (vehicles)."
+    },
+    {
+      "name": "speed_unit_area_code",
+      "type": "string",
+      "description": "Original column: 旅行速度／都道府県指定市コード. Area code of the travel speed survey (5-character string): code of the area (prefecture, designated city, etc.) within which the survey unit sections are numbered. Leading zeros restored."
+    },
+    {
+      "name": "speed_unit_section_number",
+      "type": "string",
+      "description": "Original column: 旅行速度／調査単位区間番号. Travel speed survey unit section number (5-character string): number of the survey unit section that groups basic sections. Identifies a unit section together with the area code. Leading zeros restored."
+    },
+    {
+      "name": "peak_up_speed_measured",
+      "type": "string",
+      "description": "Original column: 朝夕（混雑時）／上り／旅行速度計測・非計測の別. Whether the travel speed for peak hours (7:00-9:00 and 17:00-19:00), up direction was measured. Values are the category names (in Japanese) of the MLIT explanation document, converted from the source codes (listed with their codes in the Japanese description): 計測 measured, 非計測（共通） filled from the opposite direction, another time band or an adjacent section, 非計測（H27調査値） filled with the 2015 value."
+    },
+    {
+      "name": "peak_up_speed_small",
+      "type": "double",
+      "description": "Original column: 朝夕（混雑時）／上り／旅行速度／小型車（ｋｍ／ｈ）. Travel speed for peak hours (7:00-9:00 and 17:00-19:00), up direction, small vehicles (km/h), including stops at signals and in congestion. By vehicle type only for sections surveyed with ETC2.0 probe data."
+    },
+    {
+      "name": "peak_up_speed_large",
+      "type": "double",
+      "description": "Original column: 朝夕（混雑時）／上り／旅行速度／大型車（ｋｍ／ｈ）. Travel speed for peak hours (7:00-9:00 and 17:00-19:00), up direction, large vehicles (km/h), including stops at signals and in congestion. By vehicle type only for sections surveyed with ETC2.0 probe data."
+    },
+    {
+      "name": "peak_up_speed",
+      "type": "double",
+      "description": "Original column: 朝夕（混雑時）／上り／旅行速度／合計（ｋｍ／ｈ）. Travel speed for peak hours (7:00-9:00 and 17:00-19:00), up direction, all vehicles (km/h), including stops at signals and in congestion."
+    },
+    {
+      "name": "peak_up_probe_count_small",
+      "type": "int32",
+      "description": "Original column: 朝夕（混雑時）／上り／取得件数／小型車（件）. Number of ETC2.0 probe records used for the travel speed for peak hours (7:00-9:00 and 17:00-19:00), up direction, small vehicles."
+    },
+    {
+      "name": "peak_up_probe_count_large",
+      "type": "int32",
+      "description": "Original column: 朝夕（混雑時）／上り／取得件数／大型車（件）. Number of ETC2.0 probe records used for the travel speed for peak hours (7:00-9:00 and 17:00-19:00), up direction, large vehicles."
+    },
+    {
+      "name": "peak_up_probe_count",
+      "type": "int32",
+      "description": "Original column: 朝夕（混雑時）／上り／取得件数／合計（件）. Number of ETC2.0 probe records used for the travel speed for peak hours (7:00-9:00 and 17:00-19:00), up direction, all vehicles."
+    },
+    {
+      "name": "peak_down_speed_measured",
+      "type": "string",
+      "description": "Original column: 朝夕（混雑時）／下り／旅行速度計測・非計測の別. Whether the travel speed for peak hours (7:00-9:00 and 17:00-19:00), down direction was measured. Values are the category names (in Japanese) of the MLIT explanation document, converted from the source codes (listed with their codes in the Japanese description): 計測 measured, 非計測（共通） filled from the opposite direction, another time band or an adjacent section, 非計測（H27調査値） filled with the 2015 value."
+    },
+    {
+      "name": "peak_down_speed_small",
+      "type": "double",
+      "description": "Original column: 朝夕（混雑時）／下り／旅行速度／小型車（ｋｍ／ｈ）. Travel speed for peak hours (7:00-9:00 and 17:00-19:00), down direction, small vehicles (km/h), including stops at signals and in congestion. By vehicle type only for sections surveyed with ETC2.0 probe data."
+    },
+    {
+      "name": "peak_down_speed_large",
+      "type": "double",
+      "description": "Original column: 朝夕（混雑時）／下り／旅行速度／大型車（ｋｍ／ｈ）. Travel speed for peak hours (7:00-9:00 and 17:00-19:00), down direction, large vehicles (km/h), including stops at signals and in congestion. By vehicle type only for sections surveyed with ETC2.0 probe data."
+    },
+    {
+      "name": "peak_down_speed",
+      "type": "double",
+      "description": "Original column: 朝夕（混雑時）／下り／旅行速度／合計（ｋｍ／ｈ）. Travel speed for peak hours (7:00-9:00 and 17:00-19:00), down direction, all vehicles (km/h), including stops at signals and in congestion."
+    },
+    {
+      "name": "peak_down_probe_count_small",
+      "type": "int32",
+      "description": "Original column: 朝夕（混雑時）／下り／取得件数／小型車（件）. Number of ETC2.0 probe records used for the travel speed for peak hours (7:00-9:00 and 17:00-19:00), down direction, small vehicles."
+    },
+    {
+      "name": "peak_down_probe_count_large",
+      "type": "int32",
+      "description": "Original column: 朝夕（混雑時）／下り／取得件数／大型車（件）. Number of ETC2.0 probe records used for the travel speed for peak hours (7:00-9:00 and 17:00-19:00), down direction, large vehicles."
+    },
+    {
+      "name": "peak_down_probe_count",
+      "type": "int32",
+      "description": "Original column: 朝夕（混雑時）／下り／取得件数／合計（件）. Number of ETC2.0 probe records used for the travel speed for peak hours (7:00-9:00 and 17:00-19:00), down direction, all vehicles."
+    },
+    {
+      "name": "offpeak_up_speed_measured",
+      "type": "string",
+      "description": "Original column: 昼間（非混雑時）／上り／旅行速度計測・非計測の別. Whether the travel speed for off-peak daytime (9:00-17:00), up direction was measured. Values are the category names (in Japanese) of the MLIT explanation document, converted from the source codes (listed with their codes in the Japanese description): 計測 measured, 非計測（共通） filled from the opposite direction, another time band or an adjacent section, 非計測（H27調査値） filled with the 2015 value."
+    },
+    {
+      "name": "offpeak_up_speed_small",
+      "type": "double",
+      "description": "Original column: 昼間（非混雑時）／上り／旅行速度／小型車（ｋｍ／ｈ）. Travel speed for off-peak daytime (9:00-17:00), up direction, small vehicles (km/h), including stops at signals and in congestion. By vehicle type only for sections surveyed with ETC2.0 probe data."
+    },
+    {
+      "name": "offpeak_up_speed_large",
+      "type": "double",
+      "description": "Original column: 昼間（非混雑時）／上り／旅行速度／大型車（ｋｍ／ｈ）. Travel speed for off-peak daytime (9:00-17:00), up direction, large vehicles (km/h), including stops at signals and in congestion. By vehicle type only for sections surveyed with ETC2.0 probe data."
+    },
+    {
+      "name": "offpeak_up_speed",
+      "type": "double",
+      "description": "Original column: 昼間（非混雑時）／上り／旅行速度／合計（ｋｍ／ｈ）. Travel speed for off-peak daytime (9:00-17:00), up direction, all vehicles (km/h), including stops at signals and in congestion."
+    },
+    {
+      "name": "offpeak_up_probe_count_small",
+      "type": "int32",
+      "description": "Original column: 昼間（非混雑時）／上り／取得件数／小型車（件）. Number of ETC2.0 probe records used for the travel speed for off-peak daytime (9:00-17:00), up direction, small vehicles."
+    },
+    {
+      "name": "offpeak_up_probe_count_large",
+      "type": "int32",
+      "description": "Original column: 昼間（非混雑時）／上り／取得件数／大型車（件）. Number of ETC2.0 probe records used for the travel speed for off-peak daytime (9:00-17:00), up direction, large vehicles."
+    },
+    {
+      "name": "offpeak_up_probe_count",
+      "type": "int32",
+      "description": "Original column: 昼間（非混雑時）／上り／取得件数／合計（件）. Number of ETC2.0 probe records used for the travel speed for off-peak daytime (9:00-17:00), up direction, all vehicles."
+    },
+    {
+      "name": "offpeak_down_speed_measured",
+      "type": "string",
+      "description": "Original column: 昼間（非混雑時）／下り／旅行速度計測・非計測の別. Whether the travel speed for off-peak daytime (9:00-17:00), down direction was measured. Values are the category names (in Japanese) of the MLIT explanation document, converted from the source codes (listed with their codes in the Japanese description): 計測 measured, 非計測（共通） filled from the opposite direction, another time band or an adjacent section, 非計測（H27調査値） filled with the 2015 value."
+    },
+    {
+      "name": "offpeak_down_speed_small",
+      "type": "double",
+      "description": "Original column: 昼間（非混雑時）／下り／旅行速度／小型車（ｋｍ／ｈ）. Travel speed for off-peak daytime (9:00-17:00), down direction, small vehicles (km/h), including stops at signals and in congestion. By vehicle type only for sections surveyed with ETC2.0 probe data."
+    },
+    {
+      "name": "offpeak_down_speed_large",
+      "type": "double",
+      "description": "Original column: 昼間（非混雑時）／下り／旅行速度／大型車（ｋｍ／ｈ）. Travel speed for off-peak daytime (9:00-17:00), down direction, large vehicles (km/h), including stops at signals and in congestion. By vehicle type only for sections surveyed with ETC2.0 probe data."
+    },
+    {
+      "name": "offpeak_down_speed",
+      "type": "double",
+      "description": "Original column: 昼間（非混雑時）／下り／旅行速度／合計（ｋｍ／ｈ）. Travel speed for off-peak daytime (9:00-17:00), down direction, all vehicles (km/h), including stops at signals and in congestion."
+    },
+    {
+      "name": "offpeak_down_probe_count_small",
+      "type": "int32",
+      "description": "Original column: 昼間（非混雑時）／下り／取得件数／小型車（件）. Number of ETC2.0 probe records used for the travel speed for off-peak daytime (9:00-17:00), down direction, small vehicles."
+    },
+    {
+      "name": "offpeak_down_probe_count_large",
+      "type": "int32",
+      "description": "Original column: 昼間（非混雑時）／下り／取得件数／大型車（件）. Number of ETC2.0 probe records used for the travel speed for off-peak daytime (9:00-17:00), down direction, large vehicles."
+    },
+    {
+      "name": "offpeak_down_probe_count",
+      "type": "int32",
+      "description": "Original column: 昼間（非混雑時）／下り／取得件数／合計（件）. Number of ETC2.0 probe records used for the travel speed for off-peak daytime (9:00-17:00), down direction, all vehicles."
+    },
+    {
+      "name": "daytime_12h_speed_up",
+      "type": "double",
+      "description": "Original column: 昼間１２時間平均旅行速度（時間帯別交通量加重）／上り（ｋｍ／ｈ）. Daytime 12-hour average travel speed, up direction (km/h), weighted by hourly traffic."
+    },
+    {
+      "name": "daytime_12h_speed_down",
+      "type": "double",
+      "description": "Original column: 昼間１２時間平均旅行速度（時間帯別交通量加重）／下り（ｋｍ／ｈ）. Daytime 12-hour average travel speed, down direction (km/h), weighted by hourly traffic."
+    },
+    {
+      "name": "h27_speed_unit_area_code",
+      "type": "string",
+      "description": "Original column: 平成２７年度／旅行速度／都道府県指定市コード. Area code of the corresponding 2015 travel speed survey unit section (5-character string): code of the area (prefecture, designated city, etc.) within which the survey unit sections are numbered. Leading zeros restored."
+    },
+    {
+      "name": "h27_speed_unit_section_number",
+      "type": "string",
+      "description": "Original column: 平成２７年度／旅行速度／調査単位区間番号. Corresponding 2015 travel speed survey unit section number (5-character string): number of the survey unit section that groups basic sections. Identifies a unit section together with the area code. Leading zeros restored."
+    },
+    {
+      "name": "h27_peak_up_speed",
+      "type": "double",
+      "description": "Original column: 平成２７年度／混雑時／上り／平均旅行速度（ｋｍ／ｈ）. Average travel speed in 2015 for peak hours, up direction (km/h)."
+    },
+    {
+      "name": "h27_peak_down_speed",
+      "type": "double",
+      "description": "Original column: 平成２７年度／混雑時／下り／平均旅行速度（ｋｍ／ｈ）. Average travel speed in 2015 for peak hours, down direction (km/h)."
+    },
+    {
+      "name": "h27_offpeak_up_speed",
+      "type": "double",
+      "description": "Original column: 平成２７年度／昼間非混雑時／上り／平均旅行速度（ｋｍ／ｈ）. Average travel speed in 2015 for off-peak daytime, up direction (km/h)."
+    },
+    {
+      "name": "h27_offpeak_down_speed",
+      "type": "double",
+      "description": "Original column: 平成２７年度／昼間非混雑時／下り／平均旅行速度（ｋｍ／ｈ）. Average travel speed in 2015 for off-peak daytime, down direction (km/h)."
+    },
+    {
+      "name": "road_unit_area_code",
+      "type": "string",
+      "description": "Original column: 道路状況／都道府県指定市コード. Area code of the road condition survey (5-character string): code of the area (prefecture, designated city, etc.) within which the survey unit sections are numbered. Leading zeros restored."
+    },
+    {
+      "name": "road_unit_section_number",
+      "type": "string",
+      "description": "Original column: 道路状況／調査単位区間番号. Road condition survey unit section number (5-character string): number of the survey unit section that groups basic sections. Identifies a unit section together with the area code. Leading zeros restored. Road conditions such as widths are those of the representative cross-section of this unit section."
+    },
+    {
+      "name": "improved_pct",
+      "type": "double",
+      "description": "Original column: 区間延長／改良済み区間率（％）. Share of the length improved to the Road Structure Ordinance standards (%)."
+    },
+    {
+      "name": "improved_5_5m_pct",
+      "type": "double",
+      "description": "Original column: 区間延長／5.5ｍ以上改良済み区間率（％）. Share of the length improved with a width of 5.5 m or more (%)."
+    },
+    {
+      "name": "road_width_m",
+      "type": "double",
+      "description": "Original column: 幅員構成／道路部幅員（ｍ）. Road width: roadway, median, shoulders, planting strips, sidewalks, etc. (m)."
+    },
+    {
+      "name": "roadway_section_width_m",
+      "type": "double",
+      "description": "Original column: 幅員構成／車道部幅員（ｍ）. Roadway section width: lanes, stopping lanes, shoulders and median (m). Wider than the roadway width (roadway_width_m)."
+    },
+    {
+      "name": "roadway_width_m",
+      "type": "double",
+      "description": "Original column: 幅員構成／車道幅員（ｍ）. Roadway width: lanes and stopping lanes, excluding median and shoulders (m)."
+    },
+    {
+      "name": "median_width_m",
+      "type": "double",
+      "description": "Original column: 幅員構成／中央帯幅員（ｍ）. Median width (m)."
+    },
+    {
+      "name": "sidewalk_width_up_m",
+      "type": "double",
+      "description": "Original column: 幅員構成／歩道幅員／上り（ｍ）. Sidewalk width (including shared bicycle-pedestrian paths), up side (m)."
+    },
+    {
+      "name": "sidewalk_width_down_m",
+      "type": "double",
+      "description": "Original column: 幅員構成／歩道幅員／下り（ｍ）. Sidewalk width (including shared bicycle-pedestrian paths), down side (m)."
+    },
+    {
+      "name": "bicycle_track_width_up_m",
+      "type": "double",
+      "description": "Original column: 幅員構成／自転車道幅員／上り（ｍ）. Bicycle track width, up side (m)."
+    },
+    {
+      "name": "bicycle_track_width_down_m",
+      "type": "double",
+      "description": "Original column: 幅員構成／自転車道幅員／下り（ｍ）. Bicycle track width, down side (m)."
+    },
+    {
+      "name": "stopping_lane_width_up_m",
+      "type": "double",
+      "description": "Original column: 幅員構成／停車帯等幅員／上り（ｍ）. Width of stopping lanes and slow lanes (including bicycle lanes), up side (m)."
+    },
+    {
+      "name": "stopping_lane_width_down_m",
+      "type": "double",
+      "description": "Original column: 幅員構成／停車帯等幅員／下り（ｍ）. Width of stopping lanes and slow lanes (including bicycle lanes), down side (m)."
+    },
+    {
+      "name": "lanes",
+      "type": "int16",
+      "description": "Original column: 車線数. Number of lanes (both directions, except one-way sections), excluding climbing, passing and turning lanes. Single-lane roads with a roadway narrower than 5.5 m are 1."
+    },
+    {
+      "name": "sidewalk_pct",
+      "type": "double",
+      "description": "Original column: 交通安全施設等／歩道設置率（％）. Share of the length with a sidewalk (including shared paths) on one or both sides (%)."
+    },
+    {
+      "name": "bike_ped_path_pct",
+      "type": "double",
+      "description": "Original column: 交通安全施設等／自転車歩行者道設置率（％）. Share of the length with a shared bicycle-pedestrian path on one or both sides (%)."
+    },
+    {
+      "name": "bicycle_track_pct",
+      "type": "double",
+      "description": "Original column: 交通安全施設等／自転車道設置率（％）. Share of the length with a bicycle track on one or both sides (%)."
+    },
+    {
+      "name": "bicycle_lane_pct",
+      "type": "double",
+      "description": "Original column: 交通安全施設等／自転車レーン設置率（％）. Share of the length with a bicycle lane on one or both sides (%)."
+    },
+    {
+      "name": "sidewalk_both_sides_pct",
+      "type": "double",
+      "description": "Original column: 交通安全施設等／両側歩道設置率（％）. Share of the length with sidewalks on both sides (%)."
+    },
+    {
+      "name": "bike_ped_path_both_sides_pct",
+      "type": "double",
+      "description": "Original column: 交通安全施設等／両側自転車歩行者道設置率（％）. Share of the length with shared paths on both sides (%)."
+    },
+    {
+      "name": "bicycle_track_both_sides_pct",
+      "type": "double",
+      "description": "Original column: 交通安全施設等／両側自転車道設置率（％）. Share of the length with bicycle tracks on both sides (%)."
+    },
+    {
+      "name": "bicycle_lane_both_sides_pct",
+      "type": "double",
+      "description": "Original column: 交通安全施設等／両側自転車レーン設置率（％）. Share of the length with bicycle lanes on both sides (%)."
+    },
+    {
+      "name": "sidewalk_typical_width_m",
+      "type": "double",
+      "description": "Original column: 交通安全施設等／歩道代表幅員（ｍ）. Typical sidewalk width (m)."
+    },
+    {
+      "name": "bicycle_track_typical_width_m",
+      "type": "double",
+      "description": "Original column: 交通安全施設等／自転車道代表幅員（ｍ）. Typical bicycle track width (m)."
+    },
+    {
+      "name": "bus_route_pct",
+      "type": "double",
+      "description": "Original column: バス路線／バス路線延長率（％）. Share of the length served by route buses (%)."
+    },
+    {
+      "name": "bus_lane",
+      "type": "string",
+      "description": "Original column: バス路線／バス優先・専用レーンの有無. Bus priority or bus-only lane. Values are the category names (in Japanese) of the MLIT explanation document, converted from the source codes (listed with their codes in the Japanese description): バス優先レーンあり priority lane, バス専用レーンあり bus-only lane, なし none."
+    },
+    {
+      "name": "signalized_intersections_per_km",
+      "type": "double",
+      "description": "Original column: 交差点密度／信号交差点（箇所／ｋｍ）. Signalized intersections per km, including signalized pedestrian crossings."
+    },
+    {
+      "name": "unsignalized_intersections_per_km",
+      "type": "double",
+      "description": "Original column: 交差点密度／信号のない交差点（箇所／ｋｍ）. Unsignalized intersections per km, excluding driveways."
+    },
+    {
+      "name": "rep_signal_green_ratio_pct",
+      "type": "int16",
+      "description": "Original column: 代表信号交差点／青時間比（％）. Green time ratio of the representative signalized intersection (%). Only for sections with 3+ lanes (or 2+ one-way) and a signalized intersection."
+    },
+    {
+      "name": "rep_signal_right_turn_lane",
+      "type": "string",
+      "description": "Original column: 代表信号交差点／右折専用車線の有無等. Right-turn lane at the representative signalized intersection. Values are the category names (in Japanese) of the MLIT explanation document, converted from the source codes (listed with their codes in the Japanese description): 右折専用車線あり yes, なし no, 右折禁止 right turn prohibited, 調査路線が右折 the surveyed route turns right."
+    },
+    {
+      "name": "has_railway_crossing",
+      "type": "bool",
+      "description": "Original column: 鉄道との平面交差箇所の有無. True if there is a level crossing with a railway. Source codes 1 (yes) and 2 (no)."
+    },
+    {
+      "name": "speed_limit_kmh",
+      "type": "int16",
+      "description": "Original column: 指定最高速度（ｋｍ／ｈ）. Speed limit (km/h): the posted limit, or the statutory limit where none is posted."
+    },
+    {
+      "name": "has_climbing_lane_up",
+      "type": "bool",
+      "description": "Original column: 付加車線及び登坂車線設置箇所の有無／上り. True if there is an additional or climbing lane in the up direction. Source codes 1 (yes) and 2 (no)."
+    },
+    {
+      "name": "has_climbing_lane_down",
+      "type": "bool",
+      "description": "Original column: 付加車線及び登坂車線設置箇所の有無／下り. True if there is an additional or climbing lane in the down direction. Source codes 1 (yes) and 2 (no)."
+    },
+    {
+      "name": "roadside_status",
+      "type": "string",
+      "description": "Original column: 代表沿道状況. Representative roadside condition (the longest in the unit section). Densely inhabited districts are those of the 2015 Census. Values are the category names (in Japanese) of the MLIT explanation document, converted from the source codes (listed with their codes in the Japanese description): 人口集中地区かつ商業地域 DID and commercial zone, 人口集中地区 DID, その他市街部 other built-up area, 平地部 flat rural, 山地部 mountainous."
+    },
+    {
+      "name": "median_type",
+      "type": "string",
+      "description": "Original column: 中央分離帯／中央分離帯の種類. Type of median. Values are the category names (in Japanese) of the MLIT explanation document, converted from the source codes (listed with their codes in the Japanese description): from physical separation and guard fences to rubber poles, markings only, and no median."
+    },
+    {
+      "name": "median_installation",
+      "type": "string",
+      "description": "Original column: 中央分離帯／中央分離帯の設置状況. How much of the section has the median (only for physical medians). Values are the category names (in Japanese) of the MLIT explanation document, converted from the source codes (listed with their codes in the Japanese description): 区間全体 whole section, 一部区間 most of it, あまり設置されていない little."
+    },
+    {
+      "name": "tramway",
+      "type": "string",
+      "description": "Original column: 軌道の有無. Tramway on the roadway. Values are the category names (in Japanese) of the MLIT explanation document, converted from the source codes (listed with their codes in the Japanese description): 軌道あり with tram tracks (driving on the tracks allowed, partly allowed or not allowed), 軌道なし none."
+    },
+    {
+      "name": "bicycle_on_sidewalk",
+      "type": "string",
+      "description": "Original column: 自転車通行可能区分. Whether bicycles may use the sidewalks or bicycle tracks. Values are the category names (in Japanese) of the MLIT explanation document, converted from the source codes (listed with their codes in the Japanese description): 全区間通行可 whole section, 一部通行可又は通行可能な歩道なし partly or none."
+    },
+    {
+      "name": "weather_regulation",
+      "type": "string",
+      "description": "Original column: 異常気象時等通行規制区分. Traffic restrictions in severe weather and winter closures. Values are the category names (in Japanese) of the MLIT explanation document, converted from the source codes (listed with their codes in the Japanese description): rainfall, snow or other restrictions, with or without winter closure."
+    },
+    {
+      "name": "has_reversible_lane",
+      "type": "bool",
+      "description": "Original column: リバーシブルレーン運用の有無. True if a reversible lane is operated. Source codes 1 (yes) and 2 (no)."
+    },
+    {
+      "name": "access_control",
+      "type": "string",
+      "description": "Original column: アクセスコントロール. Access control. Values are the category names (in Japanese) of the MLIT explanation document, converted from the source codes (listed with their codes in the Japanese description): 完全出入制限 full, 部分出入制限 partial, 地形要因等により出入路なし no access due to terrain, 出入自由 none."
+    },
+    {
+      "name": "h27_road_unit_area_code",
+      "type": "string",
+      "description": "Original column: 平成２７年度／道路状況／都道府県指定市コード. Area code of the corresponding 2015 road condition survey unit section (5-character string): code of the area (prefecture, designated city, etc.) within which the survey unit sections are numbered. Leading zeros restored."
+    },
+    {
+      "name": "h27_road_unit_section_number",
+      "type": "string",
+      "description": "Original column: 平成２７年度／道路状況／調査単位区間番号. Corresponding 2015 road condition survey unit section number (5-character string): number of the survey unit section that groups basic sections. Identifies a unit section together with the area code. Leading zeros restored."
+    },
+    {
+      "name": "bbox",
+      "type": "struct<xmin: double, ymin: double, xmax: double, ymax: double>",
+      "description": "Feature bounding box (xmin, ymin, xmax, ymax). The GeoParquet 1.1 bbox covering column, used to skip row groups in spatial filters."
+    },
+    {
+      "name": "geometry",
+      "type": "binary",
+      "description": "Section line (multilinestring), joined per section from the lines of the MLIT visualization tool (web map). Null for the 353 sections without a line in the tool."
+    }
+  ],
+  "attribution": "\"2021 Road Traffic Census, general traffic volume survey, section table\" (MLIT), modified",
+  "language": {
+    "code": "en",
+    "name": "English"
+  },
+  "languages": [
+    {
+      "code": "ja",
+      "name": "日本語",
+      "alternate": "Japanese"
+    }
+  ],
+  "title": "Road traffic census (2021)",
+  "extent": {
+    "spatial": {
+      "bbox": [
+        [
+          122.94393,
+          24.23792,
+          145.81203,
+          45.52229
+        ]
+      ]
+    },
+    "temporal": {
+      "interval": [
+        [
+          "2021-03-31T15:00:00Z",
+          "2022-01-31T14:59:59Z"
+        ]
+      ]
+    }
+  },
+  "license": "other",
+  "keywords": [
+    "transport",
+    "road",
+    "traffic volume",
+    "travel speed",
+    "congestion",
+    "road traffic census",
+    "Japan",
+    "nationwide",
+    "MLIT"
+  ],
+  "providers": [
+    {
+      "name": "Ministry of Land, Infrastructure, Transport and Tourism (MLIT)",
+      "roles": [
+        "producer",
+        "licensor"
+      ],
+      "url": "https://www.mlit.go.jp/road/census/r3/index.html"
+    },
+    {
+      "name": "shi-works",
+      "roles": [
+        "processor",
+        "host"
+      ],
+      "url": "https://github.com/shiwaku/shi-works-catalog"
+    }
+  ],
+  "assets": {
+    "jp-mlit-road-traffic-census-2021": {
+      "href": "../../../jp-mlit/road-traffic-census-2021/jp-mlit-road-traffic-census-2021.parquet",
+      "type": "application/vnd.apache.parquet",
+      "file:size": 56429486,
+      "file:checksum": "122010c0a251d36ed52458ec97a002e69852ea99873f4cbd177944863e92d1d756c3",
+      "roles": [
+        "data"
+      ]
+    },
+    "thumbnail": {
+      "href": "../../../jp-mlit/road-traffic-census-2021/jp-mlit-road-traffic-census-2021.thumb.jpg",
+      "type": "image/jpeg",
+      "file:size": 11469,
+      "file:checksum": "1220c9501296aa7cb89b397e20b8f16e5a5a7842ed595faf3e7f06712ad13dd3daac",
+      "roles": [
+        "thumbnail"
+      ]
+    },
+    "documentation": {
+      "href": "./README.md",
+      "type": "text/markdown",
+      "file:size": 50766,
+      "file:checksum": "1220e40d02e8174085c4c05c3a9375381efaaaff112f43c3288210dc4f64ea7d3a81",
+      "roles": [
+        "documentation"
+      ]
+    }
+  }
+}

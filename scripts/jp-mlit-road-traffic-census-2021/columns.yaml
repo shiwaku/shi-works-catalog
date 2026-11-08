@@ -1,0 +1,889 @@
+# 道路交通センサス（令和3年度 一般交通量調査 箇所別基本表）の列の定義
+#
+# この1ファイルから、変換の SQL（build.py）、collection.json の table:columns、
+# README の列の表を作る（docs/metadata.md 第5章「同じ元から作る」）。
+#
+#   name  : 列名（英語の snake_case。日英で同じ）
+#   src   : 元の列名（箇所別基本表 CSV の見出し。全角のまま）。足した列は null
+#   type  : 型（SMALLINT、INTEGER、DOUBLE）。省略すると文字列
+#   pad   : 先頭を 0 で埋める桁数（元データで先頭の 0 が落ちているコード）
+#   codes : コード → ラベル。表にないコードがあれば build.py が止まる
+#   bool  : コード → true / false
+#   sql   : 値の式（足した列）
+#   ja    : 説明（日本語）。「元の列名: …」は自動で先頭に付く
+#   en    : 説明（英語）
+#
+# コードとラベルは、国土交通省「箇所別基本表及び時間帯別交通量表に関する説明資料」
+# （https://www.mlit.go.jp/road/census/r3/data/pdf/kasyorep.pdf）第5章による。
+
+columns:
+- name: section_id
+  src: 交通調査基本区間番号
+  ja: 交通調査基本区間番号（11桁の文字列）。都道府県（2桁）＋道路種別（1桁）＋路線番号（4桁）＋順番号（4桁）で、路線の起点から終点に向けて昇順。1行1区間で、重複はない。
+  en: 'Traffic survey basic section number (11-character string): prefecture (2) + road type (1) + route number (4) + sequence (4), ascending from the start to the end of the route. One row per section; unique.'
+- name: pref_code
+  src: null
+  sql: substr("交通調査基本区間番号", 1, 2)
+  ja: 都道府県コード（2桁の文字列）。section_id の先頭2桁。
+  en: Prefecture code (2-character string), the first two characters of section_id.
+- name: generation_split
+  src: 世代管理番号（十の位）
+  type: SMALLINT
+  ja: 世代管理番号の十の位（区間を分割した回数）。平成22年度調査以降に区間を分割したとき1つ増える。
+  en: 'Tens digit of the generation number: how many times the section has been split since the 2010 survey.'
+- name: generation_change
+  src: 世代管理番号（一の位）
+  type: SMALLINT
+  ja: 世代管理番号の一の位（属性を変えた回数）。
+  en: 'Units digit of the generation number: how many times the attributes of the section have changed.'
+- name: road_type
+  src: 道路種別
+  codes:
+    '1': 高速自動車国道
+    '2': 都市高速道路
+    '3': 一般国道
+    '4': 主要地方道（都道府県道）
+    '5': 主要地方道（指定市市道）
+    '6': 一般都道府県道
+    '7': 指定市の一般市道
+  ja: '道路種別。値は、元のコードを国土交通省の説明資料の区分名に直したもの: 1 高速自動車国道、2 都市高速道路、3 一般国道、4 主要地方道（都道府県道）、5 主要地方道（指定市市道）、6 一般都道府県道、7 指定市の一般市道（数字は元のコード）。'
+  en: 'Road type. Values are the category names (in Japanese) of the MLIT explanation document, converted from the source codes (listed with their codes in the Japanese description): 1 national expressway (高速自動車国道), 2 urban expressway, 3 national highway (一般国道), 4 major local road (prefectural), 5 major local road (designated city), 6 general prefectural road, 7 general city road of a designated city.'
+- name: route_number
+  src: 路線番号
+  type: SMALLINT
+  ja: 路線番号。一般国道は国道番号、都道府県道は標識などの番号。高速自動車国道は説明資料のコード表の番号。
+  en: Route number. The national highway number for national highways, the signed number for prefectural roads, and the number in the MLIT code table for expressways.
+- name: route_name
+  src: 路線名
+  ja: 路線名（政令・告示などによる正式な名前）。
+  en: Official route name (in Japanese).
+- name: start_connection_type
+  src: 起点側／接続区分
+  codes: &id001
+    '1': 他の枝路線の終点側と接続
+    '2': 他の枝路線の起点側と接続
+    '3': 都道府県境
+    '4': 異なる2つの枝路線の端点同士だけが接続
+    '5': 道路管理者が異なる箇所又は自動車専用道路の起点終点
+    '6': 市区町村境
+    '7': 大規模施設等へのアクセス点
+    '8': 枝路線の端点（他の基本区間と接続しない）
+    '9': 旧分割点
+  ja: '起点側の端点の接続の形。値は、元のコードを国土交通省の説明資料の区分名に直したもの: 1 他の枝路線の終点側と接続、2 他の枝路線の起点側と接続、3 都道府県境、4 異なる2つの枝路線の端点同士だけが接続、5 道路管理者が異なる箇所又は自動車専用道路の起点終点、6 市区町村境、7 大規模施設等へのアクセス点、8 枝路線の端点（他の基本区間と接続しない）、9 旧分割点（数字は元のコード）。'
+  en: 'How the start point of the section connects. Values are the category names (in Japanese) of the MLIT explanation document, converted from the source codes (listed with their codes in the Japanese description): e.g. connection to another branch route, prefectural or municipal boundary, access point to a large facility, end of the branch route.'
+- name: start_connected_section_id
+  src: 起点側／交通調査基本区間番号
+  ja: 起点側の端点でつながる区間の交通調査基本区間番号（接続区分が他の枝路線との接続・都道府県境のとき）。
+  en: Section number of the section connected at the start point (for connections to another branch route or at a prefectural boundary).
+- name: start_connected_generation_split
+  src: 起点側／世代管理番号（十の位）
+  type: SMALLINT
+  ja: 起点側でつながる区間の世代管理番号の十の位。
+  en: Tens digit of the generation number of the section connected at the start point.
+- name: start_connected_route_name
+  src: 起点側／路線名等
+  ja: 起点側でつながる路線の名前。市区町村境のときは「○○市・△△町 境」のような境界の名前。
+  en: Name of the route connected at the start point, or the boundary name (e.g. "○○市・△△町 境") at a municipal boundary (in Japanese).
+- name: start_remarks
+  src: 起点側／備考
+  ja: 起点側の備考。自動車専用道路の IC・JCT 名や、大規模施設の種類など。
+  en: Remarks on the start point, such as interchange or junction names on motorways, or the kind of large facility (in Japanese).
+- name: end_connection_type
+  src: 終点側／接続区分
+  codes: *id001
+  ja: '終点側の端点の接続の形。値は、元のコードを国土交通省の説明資料の区分名に直したもの: 1 他の枝路線の終点側と接続、2 他の枝路線の起点側と接続、3 都道府県境、4 異なる2つの枝路線の端点同士だけが接続、5 道路管理者が異なる箇所又は自動車専用道路の起点終点、6 市区町村境、7 大規模施設等へのアクセス点、8 枝路線の端点（他の基本区間と接続しない）、9 旧分割点（数字は元のコード）。'
+  en: 'How the end point of the section connects. Values are the category names (in Japanese) of the MLIT explanation document, converted from the source codes (listed with their codes in the Japanese description): e.g. connection to another branch route, prefectural or municipal boundary, access point to a large facility, end of the branch route.'
+- name: end_connected_section_id
+  src: 終点側／交通調査基本区間番号
+  ja: 終点側の端点でつながる区間の交通調査基本区間番号（接続区分が他の枝路線との接続・都道府県境のとき）。
+  en: Section number of the section connected at the end point (for connections to another branch route or at a prefectural boundary).
+- name: end_connected_generation_split
+  src: 終点側／世代管理番号（十の位）
+  type: SMALLINT
+  ja: 終点側でつながる区間の世代管理番号の十の位。
+  en: Tens digit of the generation number of the section connected at the end point.
+- name: end_connected_route_name
+  src: 終点側／路線名等
+  ja: 終点側でつながる路線の名前。市区町村境のときは「○○市・△△町 境」のような境界の名前。
+  en: Name of the route connected at the end point, or the boundary name (e.g. "○○市・△△町 境") at a municipal boundary (in Japanese).
+- name: end_remarks
+  src: 終点側／備考
+  ja: 終点側の備考。自動車専用道路の IC・JCT 名や、大規模施設の種類など。
+  en: Remarks on the end point, such as interchange or junction names on motorways, or the kind of large facility (in Japanese).
+- name: old_new_road_type
+  src: 現道旧道区分
+  codes:
+    '1': 現道
+    '2': 旧道
+    '3': 新道
+    '4': 旧道集約
+  ja: '現道か旧道か。値は、元のコードを国土交通省の説明資料の区分名に直したもの: 1 現道、2 旧道、3 新道、4 旧道集約（数字は元のコード）。'
+  en: 'Whether the road is the current road, an old road or a new road. Values are the category names (in Japanese) of the MLIT explanation document, converted from the source codes (listed with their codes in the Japanese description): 現道 current, 旧道 old, 新道 new, 旧道集約 aggregated old road.'
+- name: administrator
+  src: 管理区分
+  codes:
+    '1': 国土交通大臣
+    '2': 都道府県知事又は都道府県
+    '3': 指定市の長又は指定市
+    '4': 東日本・中日本・西日本高速道路株式会社
+    '5': 首都高速道路株式会社
+    '6': 阪神高速道路株式会社
+    '7': 本州四国連絡高速道路株式会社
+    '8': 地方道路公社等
+    '9': その他
+  ja: '道路管理者。権限代行区間は実際の管理者。値は、元のコードを国土交通省の説明資料の区分名に直したもの: 1 国土交通大臣、2 都道府県知事又は都道府県、3 指定市の長又は指定市、4 東日本・中日本・西日本高速道路株式会社、5 首都高速道路株式会社、6 阪神高速道路株式会社、7 本州四国連絡高速道路株式会社、8 地方道路公社等、9 その他（数字は元のコード）。'
+  en: 'Road administrator (the actual administrator for sections under delegated authority). Values are the category names (in Japanese) of the MLIT explanation document, converted from the source codes (listed with their codes in the Japanese description): e.g. 国土交通大臣 Minister of MLIT, 都道府県知事又は都道府県 prefecture, 指定市の長又は指定市 designated city, expressway companies.'
+- name: admin_code
+  src: 市区町村コード
+  pad: 5
+  ja: 市区町村コード（5桁の文字列。チェックディジットなし）。令和3年4月1日時点の標準地域コードで、政令指定都市は区ごと。元データで先頭の0が落ちているので補った。
+  en: Municipality code (5-character string, without the check digit), standard area code as of 1 April 2021, with designated cities split into wards. The leading zero dropped in the source has been restored.
+- name: is_motorway
+  src: 自動車専用道路の別
+  bool:
+    '1': true
+    '0': false
+  ja: 自動車専用道路（高速自動車国道または道路法第48条の2）の区間なら true。元のコードは 1（自動車専用道路）と 0（それ以外）。
+  en: True for motorway sections (national expressways or roads under Article 48-2 of the Road Act). Source codes 1 (motorway) and 0 (other).
+- name: section_type
+  src: 区間種別
+  codes:
+    '0': 通常区間
+    '1': 上下線分離区間
+    '2': 複断面区間
+    '3': 上下線分離かつ複断面区間
+    '6': 交通不能区間
+    '7': 循環区間
+    '8': 部分供用区間
+  ja: '区間の種類。値は、元のコードを国土交通省の説明資料の区分名に直したもの: 0 通常区間、1 上下線分離区間、2 複断面区間、3 上下線分離かつ複断面区間、6 交通不能区間、7 循環区間、8 部分供用区間（数字は元のコード）。'
+  en: 'Section type. Values are the category names (in Japanese) of the MLIT explanation document, converted from the source codes (listed with their codes in the Japanese description): 通常区間 normal, 上下線分離区間 directionally separated, 複断面区間 multi-deck/parallel, 交通不能区間 impassable to motor vehicles, 循環区間 loop, 部分供用区間 partially open.'
+- name: separation_type
+  src: 分離区間／分離区分
+  codes:
+    '0': 分離なし
+    '1': 上り線（上り主断面）
+    '2': 下り線（主断面、下り主断面）
+    '3': 上り複断面
+    '4': 複断面（下り複断面）
+  ja: '上下線分離・複断面の区間で、どちらの線か。値は、元のコードを国土交通省の説明資料の区分名に直したもの: 0 分離なし、1 上り線（上り主断面）、2 下り線（主断面、下り主断面）、3 上り複断面、4 複断面（下り複断面）（数字は元のコード）。'
+  en: 'For separated or multi-deck sections, which direction or deck this row is. Values are the category names (in Japanese) of the MLIT explanation document, converted from the source codes (listed with their codes in the Japanese description): 分離なし none, 上り線 up line, 下り線 down line or main deck, 上り複断面 up secondary deck, 複断面 secondary deck.'
+- name: separation_main_section_id
+  src: 分離区間／交通調査基本区間番号
+  ja: 分離区分が上り線・上り複断面・複断面のとき、対応する主路線の交通調査基本区間番号。
+  en: Section number of the corresponding main line, for up lines and secondary decks.
+- name: length_km
+  src: 区間延長（ｋｍ）
+  type: DOUBLE
+  ja: 区間延長（km。道路中心線の上の長さ。小数1桁）。
+  en: Section length along the road centre line (km, one decimal place).
+- name: high_standard_road
+  src: 高規格道路の別
+  codes:
+    '0': 高規格道路以外の道路
+    '1': 高規格幹線道路
+    '2': 地域高規格道路
+  ja: '高規格道路かどうか。値は、元のコードを国土交通省の説明資料の区分名に直したもの: 0 高規格道路以外の道路、1 高規格幹線道路、2 地域高規格道路（数字は元のコード）。'
+  en: 'Whether the road is a high-standard road. Values are the category names (in Japanese) of the MLIT explanation document, converted from the source codes (listed with their codes in the Japanese description): 高規格幹線道路 high-standard arterial highway, 地域高規格道路 regional high-standard highway, 高規格道路以外の道路 other.'
+- name: national_road_designated_section
+  src: 一般国道指定区間
+  codes:
+    '0': 一般国道以外の道路
+    '1': 一般国道（指定区間）
+    '2': 一般国道（指定区間外）
+  ja: '一般国道の指定区間（国が管理する区間）かどうか。値は、元のコードを国土交通省の説明資料の区分名に直したもの: 0 一般国道以外の道路、1 一般国道（指定区間）、2 一般国道（指定区間外）（数字は元のコード）。'
+  en: 'Whether the national highway section is a designated section (managed by the national government). Values are the category names (in Japanese) of the MLIT explanation document, converted from the source codes (listed with their codes in the Japanese description): 一般国道（指定区間） designated, 一般国道（指定区間外） not designated, 一般国道以外の道路 not a national highway.'
+- name: one_way
+  src: 一方通行フラグ
+  codes:
+    '0': なし
+    '1': 一方通行（起点から終点方向に通行可能）
+    '2': 一方通行（終点から起点方向に通行可能）
+  ja: '恒常的な一方通行の規制。値は、元のコードを国土交通省の説明資料の区分名に直したもの: 0 なし、1 一方通行（起点から終点方向に通行可能）、2 一方通行（終点から起点方向に通行可能）（数字は元のコード）。'
+  en: 'Permanent one-way restriction. Values are the category names (in Japanese) of the MLIT explanation document, converted from the source codes (listed with their codes in the Japanese description): なし none, 起点から終点方向 start to end, 終点から起点方向 end to start.'
+- name: h27_section_id
+  src: 平成２７年度／交通調査基本区間番号
+  ja: この区間に対応する平成27年度（2015年）調査の交通調査基本区間番号。2015年のデータと結び付けるときに使う。
+  en: Section number in the 2015 survey corresponding to this section. Use it to join the 2015 data.
+- name: h27_generation_split
+  src: 平成２７年度／世代管理番号（十の位）
+  type: SMALLINT
+  ja: 平成27年度の区間の世代管理番号の十の位。
+  en: Tens digit of the generation number of the 2015 section.
+- name: h27_generation_change
+  src: 平成２７年度／世代管理番号（一の位）
+  type: SMALLINT
+  ja: 平成27年度の区間の世代管理番号の一の位。
+  en: Units digit of the generation number of the 2015 section.
+- name: traffic_unit_area_code
+  src: 交通量／都道府県指定市コード
+  pad: 5
+  ja: 交通量調査の都道府県指定市コード（5桁の文字列）。調査単位区間番号の番号を振る単位（都道府県、指定市など）のコード。元データで先頭の0が落ちているので補った。
+  en: 'Area code of the traffic volume survey (5-character string): code of the area (prefecture, designated city, etc.) within which the survey unit sections are numbered. Leading zeros restored.'
+- name: traffic_unit_section_number
+  src: 交通量／調査単位区間番号
+  pad: 5
+  ja: 交通量調査単位区間番号（5桁の文字列）。交通調査基本区間を集約した調査単位区間の番号。都道府県指定市コードと組み合わせて1つの調査単位区間を表す。元データで先頭の0が落ちているので補った。
+  en: 'Traffic volume survey unit section number (5-character string): number of the survey unit section that groups basic sections. Identifies a unit section together with the area code. Leading zeros restored. Traffic volumes are the same for all basic sections in a unit section.'
+- name: up_observation_section_id
+  src: 上り／観測地点交通調査基本区間番号
+  ja: 上りの交通量を観測した地点がある交通調査基本区間の番号（観測した区間のみ）。
+  en: Section number of the basic section containing the observation point for the up direction (observed sections only).
+- name: up_observation_place
+  src: 上り／交通量観測地点地名
+  ja: 上りの交通量観測地点の地名、または IC 区間名（観測した区間のみ）。
+  en: Place name of the observation point for the up direction, or the interchange section name (observed sections only; in Japanese).
+- name: up_traffic_observed
+  src: 上り／令和３年度調査交通量観測・非観測の別
+  codes: &id002
+    '1': 観測
+    '2': 非観測（推定値）
+  ja: '上りの交通量が令和3年度の観測値か推定値か。値は、元のコードを国土交通省の説明資料の区分名に直したもの: 1 観測、2 非観測（推定値）（数字は元のコード）。空は推定できなかった区間（データなし）。推定値は実態と離れていることがあると説明資料にある。'
+  en: 'Whether the up direction traffic volume was observed in 2021 or estimated. Values are the category names (in Japanese) of the MLIT explanation document, converted from the source codes (listed with their codes in the Japanese description): 観測 observed, 非観測（推定値） estimated. Null where it could not be estimated. The MLIT document notes that estimates may differ from actual traffic.'
+- name: up_individual_survey_used
+  src: 上り／個別調査結果活用の別
+  bool:
+    '1': true
+    '0': false
+  ja: 上りの交通量に、平成27年度以降の個別調査の観測値を使ったなら true。元のコードは 1（活用あり）と 0（活用なし）。
+  en: True if the up direction traffic volume uses values from an individual survey after 2015. Source codes 1 (used) and 0 (not used).
+- name: up_observation_hours
+  src: 上り／１２時間・２４時間観測の別
+  codes: &id003
+    '0': 調査対象区間外（非観測）
+    '1': 12時間観測地点
+    '2': 24時間観測地点
+  ja: '上りの観測が12時間か24時間か。値は、元のコードを国土交通省の説明資料の区分名に直したもの: 0 調査対象区間外（非観測）、1 12時間観測地点、2 24時間観測地点（数字は元のコード）。'
+  en: 'Whether the up direction observation was 12-hour or 24-hour. Values are the category names (in Japanese) of the MLIT explanation document, converted from the source codes (listed with their codes in the Japanese description): 12時間観測地点 12-hour, 24時間観測地点 24-hour, 調査対象区間外（非観測） not observed.'
+- name: up_observation_date
+  src: 上り／交通量観測年月日
+  ja: 上りの交通量の観測年月日（YYYYMMDD の8桁の文字列）。常時観測装置などで複数日のデータを使ったときは日が「00」。
+  en: Observation date for the up direction (8-character string YYYYMMDD). The day is "00" when data from several days (e.g. permanent counters) were used.
+- name: up_traffic_12h_small
+  src: 上り／昼間１２時間自動車類交通量／小型車（台）
+  type: INTEGER
+  ja: 上りの昼間12時間自動車類交通量（小型車、台）。
+  en: Daytime 12-hour (7:00-19:00) motor vehicle traffic in the up direction, small vehicles (vehicles).
+- name: up_traffic_12h_large
+  src: 上り／昼間１２時間自動車類交通量／大型車（台）
+  type: INTEGER
+  ja: 上りの昼間12時間自動車類交通量（大型車、台）。
+  en: Daytime 12-hour (7:00-19:00) motor vehicle traffic in the up direction, large vehicles (vehicles).
+- name: up_traffic_12h
+  src: 上り／昼間１２時間自動車類交通量／合計（台）
+  type: INTEGER
+  ja: 上りの昼間12時間自動車類交通量（合計、台）。
+  en: Daytime 12-hour (7:00-19:00) motor vehicle traffic in the up direction, all vehicles (vehicles).
+- name: up_traffic_24h_small
+  src: 上り／２４時間自動車類交通量／小型車（台）
+  type: INTEGER
+  ja: 上りの24時間自動車類交通量（小型車、台）。
+  en: 24-hour motor vehicle traffic in the up direction, small vehicles (vehicles).
+- name: up_traffic_24h_large
+  src: 上り／２４時間自動車類交通量／大型車（台）
+  type: INTEGER
+  ja: 上りの24時間自動車類交通量（大型車、台）。
+  en: 24-hour motor vehicle traffic in the up direction, large vehicles (vehicles).
+- name: up_traffic_24h
+  src: 上り／２４時間自動車類交通量／合計（台）
+  type: INTEGER
+  ja: 上りの24時間自動車類交通量（合計、台）。
+  en: 24-hour motor vehicle traffic in the up direction, all vehicles (vehicles).
+- name: down_observation_section_id
+  src: 下り／観測地点交通調査基本区間番号
+  ja: 下りの交通量を観測した地点がある交通調査基本区間の番号（観測した区間のみ）。
+  en: Section number of the basic section containing the observation point for the down direction (observed sections only).
+- name: down_observation_place
+  src: 下り／交通量観測地点地名
+  ja: 下りの交通量観測地点の地名、または IC 区間名（観測した区間のみ）。
+  en: Place name of the observation point for the down direction, or the interchange section name (observed sections only; in Japanese).
+- name: down_traffic_observed
+  src: 下り／令和３年度調査交通量観測・非観測の別
+  codes: *id002
+  ja: '下りの交通量が令和3年度の観測値か推定値か。値は、元のコードを国土交通省の説明資料の区分名に直したもの: 1 観測、2 非観測（推定値）（数字は元のコード）。空は推定できなかった区間（データなし）。推定値は実態と離れていることがあると説明資料にある。'
+  en: 'Whether the down direction traffic volume was observed in 2021 or estimated. Values are the category names (in Japanese) of the MLIT explanation document, converted from the source codes (listed with their codes in the Japanese description): 観測 observed, 非観測（推定値） estimated. Null where it could not be estimated. The MLIT document notes that estimates may differ from actual traffic.'
+- name: down_individual_survey_used
+  src: 下り／個別調査結果活用の別
+  bool:
+    '1': true
+    '0': false
+  ja: 下りの交通量に、平成27年度以降の個別調査の観測値を使ったなら true。元のコードは 1（活用あり）と 0（活用なし）。
+  en: True if the down direction traffic volume uses values from an individual survey after 2015. Source codes 1 (used) and 0 (not used).
+- name: down_observation_hours
+  src: 下り／１２時間・２４時間観測の別
+  codes: *id003
+  ja: '下りの観測が12時間か24時間か。値は、元のコードを国土交通省の説明資料の区分名に直したもの: 0 調査対象区間外（非観測）、1 12時間観測地点、2 24時間観測地点（数字は元のコード）。'
+  en: 'Whether the down direction observation was 12-hour or 24-hour. Values are the category names (in Japanese) of the MLIT explanation document, converted from the source codes (listed with their codes in the Japanese description): 12時間観測地点 12-hour, 24時間観測地点 24-hour, 調査対象区間外（非観測） not observed.'
+- name: down_observation_date
+  src: 下り／交通量観測年月日
+  ja: 下りの交通量の観測年月日（YYYYMMDD の8桁の文字列）。常時観測装置などで複数日のデータを使ったときは日が「00」。
+  en: Observation date for the down direction (8-character string YYYYMMDD). The day is "00" when data from several days (e.g. permanent counters) were used.
+- name: down_traffic_12h_small
+  src: 下り／昼間１２時間自動車類交通量／小型車（台）
+  type: INTEGER
+  ja: 下りの昼間12時間自動車類交通量（小型車、台）。
+  en: Daytime 12-hour (7:00-19:00) motor vehicle traffic in the down direction, small vehicles (vehicles).
+- name: down_traffic_12h_large
+  src: 下り／昼間１２時間自動車類交通量／大型車（台）
+  type: INTEGER
+  ja: 下りの昼間12時間自動車類交通量（大型車、台）。
+  en: Daytime 12-hour (7:00-19:00) motor vehicle traffic in the down direction, large vehicles (vehicles).
+- name: down_traffic_12h
+  src: 下り／昼間１２時間自動車類交通量／合計（台）
+  type: INTEGER
+  ja: 下りの昼間12時間自動車類交通量（合計、台）。
+  en: Daytime 12-hour (7:00-19:00) motor vehicle traffic in the down direction, all vehicles (vehicles).
+- name: down_traffic_24h_small
+  src: 下り／２４時間自動車類交通量／小型車（台）
+  type: INTEGER
+  ja: 下りの24時間自動車類交通量（小型車、台）。
+  en: 24-hour motor vehicle traffic in the down direction, small vehicles (vehicles).
+- name: down_traffic_24h_large
+  src: 下り／２４時間自動車類交通量／大型車（台）
+  type: INTEGER
+  ja: 下りの24時間自動車類交通量（大型車、台）。
+  en: 24-hour motor vehicle traffic in the down direction, large vehicles (vehicles).
+- name: down_traffic_24h
+  src: 下り／２４時間自動車類交通量／合計（台）
+  type: INTEGER
+  ja: 下りの24時間自動車類交通量（合計、台）。
+  en: 24-hour motor vehicle traffic in the down direction, all vehicles (vehicles).
+- name: traffic_12h_small
+  src: 昼間１２時間自動車類交通量（上下合計）／小型車（台）
+  type: INTEGER
+  ja: 昼間12時間自動車類交通量（上下合計、小型車、台）。
+  en: Daytime 12-hour (7:00-19:00) motor vehicle traffic, both directions, small vehicles (vehicles).
+- name: traffic_12h_large
+  src: 昼間１２時間自動車類交通量（上下合計）／大型車（台）
+  type: INTEGER
+  ja: 昼間12時間自動車類交通量（上下合計、大型車、台）。
+  en: Daytime 12-hour (7:00-19:00) motor vehicle traffic, both directions, large vehicles (vehicles).
+- name: traffic_12h
+  src: 昼間１２時間自動車類交通量（上下合計）／合計（台）
+  type: INTEGER
+  ja: 昼間12時間自動車類交通量（上下合計、合計、台）。
+  en: Daytime 12-hour (7:00-19:00) motor vehicle traffic, both directions, all vehicles (vehicles).
+- name: traffic_24h_small
+  src: ２４時間自動車類交通量（上下合計）／小型車（台）
+  type: INTEGER
+  ja: 24時間自動車類交通量（上下合計、小型車、台）。12時間観測・推定の区間では、昼夜率などから推定した値。
+  en: 24-hour motor vehicle traffic, both directions, small vehicles (vehicles). For 12-hour observations and estimated sections it is estimated from the day-night ratio.
+- name: traffic_24h_large
+  src: ２４時間自動車類交通量（上下合計）／大型車（台）
+  type: INTEGER
+  ja: 24時間自動車類交通量（上下合計、大型車、台）。12時間観測・推定の区間では、昼夜率などから推定した値。
+  en: 24-hour motor vehicle traffic, both directions, large vehicles (vehicles). For 12-hour observations and estimated sections it is estimated from the day-night ratio.
+- name: traffic_24h
+  src: ２４時間自動車類交通量（上下合計）／合計（台）
+  type: INTEGER
+  ja: 24時間自動車類交通量（上下合計、合計、台）。交通量の分析では、ふつうこの列を使う。12時間観測・推定の区間では、昼夜率などから推定した値。
+  en: 24-hour motor vehicle traffic, both directions, all vehicles (vehicles). This is the column usually used for traffic volume. For 12-hour observations and estimated sections it is estimated from the day-night ratio.
+- name: day_night_ratio
+  src: 昼夜率
+  type: DOUBLE
+  ja: 昼夜率（24時間交通量 ÷ 昼間12時間交通量）。
+  en: Day-night ratio (24-hour traffic / daytime 12-hour traffic).
+- name: peak_ratio_12h_pct
+  src: 昼間１２時間ピーク比率（％）
+  type: DOUBLE
+  ja: 昼間12時間ピーク比率（%）。最も多い1時間の交通量 ÷ 昼間12時間交通量。
+  en: 'Peak-hour ratio (%): traffic in the busiest hour / daytime 12-hour traffic.'
+- name: large_vehicle_ratio_12h_pct
+  src: 昼間１２時間大型車混入率（％）
+  type: DOUBLE
+  ja: 昼間12時間大型車混入率（%）。大型車交通量 ÷ 全車交通量。
+  en: Share of large vehicles in daytime 12-hour traffic (%).
+- name: congestion_degree
+  src: 混雑度
+  type: DOUBLE
+  ja: 混雑度（昼間12時間交通量 ÷ 12時間交通容量）。1.0 を超えると、交通容量より交通量が多い。
+  en: Congestion degree (daytime 12-hour traffic / 12-hour traffic capacity). Above 1.0, traffic exceeds capacity.
+- name: h27_traffic_unit_area_code
+  src: 平成２７年度／交通量／都道府県指定市コード
+  pad: 5
+  ja: 対応する平成27年度の交通量調査単位区間の都道府県指定市コード（5桁の文字列）。調査単位区間番号の番号を振る単位（都道府県、指定市など）のコード。元データで先頭の0が落ちているので補った。
+  en: 'Area code of the corresponding 2015 traffic survey unit section (5-character string): code of the area (prefecture, designated city, etc.) within which the survey unit sections are numbered. Leading zeros restored.'
+- name: h27_traffic_unit_section_number
+  src: 平成２７年度／交通量／調査単位区間番号
+  pad: 5
+  ja: 対応する平成27年度の交通量調査単位区間番号（5桁の文字列）。交通調査基本区間を集約した調査単位区間の番号。都道府県指定市コードと組み合わせて1つの調査単位区間を表す。元データで先頭の0が落ちているので補った。
+  en: 'Corresponding 2015 traffic survey unit section number (5-character string): number of the survey unit section that groups basic sections. Identifies a unit section together with the area code. Leading zeros restored.'
+- name: h27_traffic_12h
+  src: 平成２７年度／昼間１２時間自動車類交通量（台）
+  type: INTEGER
+  ja: 平成27年度の昼間12時間自動車類交通量（上下合計、台）。
+  en: Daytime 12-hour motor vehicle traffic in 2015, both directions (vehicles).
+- name: h27_traffic_24h
+  src: 平成２７年度／２４時間自動車類交通量（台）
+  type: INTEGER
+  ja: 平成27年度の24時間自動車類交通量（上下合計、台）。
+  en: 24-hour motor vehicle traffic in 2015, both directions (vehicles).
+- name: speed_unit_area_code
+  src: 旅行速度／都道府県指定市コード
+  pad: 5
+  ja: 旅行速度調査の都道府県指定市コード（5桁の文字列）。調査単位区間番号の番号を振る単位（都道府県、指定市など）のコード。元データで先頭の0が落ちているので補った。
+  en: 'Area code of the travel speed survey (5-character string): code of the area (prefecture, designated city, etc.) within which the survey unit sections are numbered. Leading zeros restored.'
+- name: speed_unit_section_number
+  src: 旅行速度／調査単位区間番号
+  pad: 5
+  ja: 旅行速度調査単位区間番号（5桁の文字列）。交通調査基本区間を集約した調査単位区間の番号。都道府県指定市コードと組み合わせて1つの調査単位区間を表す。元データで先頭の0が落ちているので補った。
+  en: 'Travel speed survey unit section number (5-character string): number of the survey unit section that groups basic sections. Identifies a unit section together with the area code. Leading zeros restored.'
+- name: peak_up_speed_measured
+  src: 朝夕（混雑時）／上り／旅行速度計測・非計測の別
+  codes: &id004
+    '1': 計測
+    '2': 非計測（共通）
+    '3': 非計測（H27調査値）
+  ja: '朝夕（混雑時）・上りの旅行速度を計測したか。値は、元のコードを国土交通省の説明資料の区分名に直したもの: 1 計測、2 非計測（共通）、3 非計測（H27調査値）（数字は元のコード）。非計測（共通）は反対方向・他の時間帯・前後の区間の値で補ったもの、非計測（H27調査値）は平成27年度の値で補ったもの。'
+  en: 'Whether the travel speed for peak hours (7:00-9:00 and 17:00-19:00), up direction was measured. Values are the category names (in Japanese) of the MLIT explanation document, converted from the source codes (listed with their codes in the Japanese description): 計測 measured, 非計測（共通） filled from the opposite direction, another time band or an adjacent section, 非計測（H27調査値） filled with the 2015 value.'
+- name: peak_up_speed_small
+  src: 朝夕（混雑時）／上り／旅行速度／小型車（ｋｍ／ｈ）
+  type: DOUBLE
+  ja: 朝夕（混雑時）・上りの旅行速度（小型車、km/h）。信号や渋滞での停止時間を含む。車種別は ETC2.0 プローブ情報で調べた区間だけにある。
+  en: Travel speed for peak hours (7:00-9:00 and 17:00-19:00), up direction, small vehicles (km/h), including stops at signals and in congestion. By vehicle type only for sections surveyed with ETC2.0 probe data.
+- name: peak_up_speed_large
+  src: 朝夕（混雑時）／上り／旅行速度／大型車（ｋｍ／ｈ）
+  type: DOUBLE
+  ja: 朝夕（混雑時）・上りの旅行速度（大型車、km/h）。信号や渋滞での停止時間を含む。車種別は ETC2.0 プローブ情報で調べた区間だけにある。
+  en: Travel speed for peak hours (7:00-9:00 and 17:00-19:00), up direction, large vehicles (km/h), including stops at signals and in congestion. By vehicle type only for sections surveyed with ETC2.0 probe data.
+- name: peak_up_speed
+  src: 朝夕（混雑時）／上り／旅行速度／合計（ｋｍ／ｈ）
+  type: DOUBLE
+  ja: 朝夕（混雑時）・上りの旅行速度（合計、km/h）。信号や渋滞での停止時間を含む。
+  en: Travel speed for peak hours (7:00-9:00 and 17:00-19:00), up direction, all vehicles (km/h), including stops at signals and in congestion.
+- name: peak_up_probe_count_small
+  src: 朝夕（混雑時）／上り／取得件数／小型車（件）
+  type: INTEGER
+  ja: 朝夕（混雑時）・上りの旅行速度の算出に使った ETC2.0 プローブ情報の件数（小型車）。
+  en: Number of ETC2.0 probe records used for the travel speed for peak hours (7:00-9:00 and 17:00-19:00), up direction, small vehicles.
+- name: peak_up_probe_count_large
+  src: 朝夕（混雑時）／上り／取得件数／大型車（件）
+  type: INTEGER
+  ja: 朝夕（混雑時）・上りの旅行速度の算出に使った ETC2.0 プローブ情報の件数（大型車）。
+  en: Number of ETC2.0 probe records used for the travel speed for peak hours (7:00-9:00 and 17:00-19:00), up direction, large vehicles.
+- name: peak_up_probe_count
+  src: 朝夕（混雑時）／上り／取得件数／合計（件）
+  type: INTEGER
+  ja: 朝夕（混雑時）・上りの旅行速度の算出に使った ETC2.0 プローブ情報の件数（合計）。
+  en: Number of ETC2.0 probe records used for the travel speed for peak hours (7:00-9:00 and 17:00-19:00), up direction, all vehicles.
+- name: peak_down_speed_measured
+  src: 朝夕（混雑時）／下り／旅行速度計測・非計測の別
+  codes: *id004
+  ja: '朝夕（混雑時）・下りの旅行速度を計測したか。値は、元のコードを国土交通省の説明資料の区分名に直したもの: 1 計測、2 非計測（共通）、3 非計測（H27調査値）（数字は元のコード）。非計測（共通）は反対方向・他の時間帯・前後の区間の値で補ったもの、非計測（H27調査値）は平成27年度の値で補ったもの。'
+  en: 'Whether the travel speed for peak hours (7:00-9:00 and 17:00-19:00), down direction was measured. Values are the category names (in Japanese) of the MLIT explanation document, converted from the source codes (listed with their codes in the Japanese description): 計測 measured, 非計測（共通） filled from the opposite direction, another time band or an adjacent section, 非計測（H27調査値） filled with the 2015 value.'
+- name: peak_down_speed_small
+  src: 朝夕（混雑時）／下り／旅行速度／小型車（ｋｍ／ｈ）
+  type: DOUBLE
+  ja: 朝夕（混雑時）・下りの旅行速度（小型車、km/h）。信号や渋滞での停止時間を含む。車種別は ETC2.0 プローブ情報で調べた区間だけにある。
+  en: Travel speed for peak hours (7:00-9:00 and 17:00-19:00), down direction, small vehicles (km/h), including stops at signals and in congestion. By vehicle type only for sections surveyed with ETC2.0 probe data.
+- name: peak_down_speed_large
+  src: 朝夕（混雑時）／下り／旅行速度／大型車（ｋｍ／ｈ）
+  type: DOUBLE
+  ja: 朝夕（混雑時）・下りの旅行速度（大型車、km/h）。信号や渋滞での停止時間を含む。車種別は ETC2.0 プローブ情報で調べた区間だけにある。
+  en: Travel speed for peak hours (7:00-9:00 and 17:00-19:00), down direction, large vehicles (km/h), including stops at signals and in congestion. By vehicle type only for sections surveyed with ETC2.0 probe data.
+- name: peak_down_speed
+  src: 朝夕（混雑時）／下り／旅行速度／合計（ｋｍ／ｈ）
+  type: DOUBLE
+  ja: 朝夕（混雑時）・下りの旅行速度（合計、km/h）。信号や渋滞での停止時間を含む。
+  en: Travel speed for peak hours (7:00-9:00 and 17:00-19:00), down direction, all vehicles (km/h), including stops at signals and in congestion.
+- name: peak_down_probe_count_small
+  src: 朝夕（混雑時）／下り／取得件数／小型車（件）
+  type: INTEGER
+  ja: 朝夕（混雑時）・下りの旅行速度の算出に使った ETC2.0 プローブ情報の件数（小型車）。
+  en: Number of ETC2.0 probe records used for the travel speed for peak hours (7:00-9:00 and 17:00-19:00), down direction, small vehicles.
+- name: peak_down_probe_count_large
+  src: 朝夕（混雑時）／下り／取得件数／大型車（件）
+  type: INTEGER
+  ja: 朝夕（混雑時）・下りの旅行速度の算出に使った ETC2.0 プローブ情報の件数（大型車）。
+  en: Number of ETC2.0 probe records used for the travel speed for peak hours (7:00-9:00 and 17:00-19:00), down direction, large vehicles.
+- name: peak_down_probe_count
+  src: 朝夕（混雑時）／下り／取得件数／合計（件）
+  type: INTEGER
+  ja: 朝夕（混雑時）・下りの旅行速度の算出に使った ETC2.0 プローブ情報の件数（合計）。
+  en: Number of ETC2.0 probe records used for the travel speed for peak hours (7:00-9:00 and 17:00-19:00), down direction, all vehicles.
+- name: offpeak_up_speed_measured
+  src: 昼間（非混雑時）／上り／旅行速度計測・非計測の別
+  codes: *id004
+  ja: '昼間（非混雑時）・上りの旅行速度を計測したか。値は、元のコードを国土交通省の説明資料の区分名に直したもの: 1 計測、2 非計測（共通）、3 非計測（H27調査値）（数字は元のコード）。非計測（共通）は反対方向・他の時間帯・前後の区間の値で補ったもの、非計測（H27調査値）は平成27年度の値で補ったもの。'
+  en: 'Whether the travel speed for off-peak daytime (9:00-17:00), up direction was measured. Values are the category names (in Japanese) of the MLIT explanation document, converted from the source codes (listed with their codes in the Japanese description): 計測 measured, 非計測（共通） filled from the opposite direction, another time band or an adjacent section, 非計測（H27調査値） filled with the 2015 value.'
+- name: offpeak_up_speed_small
+  src: 昼間（非混雑時）／上り／旅行速度／小型車（ｋｍ／ｈ）
+  type: DOUBLE
+  ja: 昼間（非混雑時）・上りの旅行速度（小型車、km/h）。信号や渋滞での停止時間を含む。車種別は ETC2.0 プローブ情報で調べた区間だけにある。
+  en: Travel speed for off-peak daytime (9:00-17:00), up direction, small vehicles (km/h), including stops at signals and in congestion. By vehicle type only for sections surveyed with ETC2.0 probe data.
+- name: offpeak_up_speed_large
+  src: 昼間（非混雑時）／上り／旅行速度／大型車（ｋｍ／ｈ）
+  type: DOUBLE
+  ja: 昼間（非混雑時）・上りの旅行速度（大型車、km/h）。信号や渋滞での停止時間を含む。車種別は ETC2.0 プローブ情報で調べた区間だけにある。
+  en: Travel speed for off-peak daytime (9:00-17:00), up direction, large vehicles (km/h), including stops at signals and in congestion. By vehicle type only for sections surveyed with ETC2.0 probe data.
+- name: offpeak_up_speed
+  src: 昼間（非混雑時）／上り／旅行速度／合計（ｋｍ／ｈ）
+  type: DOUBLE
+  ja: 昼間（非混雑時）・上りの旅行速度（合計、km/h）。信号や渋滞での停止時間を含む。
+  en: Travel speed for off-peak daytime (9:00-17:00), up direction, all vehicles (km/h), including stops at signals and in congestion.
+- name: offpeak_up_probe_count_small
+  src: 昼間（非混雑時）／上り／取得件数／小型車（件）
+  type: INTEGER
+  ja: 昼間（非混雑時）・上りの旅行速度の算出に使った ETC2.0 プローブ情報の件数（小型車）。
+  en: Number of ETC2.0 probe records used for the travel speed for off-peak daytime (9:00-17:00), up direction, small vehicles.
+- name: offpeak_up_probe_count_large
+  src: 昼間（非混雑時）／上り／取得件数／大型車（件）
+  type: INTEGER
+  ja: 昼間（非混雑時）・上りの旅行速度の算出に使った ETC2.0 プローブ情報の件数（大型車）。
+  en: Number of ETC2.0 probe records used for the travel speed for off-peak daytime (9:00-17:00), up direction, large vehicles.
+- name: offpeak_up_probe_count
+  src: 昼間（非混雑時）／上り／取得件数／合計（件）
+  type: INTEGER
+  ja: 昼間（非混雑時）・上りの旅行速度の算出に使った ETC2.0 プローブ情報の件数（合計）。
+  en: Number of ETC2.0 probe records used for the travel speed for off-peak daytime (9:00-17:00), up direction, all vehicles.
+- name: offpeak_down_speed_measured
+  src: 昼間（非混雑時）／下り／旅行速度計測・非計測の別
+  codes: *id004
+  ja: '昼間（非混雑時）・下りの旅行速度を計測したか。値は、元のコードを国土交通省の説明資料の区分名に直したもの: 1 計測、2 非計測（共通）、3 非計測（H27調査値）（数字は元のコード）。非計測（共通）は反対方向・他の時間帯・前後の区間の値で補ったもの、非計測（H27調査値）は平成27年度の値で補ったもの。'
+  en: 'Whether the travel speed for off-peak daytime (9:00-17:00), down direction was measured. Values are the category names (in Japanese) of the MLIT explanation document, converted from the source codes (listed with their codes in the Japanese description): 計測 measured, 非計測（共通） filled from the opposite direction, another time band or an adjacent section, 非計測（H27調査値） filled with the 2015 value.'
+- name: offpeak_down_speed_small
+  src: 昼間（非混雑時）／下り／旅行速度／小型車（ｋｍ／ｈ）
+  type: DOUBLE
+  ja: 昼間（非混雑時）・下りの旅行速度（小型車、km/h）。信号や渋滞での停止時間を含む。車種別は ETC2.0 プローブ情報で調べた区間だけにある。
+  en: Travel speed for off-peak daytime (9:00-17:00), down direction, small vehicles (km/h), including stops at signals and in congestion. By vehicle type only for sections surveyed with ETC2.0 probe data.
+- name: offpeak_down_speed_large
+  src: 昼間（非混雑時）／下り／旅行速度／大型車（ｋｍ／ｈ）
+  type: DOUBLE
+  ja: 昼間（非混雑時）・下りの旅行速度（大型車、km/h）。信号や渋滞での停止時間を含む。車種別は ETC2.0 プローブ情報で調べた区間だけにある。
+  en: Travel speed for off-peak daytime (9:00-17:00), down direction, large vehicles (km/h), including stops at signals and in congestion. By vehicle type only for sections surveyed with ETC2.0 probe data.
+- name: offpeak_down_speed
+  src: 昼間（非混雑時）／下り／旅行速度／合計（ｋｍ／ｈ）
+  type: DOUBLE
+  ja: 昼間（非混雑時）・下りの旅行速度（合計、km/h）。信号や渋滞での停止時間を含む。
+  en: Travel speed for off-peak daytime (9:00-17:00), down direction, all vehicles (km/h), including stops at signals and in congestion.
+- name: offpeak_down_probe_count_small
+  src: 昼間（非混雑時）／下り／取得件数／小型車（件）
+  type: INTEGER
+  ja: 昼間（非混雑時）・下りの旅行速度の算出に使った ETC2.0 プローブ情報の件数（小型車）。
+  en: Number of ETC2.0 probe records used for the travel speed for off-peak daytime (9:00-17:00), down direction, small vehicles.
+- name: offpeak_down_probe_count_large
+  src: 昼間（非混雑時）／下り／取得件数／大型車（件）
+  type: INTEGER
+  ja: 昼間（非混雑時）・下りの旅行速度の算出に使った ETC2.0 プローブ情報の件数（大型車）。
+  en: Number of ETC2.0 probe records used for the travel speed for off-peak daytime (9:00-17:00), down direction, large vehicles.
+- name: offpeak_down_probe_count
+  src: 昼間（非混雑時）／下り／取得件数／合計（件）
+  type: INTEGER
+  ja: 昼間（非混雑時）・下りの旅行速度の算出に使った ETC2.0 プローブ情報の件数（合計）。
+  en: Number of ETC2.0 probe records used for the travel speed for off-peak daytime (9:00-17:00), down direction, all vehicles.
+- name: daytime_12h_speed_up
+  src: 昼間１２時間平均旅行速度（時間帯別交通量加重）／上り（ｋｍ／ｈ）
+  type: DOUBLE
+  ja: 昼間12時間平均旅行速度（上り、km/h）。時間帯別の旅行速度を時間帯別交通量で重み付けした平均。
+  en: Daytime 12-hour average travel speed, up direction (km/h), weighted by hourly traffic.
+- name: daytime_12h_speed_down
+  src: 昼間１２時間平均旅行速度（時間帯別交通量加重）／下り（ｋｍ／ｈ）
+  type: DOUBLE
+  ja: 昼間12時間平均旅行速度（下り、km/h）。時間帯別の旅行速度を時間帯別交通量で重み付けした平均。
+  en: Daytime 12-hour average travel speed, down direction (km/h), weighted by hourly traffic.
+- name: h27_speed_unit_area_code
+  src: 平成２７年度／旅行速度／都道府県指定市コード
+  pad: 5
+  ja: 対応する平成27年度の旅行速度調査単位区間の都道府県指定市コード（5桁の文字列）。調査単位区間番号の番号を振る単位（都道府県、指定市など）のコード。元データで先頭の0が落ちているので補った。
+  en: 'Area code of the corresponding 2015 travel speed survey unit section (5-character string): code of the area (prefecture, designated city, etc.) within which the survey unit sections are numbered. Leading zeros restored.'
+- name: h27_speed_unit_section_number
+  src: 平成２７年度／旅行速度／調査単位区間番号
+  pad: 5
+  ja: 対応する平成27年度の旅行速度調査単位区間番号（5桁の文字列）。交通調査基本区間を集約した調査単位区間の番号。都道府県指定市コードと組み合わせて1つの調査単位区間を表す。元データで先頭の0が落ちているので補った。
+  en: 'Corresponding 2015 travel speed survey unit section number (5-character string): number of the survey unit section that groups basic sections. Identifies a unit section together with the area code. Leading zeros restored.'
+- name: h27_peak_up_speed
+  src: 平成２７年度／混雑時／上り／平均旅行速度（ｋｍ／ｈ）
+  type: DOUBLE
+  ja: 平成27年度の混雑時・上りの平均旅行速度（km/h）。
+  en: Average travel speed in 2015 for peak hours, up direction (km/h).
+- name: h27_peak_down_speed
+  src: 平成２７年度／混雑時／下り／平均旅行速度（ｋｍ／ｈ）
+  type: DOUBLE
+  ja: 平成27年度の混雑時・下りの平均旅行速度（km/h）。
+  en: Average travel speed in 2015 for peak hours, down direction (km/h).
+- name: h27_offpeak_up_speed
+  src: 平成２７年度／昼間非混雑時／上り／平均旅行速度（ｋｍ／ｈ）
+  type: DOUBLE
+  ja: 平成27年度の昼間非混雑時・上りの平均旅行速度（km/h）。
+  en: Average travel speed in 2015 for off-peak daytime, up direction (km/h).
+- name: h27_offpeak_down_speed
+  src: 平成２７年度／昼間非混雑時／下り／平均旅行速度（ｋｍ／ｈ）
+  type: DOUBLE
+  ja: 平成27年度の昼間非混雑時・下りの平均旅行速度（km/h）。
+  en: Average travel speed in 2015 for off-peak daytime, down direction (km/h).
+- name: road_unit_area_code
+  src: 道路状況／都道府県指定市コード
+  pad: 5
+  ja: 道路状況調査の都道府県指定市コード（5桁の文字列）。調査単位区間番号の番号を振る単位（都道府県、指定市など）のコード。元データで先頭の0が落ちているので補った。
+  en: 'Area code of the road condition survey (5-character string): code of the area (prefecture, designated city, etc.) within which the survey unit sections are numbered. Leading zeros restored.'
+- name: road_unit_section_number
+  src: 道路状況／調査単位区間番号
+  pad: 5
+  ja: 道路状況調査単位区間番号（5桁の文字列）。交通調査基本区間を集約した調査単位区間の番号。都道府県指定市コードと組み合わせて1つの調査単位区間を表す。元データで先頭の0が落ちているので補った。幅員などの道路状況は、この調査単位区間の代表断面の値。
+  en: 'Road condition survey unit section number (5-character string): number of the survey unit section that groups basic sections. Identifies a unit section together with the area code. Leading zeros restored. Road conditions such as widths are those of the representative cross-section of this unit section.'
+- name: improved_pct
+  src: 区間延長／改良済み区間率（％）
+  type: DOUBLE
+  ja: 改良済み区間率（%）。道路構造令の規格に合う区間の延長の割合。
+  en: Share of the length improved to the Road Structure Ordinance standards (%).
+- name: improved_5_5m_pct
+  src: 区間延長／5.5ｍ以上改良済み区間率（％）
+  type: DOUBLE
+  ja: 幅員5.5m以上の改良済み区間の延長の割合（%）。
+  en: Share of the length improved with a width of 5.5 m or more (%).
+- name: road_width_m
+  src: 幅員構成／道路部幅員（ｍ）
+  type: DOUBLE
+  ja: 道路部幅員（m）。車道、中央帯、路肩、植樹帯、歩道などを合わせた幅員。
+  en: 'Road width: roadway, median, shoulders, planting strips, sidewalks, etc. (m).'
+- name: roadway_section_width_m
+  src: 幅員構成／車道部幅員（ｍ）
+  type: DOUBLE
+  ja: 車道部幅員（m）。車線、停車帯、路肩、中央帯を合わせた幅員。車道幅員（roadway_width_m）より広い。
+  en: 'Roadway section width: lanes, stopping lanes, shoulders and median (m). Wider than the roadway width (roadway_width_m).'
+- name: roadway_width_m
+  src: 幅員構成／車道幅員（ｍ）
+  type: DOUBLE
+  ja: 車道幅員（m）。車線と停車帯などの合計で、中央帯と路肩を含まない。
+  en: 'Roadway width: lanes and stopping lanes, excluding median and shoulders (m).'
+- name: median_width_m
+  src: 幅員構成／中央帯幅員（ｍ）
+  type: DOUBLE
+  ja: 中央帯幅員（m）。中央帯の幅員。
+  en: Median width (m).
+- name: sidewalk_width_up_m
+  src: 幅員構成／歩道幅員／上り（ｍ）
+  type: DOUBLE
+  ja: 歩道幅員（上り側、m）。歩道・自転車歩行者道の幅員。
+  en: Sidewalk width (including shared bicycle-pedestrian paths), up side (m).
+- name: sidewalk_width_down_m
+  src: 幅員構成／歩道幅員／下り（ｍ）
+  type: DOUBLE
+  ja: 歩道幅員（下り側、m）。歩道・自転車歩行者道の幅員。
+  en: Sidewalk width (including shared bicycle-pedestrian paths), down side (m).
+- name: bicycle_track_width_up_m
+  src: 幅員構成／自転車道幅員／上り（ｍ）
+  type: DOUBLE
+  ja: 自転車道幅員（上り側、m）。自転車道の幅員。
+  en: Bicycle track width, up side (m).
+- name: bicycle_track_width_down_m
+  src: 幅員構成／自転車道幅員／下り（ｍ）
+  type: DOUBLE
+  ja: 自転車道幅員（下り側、m）。自転車道の幅員。
+  en: Bicycle track width, down side (m).
+- name: stopping_lane_width_up_m
+  src: 幅員構成／停車帯等幅員／上り（ｍ）
+  type: DOUBLE
+  ja: 停車帯等幅員（上り側、m）。停車帯・緩速車道等（自転車レーンを含む）の幅員。
+  en: Width of stopping lanes and slow lanes (including bicycle lanes), up side (m).
+- name: stopping_lane_width_down_m
+  src: 幅員構成／停車帯等幅員／下り（ｍ）
+  type: DOUBLE
+  ja: 停車帯等幅員（下り側、m）。停車帯・緩速車道等（自転車レーンを含む）の幅員。
+  en: Width of stopping lanes and slow lanes (including bicycle lanes), down side (m).
+- name: lanes
+  src: 車線数
+  type: SMALLINT
+  ja: 車線数（上下合計。一方通行区間を除く）。登坂車線・付加追越車線・右左折車線などは含まない。車道幅員5.5m未満のいわゆる1車線道路は1。
+  en: Number of lanes (both directions, except one-way sections), excluding climbing, passing and turning lanes. Single-lane roads with a roadway narrower than 5.5 m are 1.
+- name: sidewalk_pct
+  src: 交通安全施設等／歩道設置率（％）
+  type: DOUBLE
+  ja: 歩道設置率（%）。歩道（自転車歩行者道を含む）が片側か両側にある区間の延長の割合。
+  en: Share of the length with a sidewalk (including shared paths) on one or both sides (%).
+- name: bike_ped_path_pct
+  src: 交通安全施設等／自転車歩行者道設置率（％）
+  type: DOUBLE
+  ja: 自転車歩行者道設置率（%）。自転車歩行者道が片側か両側にある区間の延長の割合。
+  en: Share of the length with a shared bicycle-pedestrian path on one or both sides (%).
+- name: bicycle_track_pct
+  src: 交通安全施設等／自転車道設置率（％）
+  type: DOUBLE
+  ja: 自転車道設置率（%）。自転車道が片側か両側にある区間の延長の割合。
+  en: Share of the length with a bicycle track on one or both sides (%).
+- name: bicycle_lane_pct
+  src: 交通安全施設等／自転車レーン設置率（％）
+  type: DOUBLE
+  ja: 自転車レーン設置率（%）。自転車レーン（普通自転車専用通行帯など）が片側か両側にある区間の延長の割合。
+  en: Share of the length with a bicycle lane on one or both sides (%).
+- name: sidewalk_both_sides_pct
+  src: 交通安全施設等／両側歩道設置率（％）
+  type: DOUBLE
+  ja: 両側歩道設置率（%）。歩道（自転車歩行者道を含む）が両側にある区間の延長の割合。
+  en: Share of the length with sidewalks on both sides (%).
+- name: bike_ped_path_both_sides_pct
+  src: 交通安全施設等／両側自転車歩行者道設置率（％）
+  type: DOUBLE
+  ja: 両側自転車歩行者道設置率（%）。自転車歩行者道が両側にある区間の延長の割合。
+  en: Share of the length with shared paths on both sides (%).
+- name: bicycle_track_both_sides_pct
+  src: 交通安全施設等／両側自転車道設置率（％）
+  type: DOUBLE
+  ja: 両側自転車道設置率（%）。自転車道が両側にある区間の延長の割合。
+  en: Share of the length with bicycle tracks on both sides (%).
+- name: bicycle_lane_both_sides_pct
+  src: 交通安全施設等／両側自転車レーン設置率（％）
+  type: DOUBLE
+  ja: 両側自転車レーン設置率（%）。自転車レーンが両側にある区間の延長の割合。
+  en: Share of the length with bicycle lanes on both sides (%).
+- name: sidewalk_typical_width_m
+  src: 交通安全施設等／歩道代表幅員（ｍ）
+  type: DOUBLE
+  ja: 歩道（自転車歩行者道を含む）の代表幅員（m）。
+  en: Typical sidewalk width (m).
+- name: bicycle_track_typical_width_m
+  src: 交通安全施設等／自転車道代表幅員（ｍ）
+  type: DOUBLE
+  ja: 自転車道の代表幅員（m）。
+  en: Typical bicycle track width (m).
+- name: bus_route_pct
+  src: バス路線／バス路線延長率（％）
+  type: DOUBLE
+  ja: バス路線延長率（%）。路線バスが走る区間の延長の割合。
+  en: Share of the length served by route buses (%).
+- name: bus_lane
+  src: バス路線／バス優先・専用レーンの有無
+  codes:
+    '1': バス優先レーンあり
+    '2': バス専用レーンあり
+    '3': バス優先・専用レーンなし
+  ja: 'バス優先・専用レーンの有無。値は、元のコードを国土交通省の説明資料の区分名に直したもの: 1 バス優先レーンあり、2 バス専用レーンあり、3 バス優先・専用レーンなし（数字は元のコード）。'
+  en: 'Bus priority or bus-only lane. Values are the category names (in Japanese) of the MLIT explanation document, converted from the source codes (listed with their codes in the Japanese description): バス優先レーンあり priority lane, バス専用レーンあり bus-only lane, なし none.'
+- name: signalized_intersections_per_km
+  src: 交差点密度／信号交差点（箇所／ｋｍ）
+  type: DOUBLE
+  ja: 信号交差点の密度（箇所/km）。押しボタン式の信号のある横断歩道を含む。
+  en: Signalized intersections per km, including signalized pedestrian crossings.
+- name: unsignalized_intersections_per_km
+  src: 交差点密度／信号のない交差点（箇所／ｋｍ）
+  type: DOUBLE
+  ja: 信号のない交差点の密度（箇所/km）。沿道の家などへの取付道路は含まない。
+  en: Unsignalized intersections per km, excluding driveways.
+- name: rep_signal_green_ratio_pct
+  src: 代表信号交差点／青時間比（％）
+  type: SMALLINT
+  ja: 代表信号交差点の青時間比（%）。3車線以上か、一方通行で2車線以上の区間で、信号交差点があるときだけ。
+  en: Green time ratio of the representative signalized intersection (%). Only for sections with 3+ lanes (or 2+ one-way) and a signalized intersection.
+- name: rep_signal_right_turn_lane
+  src: 代表信号交差点／右折専用車線の有無等
+  codes:
+    '1': 右折専用車線あり
+    '2': 右折専用車線なし
+    '3': 右折禁止
+    '4': 調査路線が右折
+  ja: '代表信号交差点の右折専用車線の有無など。値は、元のコードを国土交通省の説明資料の区分名に直したもの: 1 右折専用車線あり、2 右折専用車線なし、3 右折禁止、4 調査路線が右折（数字は元のコード）。'
+  en: 'Right-turn lane at the representative signalized intersection. Values are the category names (in Japanese) of the MLIT explanation document, converted from the source codes (listed with their codes in the Japanese description): 右折専用車線あり yes, なし no, 右折禁止 right turn prohibited, 調査路線が右折 the surveyed route turns right.'
+- name: has_railway_crossing
+  src: 鉄道との平面交差箇所の有無
+  bool:
+    '1': true
+    '2': false
+  ja: 鉄道との平面交差（踏切）があれば true。元のコードは 1（あり）と 2（なし）。
+  en: True if there is a level crossing with a railway. Source codes 1 (yes) and 2 (no).
+- name: speed_limit_kmh
+  src: 指定最高速度（ｋｍ／ｈ）
+  type: SMALLINT
+  ja: 最高速度（km/h）。標識などで指定された速度。指定がない道路は道路交通法施行令の法定速度。
+  en: 'Speed limit (km/h): the posted limit, or the statutory limit where none is posted.'
+- name: has_climbing_lane_up
+  src: 付加車線及び登坂車線設置箇所の有無／上り
+  bool:
+    '1': true
+    '2': false
+  ja: 上りに付加車線・登坂車線があれば true。元のコードは 1（あり）と 2（なし）。
+  en: True if there is an additional or climbing lane in the up direction. Source codes 1 (yes) and 2 (no).
+- name: has_climbing_lane_down
+  src: 付加車線及び登坂車線設置箇所の有無／下り
+  bool:
+    '1': true
+    '2': false
+  ja: 下りに付加車線・登坂車線があれば true。元のコードは 1（あり）と 2（なし）。
+  en: True if there is an additional or climbing lane in the down direction. Source codes 1 (yes) and 2 (no).
+- name: roadside_status
+  src: 代表沿道状況
+  codes:
+    '1': 人口集中地区かつ商業地域
+    '2': 人口集中地区（商業地域を除く）
+    '3': その他市街部
+    '4': 平地部
+    '5': 山地部
+  ja: '代表沿道状況（調査単位区間で最も長い沿道の状況）。人口集中地区は平成27年国勢調査のもの。値は、元のコードを国土交通省の説明資料の区分名に直したもの: 1 人口集中地区かつ商業地域、2 人口集中地区（商業地域を除く）、3 その他市街部、4 平地部、5 山地部（数字は元のコード）。'
+  en: 'Representative roadside condition (the longest in the unit section). Densely inhabited districts are those of the 2015 Census. Values are the category names (in Japanese) of the MLIT explanation document, converted from the source codes (listed with their codes in the Japanese description): 人口集中地区かつ商業地域 DID and commercial zone, 人口集中地区 DID, その他市街部 other built-up area, 平地部 flat rural, 山地部 mountainous.'
+- name: median_type
+  src: 中央分離帯／中央分離帯の種類
+  codes:
+    '1': 物理的分離（高架道路等の橋脚、地形要因による分離）
+    '2': 剛性防護柵
+    '3': たわみ性防護柵
+    '4': その他の柵
+    '5': 植樹施設、マウントアップ
+    '6': 簡易な分離（ラバーポール、チャッターバー等）
+    '7': 構造物なし（マーキング）
+    '8': 中央分離帯なし
+  ja: '中央分離帯の種類。値は、元のコードを国土交通省の説明資料の区分名に直したもの: 1 物理的分離（高架道路等の橋脚、地形要因による分離）、2 剛性防護柵、3 たわみ性防護柵、4 その他の柵、5 植樹施設、マウントアップ、6 簡易な分離（ラバーポール、チャッターバー等）、7 構造物なし（マーキング）、8 中央分離帯なし（数字は元のコード）。'
+  en: 'Type of median. Values are the category names (in Japanese) of the MLIT explanation document, converted from the source codes (listed with their codes in the Japanese description): from physical separation and guard fences to rubber poles, markings only, and no median.'
+- name: median_installation
+  src: 中央分離帯／中央分離帯の設置状況
+  codes:
+    '1': 区間全体に設置
+    '2': 一部区間に設置（区間の概ね3分の2以上）
+    '3': あまり設置されていない
+  ja: '中央分離帯の設置状況（種類が物理的分離のときだけ）。値は、元のコードを国土交通省の説明資料の区分名に直したもの: 1 区間全体に設置、2 一部区間に設置（区間の概ね3分の2以上）、3 あまり設置されていない（数字は元のコード）。'
+  en: 'How much of the section has the median (only for physical medians). Values are the category names (in Japanese) of the MLIT explanation document, converted from the source codes (listed with their codes in the Japanese description): 区間全体 whole section, 一部区間 most of it, あまり設置されていない little.'
+- name: tramway
+  src: 軌道の有無
+  codes:
+    '1': 軌道あり（軌道敷内通行可）
+    '2': 軌道あり（軌道敷内一部通行可）
+    '3': 軌道あり（軌道敷内通行不可）
+    '4': 軌道なし
+  ja: '車道部の軌道（路面電車）の有無。値は、元のコードを国土交通省の説明資料の区分名に直したもの: 1 軌道あり（軌道敷内通行可）、2 軌道あり（軌道敷内一部通行可）、3 軌道あり（軌道敷内通行不可）、4 軌道なし（数字は元のコード）。'
+  en: 'Tramway on the roadway. Values are the category names (in Japanese) of the MLIT explanation document, converted from the source codes (listed with their codes in the Japanese description): 軌道あり with tram tracks (driving on the tracks allowed, partly allowed or not allowed), 軌道なし none.'
+- name: bicycle_on_sidewalk
+  src: 自転車通行可能区分
+  codes:
+    '1': 全区間通行可
+    '2': 一部通行可又は通行可能な歩道なし
+  ja: '自転車が通行できる歩道・自転車道があるか。値は、元のコードを国土交通省の説明資料の区分名に直したもの: 1 全区間通行可、2 一部通行可又は通行可能な歩道なし（数字は元のコード）。'
+  en: 'Whether bicycles may use the sidewalks or bicycle tracks. Values are the category names (in Japanese) of the MLIT explanation document, converted from the source codes (listed with their codes in the Japanese description): 全区間通行可 whole section, 一部通行可又は通行可能な歩道なし partly or none.'
+- name: weather_regulation
+  src: 異常気象時等通行規制区分
+  codes:
+    '1': 異常気象時等通行規制なし（冬期通行規制なし）
+    '2': 雨量規制あり（冬期通行規制なし）
+    '3': 雪規制あり（冬期通行規制なし）
+    '4': その他規制あり（冬期通行規制なし）
+    '5': 異常気象時等通行規制なし（冬期通行不可）
+    '6': 雨量規制あり（冬期通行不可）
+    '7': 雪規制あり（冬期通行不可）
+    '8': その他規制あり（冬期通行不可）
+  ja: '異常気象時の通行規制と冬期の通行止め。値は、元のコードを国土交通省の説明資料の区分名に直したもの: 1 異常気象時等通行規制なし（冬期通行規制なし）、2 雨量規制あり（冬期通行規制なし）、3 雪規制あり（冬期通行規制なし）、4 その他規制あり（冬期通行規制なし）、5 異常気象時等通行規制なし（冬期通行不可）、6 雨量規制あり（冬期通行不可）、7 雪規制あり（冬期通行不可）、8 その他規制あり（冬期通行不可）（数字は元のコード）。'
+  en: 'Traffic restrictions in severe weather and winter closures. Values are the category names (in Japanese) of the MLIT explanation document, converted from the source codes (listed with their codes in the Japanese description): rainfall, snow or other restrictions, with or without winter closure.'
+- name: has_reversible_lane
+  src: リバーシブルレーン運用の有無
+  bool:
+    '1': true
+    '2': false
+  ja: リバーシブルレーン（可逆車線）を運用していれば true。元のコードは 1（あり）と 2（なし）。
+  en: True if a reversible lane is operated. Source codes 1 (yes) and 2 (no).
+- name: access_control
+  src: アクセスコントロール
+  codes:
+    '1': 完全出入制限
+    '2': 部分出入制限
+    '3': 地形要因等により出入路なし
+    '4': 出入自由
+  ja: '出入制限。値は、元のコードを国土交通省の説明資料の区分名に直したもの: 1 完全出入制限、2 部分出入制限、3 地形要因等により出入路なし、4 出入自由（数字は元のコード）。'
+  en: 'Access control. Values are the category names (in Japanese) of the MLIT explanation document, converted from the source codes (listed with their codes in the Japanese description): 完全出入制限 full, 部分出入制限 partial, 地形要因等により出入路なし no access due to terrain, 出入自由 none.'
+- name: h27_road_unit_area_code
+  src: 平成２７年度／道路状況／都道府県指定市コード
+  pad: 5
+  ja: 対応する平成27年度の道路状況調査単位区間の都道府県指定市コード（5桁の文字列）。調査単位区間番号の番号を振る単位（都道府県、指定市など）のコード。元データで先頭の0が落ちているので補った。
+  en: 'Area code of the corresponding 2015 road condition survey unit section (5-character string): code of the area (prefecture, designated city, etc.) within which the survey unit sections are numbered. Leading zeros restored.'
+- name: h27_road_unit_section_number
+  src: 平成２７年度／道路状況／調査単位区間番号
+  pad: 5
+  ja: 対応する平成27年度の道路状況調査単位区間番号（5桁の文字列）。交通調査基本区間を集約した調査単位区間の番号。都道府県指定市コードと組み合わせて1つの調査単位区間を表す。元データで先頭の0が落ちているので補った。
+  en: 'Corresponding 2015 road condition survey unit section number (5-character string): number of the survey unit section that groups basic sections. Identifies a unit section together with the area code. Leading zeros restored.'
+geometry:
+  ja: 区間の線（マルチライン）。国土交通省の可視化ツール（WEBマップ）の線を区間ごとにつないだもの。可視化ツールに線がない353区間は空（null）。
+  en: Section line (multilinestring), joined per section from the lines of the MLIT visualization tool (web map). Null for the 353 sections without a line in the tool.
