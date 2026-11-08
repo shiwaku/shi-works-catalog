@@ -51,7 +51,8 @@
     "https://stac-extensions.github.io/table/v1.2.0/schema.json",
     "https://stac-extensions.github.io/file/v2.1.0/schema.json",
     "https://schemas.portolan-sdi.org/portolan/v0.2.0/schema.json",
-    "https://stac-extensions.github.io/language/v1.0.0/schema.json"
+    "https://stac-extensions.github.io/language/v1.0.0/schema.json",
+    "https://stac-extensions.github.io/attribution/v0.1.0/schema.json"
   ],
   "geoparquet:geometry_type": "Point",
   "geoparquet:feature_count": 2182298,
@@ -482,8 +483,8 @@
     "documentation": {
       "href": "./README.md",
       "type": "text/markdown",
-      "file:size": 18450,
-      "file:checksum": "122040d489038cb0a28ee1431ad4e4f2b9dab8ab58f894ba053e4066c9931ff52cd4",
+      "file:size": 18979,
+      "file:checksum": "1220727f6cc6ed2872159cd078b9f43fe1db9b59345e95e41181a5b265bf60744790",
       "roles": [
         "documentation"
       ]
@@ -507,5 +508,6 @@
       "code": "en",
       "name": "English"
     }
-  ]
+  ],
+  "attribution": "「交通事故統計情報のオープンデータ」（警察庁）を加工して作成"
 }

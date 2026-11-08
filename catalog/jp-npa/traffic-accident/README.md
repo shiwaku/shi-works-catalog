@@ -142,13 +142,15 @@ QGIS など GDAL の Parquet ドライバを持つソフトでは、ファイル
 
 ## ライセンスと出典
 
-License: 公共データ利用規約（第1.0版）（PDL1.0）に準拠する[警察庁の利用規約](https://www.npa.go.jp/rules/index.html)。出典を示し、加工したことを示せば、複製・加工・再配布ができます。国が作ったように見せる使い方はできません。
+License: 公共データ利用規約（第1.0版）（PDL1.0）に準拠する[警察庁の利用規約](https://www.npa.go.jp/rules/index.html)。出典を示し、加工したことを示せば、複製・加工・再配布ができます。国が作ったように見せる使い方はできません。PDL1.0 は CC BY 4.0 と互換性があります（PDL1.0 の 1.7.3）。
 
-Source: 警察庁「[交通事故統計情報のオープンデータ](https://www.npa.go.jp/publications/statistics/koutsuu/opendata/index_opendata.html)」（本票、2019〜2025年）を加工して作成
+Source: 「[交通事故統計情報のオープンデータ](https://www.npa.go.jp/publications/statistics/koutsuu/opendata/index_opendata.html)」（警察庁）（本票、2019〜2025年）を加工して作成
 
-地図や資料に載せるときは、次のように書いてください。
+地図や資料に載せるときは、警察庁の利用規約の書き方に合わせて、次のように書いてください。
 
-> 出典: 警察庁「交通事故統計情報のオープンデータ」を加工して作成
+> 「交通事故統計情報のオープンデータ」（警察庁）（https://www.npa.go.jp/publications/statistics/koutsuu/opendata/index_opendata.html）を加工して作成
+
+地図の隅など、URL を入れにくいところでは「「交通事故統計情報のオープンデータ」（警察庁）を加工して作成」と書き、URL はリンクにしてください。このデータからさらに加工したときも「加工して作成」と書いてください。
 
 ## 加工の記録
 

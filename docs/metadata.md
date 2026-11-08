@@ -62,8 +62,8 @@ catalog/
 | タイトル | `collection.json` の `title` | 何のデータかがわかる名前。提供元の名前は入れない（パスと提供元の欄にあるため）。例: 交通事故統計（本票） / Traffic accident statistics (main records) |
 | 説明 | `description` | 1〜3文。何を何件、いつからいつまで、どこを |
 | 提供元 | `providers` | 下の第4章 |
-| ライセンス | `license` | SPDX の識別子。当てはまらないときは `other` と `rel: "license"` のリンク（PTL-LIC-001、002）。データごとの判断は #13 |
-| 出典の表示 | `attribution`、README | 地図や資料に載せるときの表示。提供元が決めた書き方があればそのまま |
+| ライセンス | `license` | SPDX の識別子。当てはまらないときは `other` と `rel: "license"` のリンク（PTL-LIC-001、002）。決め方は [license.md](license.md) 第2章 |
+| 出典の表示 | `attribution`（STAC の attribution 拡張）、README | 地図や資料に載せるときの表示。提供元が決めた書き方に合わせる（[license.md](license.md) 第3章） |
 | 元データ | `rel: "via"` のリンク（`text/html`） | 提供元の公開ページ（PTL-PRO-001） |
 | 更新日時 | `updated` | 元データを取り込んだ日時（RFC 3339。PTL-PRO-003） |
 | 列の説明 | `table:columns` | 下の第5章 |
@@ -76,7 +76,7 @@ catalog/
 
 - `title`、`description`、`providers`、`license`、`keywords` などは `.portolan/metadata.yaml` に書き、portolan-cli に `collection.json` を作らせる。portolan-cli の項目にないものは、作ったあとに `scripts/finalize_metadata.py` で足す。#19 で確かめた portolan-cli 0.8.0 の振る舞い:
   - `collection.json` に書くもの: `title`、`description`、`providers`、`license`（`other` なら `license_url` から `rel: "license"` のリンク）、`source_url` から `via` のリンク
-  - 書かないもの（スクリプトで足す）: `keywords`、`defaults.temporal`（Item にしか使わず、コレクションの `extent.temporal` は空のまま）、列の説明、Language 拡張、`alternate` のリンク
+  - 書かないもの（スクリプトで足す）: `keywords`、`attribution`、`defaults.temporal`（Item にしか使わず、コレクションの `extent.temporal` は空のまま）、列の説明、Language 拡張、`alternate` のリンク
   - README.md と AGENTS.md は、既にあれば上書きしない。手で書いたものがそのまま残る
   - metadata.yaml を直しただけでは反映されない。`portolan add <ファイル> --force` で作り直す
   - サムネイルは `<ファイル名>.thumb.jpg` で作られ、PTL-VIZ-001 はこれで通る（第1章の `thumbnail.png` でなくてよい）

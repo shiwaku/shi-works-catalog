@@ -52,7 +52,8 @@
     "https://stac-extensions.github.io/table/v1.2.0/schema.json",
     "https://stac-extensions.github.io/file/v2.1.0/schema.json",
     "https://schemas.portolan-sdi.org/portolan/v0.2.0/schema.json",
-    "https://stac-extensions.github.io/language/v1.0.0/schema.json"
+    "https://stac-extensions.github.io/language/v1.0.0/schema.json",
+    "https://stac-extensions.github.io/attribution/v0.1.0/schema.json"
   ],
   "geoparquet:geometry_type": "Point",
   "geoparquet:feature_count": 2182298,
@@ -483,8 +484,8 @@
     "documentation": {
       "href": "./README.md",
       "type": "text/markdown",
-      "file:size": 17306,
-      "file:checksum": "1220747aef253aee96d2a82934f7b18b5f1eda3603431150895a8cf9235d82828330",
+      "file:size": 17818,
+      "file:checksum": "1220741639ca6bedaa12978e368fdd6f8162f902b044e41cf73c72f197eb479a7c8c",
       "roles": [
         "documentation"
       ]
@@ -509,5 +510,6 @@
       "name": "日本語",
       "alternate": "Japanese"
     }
-  ]
+  ],
+  "attribution": "\"Open data of traffic accident statistics\" (National Police Agency), modified"
 }

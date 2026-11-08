@@ -113,11 +113,11 @@
 | `mapterhorn` | `pmtiles/mapterhorn/` | 標高 |
 | `jartic` | `pmtiles/jartic-traffic-regulation-converter/`、`pmtiles/traffic-accident/*kisei*` | 交通規制 |
 | `tohoku-university` | `pmtiles/tohoku-u_tsunami/` | 津波の痕跡 |
-| `gosenzo-net` | `geojson/yamajiro/` | 城の一覧（[gosenzo.net](https://gosenzo.net/yamajiro/) の記事から作成。掲載の許可を得ている。ライセンスと出典の書き方は #13 で決める） |
+| `gosenzo-net` | `geojson/yamajiro/` | 城の一覧（[gosenzo.net](https://gosenzo.net/yamajiro/) の記事から作成。掲載の許可を得ている。`license` は `other` にし、許可の内容を README に書く（[license.md](license.md) 第2章）） |
 | `hello-cycling` | `pmtiles/sharecycle/hellocycling_*` | HELLO CYCLING のポート（GBFS） |
 | `docomo-bikeshare` | `pmtiles/sharecycle/docomo*` | ドコモ・バイクシェアのポート（GBFS） |
-| `gtfs-gis` | `pmtiles/100m_mesh_pop2020/` | 令和2年 簡易100mメッシュ人口（西沢明、[GTFS-GIS.jp](https://gtfs-gis.jp/teikyo/kani_100m_download2020.html)）。ページには免責の記載だけで、ライセンスと出典表記の指定がない（#13 で扱う） |
-| `gtfs-gis` | `pmtiles/gtfs-gis/railway_honsu/` | 鉄道の運行本数（2024、GTFS-GIS.jp） |
+| `gtfs-gis` | `pmtiles/100m_mesh_pop2020/` | 令和2年 簡易100mメッシュ人口（西沢明、[GTFS-GIS.jp](https://gtfs-gis.jp/teikyo/kani_100m_download2020.html)）。ライセンスは [説明のページ](https://gtfs-gis.jp/teikyo/) に「CC-BY」とある（ダウンロードのページには免責だけ）。`CC-BY-4.0` と書く（[license.md](license.md) 第2章） |
+| `gtfs-gis` | `pmtiles/gtfs-gis/railway_honsu/` | 鉄道の運行本数（2024、GTFS-GIS.jp）。ライセンスは「CC-BY 4.0、ODbL」。`ODbL-1.0` と書く（[license.md](license.md) 第2章） |
 
 ### shi-works が複数の提供元を組み合わせて作ったもの（`shi-works-`）
 
