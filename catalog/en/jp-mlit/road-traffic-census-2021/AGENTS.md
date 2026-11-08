@@ -5,7 +5,7 @@
 ## すぐ動く読み方
 
 ```sql
--- DuckDB（約59 MB。列が多いので、要る列だけ選ぶ）
+-- DuckDB（約56 MB。列が多いので、要る列だけ選ぶ）
 INSTALL httpfs; LOAD httpfs; INSTALL spatial; LOAD spatial;
 CREATE TABLE census AS
 SELECT section_id, road_type, route_name, admin_code, length_km,
@@ -75,7 +75,10 @@ python scripts/download_geojson_tiles.py --year r03  # → data/r03/geojson_tile
 python scripts/jp-mlit-road-traffic-census-2021/build.py --csv <converter>/data/r03/csv/kasho --tiles <converter>/data/r03/geojson_tiles
 # 3. 空間の順に並べ、bbox 列を足し、GeoParquet 1.1 で書き直す。collection.json を作る
 cd catalog && portolan add jp-mlit/road-traffic-census-2021/jp-mlit-road-traffic-census-2021.parquet --force
-# 4. 列の説明・キーワード・期間・言語・出典の表示を足し、英語版を作る
+# 4. 行グループをジオメトリ約 4 MB ごとに分け直し（1つだと範囲で絞っても全体を読むため）、もう一度登録する
+cd .. && python scripts/rowgroups.py catalog/jp-mlit/road-traffic-census-2021/jp-mlit-road-traffic-census-2021.parquet
+cd catalog && portolan add jp-mlit/road-traffic-census-2021/jp-mlit-road-traffic-census-2021.parquet --force
+# 5. 列の説明・キーワード・期間・言語・出典の表示を足し、英語版を作る
 cd .. && python scripts/finalize_metadata.py
 ```
 

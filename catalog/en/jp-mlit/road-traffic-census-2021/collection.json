@@ -55,7 +55,7 @@
     "https://stac-extensions.github.io/attribution/v0.1.0/schema.json",
     "https://stac-extensions.github.io/language/v1.0.0/schema.json"
   ],
-  "updated": "2026-11-08T07:43:02Z",
+  "updated": "2026-11-08T11:46:06Z",
   "geoparquet:geometry_type": "MultiLineString",
   "geoparquet:feature_count": 99417,
   "table:row_count": 99417,
@@ -842,6 +842,18 @@
       "description": "Section line (multilinestring), joined per section from the lines of the MLIT visualization tool (web map). Null for the 353 sections without a line in the tool."
     }
   ],
+  "attribution": "\"2021 Road Traffic Census, general traffic volume survey, section table\" (MLIT), modified",
+  "language": {
+    "code": "en",
+    "name": "English"
+  },
+  "languages": [
+    {
+      "code": "ja",
+      "name": "日本語",
+      "alternate": "Japanese"
+    }
+  ],
   "title": "Road traffic census (2021)",
   "extent": {
     "spatial": {
@@ -864,6 +876,17 @@
     }
   },
   "license": "other",
+  "keywords": [
+    "transport",
+    "road",
+    "traffic volume",
+    "travel speed",
+    "congestion",
+    "road traffic census",
+    "Japan",
+    "nationwide",
+    "MLIT"
+  ],
   "providers": [
     {
       "name": "Ministry of Land, Infrastructure, Transport and Tourism (MLIT)",
@@ -886,8 +909,8 @@
     "jp-mlit-road-traffic-census-2021": {
       "href": "../../../jp-mlit/road-traffic-census-2021/jp-mlit-road-traffic-census-2021.parquet",
       "type": "application/vnd.apache.parquet",
-      "file:size": 61618323,
-      "file:checksum": "1220898e62aa6cb7031518fc28462fdb26552d6a9c0135b298d776b137558dda927c",
+      "file:size": 56429486,
+      "file:checksum": "122010c0a251d36ed52458ec97a002e69852ea99873f4cbd177944863e92d1d756c3",
       "roles": [
         "data"
       ]
@@ -905,33 +928,10 @@
       "href": "./README.md",
       "type": "text/markdown",
       "file:size": 50766,
-      "file:checksum": "122090bd360a686edcfcf1a0193ad590a54ceb4b103b9151b28ea6301b1ec8fb5cbb",
+      "file:checksum": "1220e40d02e8174085c4c05c3a9375381efaaaff112f43c3288210dc4f64ea7d3a81",
       "roles": [
         "documentation"
       ]
     }
-  },
-  "keywords": [
-    "transport",
-    "road",
-    "traffic volume",
-    "travel speed",
-    "congestion",
-    "road traffic census",
-    "Japan",
-    "nationwide",
-    "MLIT"
-  ],
-  "attribution": "\"2021 Road Traffic Census, general traffic volume survey, section table\" (MLIT), modified",
-  "language": {
-    "code": "en",
-    "name": "English"
-  },
-  "languages": [
-    {
-      "code": "ja",
-      "name": "日本語",
-      "alternate": "Japanese"
-    }
-  ]
+  }
 }

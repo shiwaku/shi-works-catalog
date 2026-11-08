@@ -4,7 +4,7 @@
 
 The section table (箇所別基本表) of the general traffic volume survey of the 2021 Road Traffic Census (全国道路・街路交通情勢調査), published by the Ministry of Land, Infrastructure, Transport and Tourism (MLIT). For each section of expressways, national highways, prefectural roads and the main city roads of designated cities, it has traffic volumes (12-hour and 24-hour, by direction, small and large vehicles), travel speeds (peak and off-peak), the congestion degree, and road conditions such as lanes, widths, sidewalks, medians, speed limits and roadside conditions. Use it to look up the traffic volume and structure of the roads where accidents happened, or to compare accident rates per traffic volume.
 
-- File: [`jp-mlit-road-traffic-census-2021.parquet`](https://catalog.shi-works.com/jp-mlit/road-traffic-census-2021/jp-mlit-road-traffic-census-2021.parquet) (GeoParquet 1.1, about 59 MB)
+- File: [`jp-mlit-road-traffic-census-2021.parquet`](https://catalog.shi-works.com/jp-mlit/road-traffic-census-2021/jp-mlit-road-traffic-census-2021.parquet) (GeoParquet 1.1, about 56 MB)
 - Rows: 99,417 (one per section, the same as the rows of the section table). 353 rows have no line (see Known issues)
 - Coverage: all of Japan. Road conditions as of 1 April 2021; traffic volumes mainly from weekday observations and estimates in September to December 2021
 - Total length: 196,237.7 km

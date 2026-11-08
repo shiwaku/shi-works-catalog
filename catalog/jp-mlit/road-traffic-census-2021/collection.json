@@ -54,7 +54,7 @@
     "https://stac-extensions.github.io/attribution/v0.1.0/schema.json",
     "https://stac-extensions.github.io/language/v1.0.0/schema.json"
   ],
-  "updated": "2026-11-08T07:43:02Z",
+  "updated": "2026-11-08T11:46:06Z",
   "geoparquet:geometry_type": "MultiLineString",
   "geoparquet:feature_count": 99417,
   "table:row_count": 99417,
@@ -841,6 +841,18 @@
       "description": "区間の線（マルチライン）。国土交通省の可視化ツール（WEBマップ）の線を区間ごとにつないだもの。可視化ツールに線がない353区間は空（null）。"
     }
   ],
+  "attribution": "「令和3年度 全国道路・街路交通情勢調査 一般交通量調査 箇所別基本表」（国土交通省）を加工して作成",
+  "language": {
+    "code": "ja",
+    "name": "日本語",
+    "alternate": "Japanese"
+  },
+  "languages": [
+    {
+      "code": "en",
+      "name": "English"
+    }
+  ],
   "title": "道路交通センサス（2021年）",
   "extent": {
     "spatial": {
@@ -863,6 +875,18 @@
     }
   },
   "license": "other",
+  "keywords": [
+    "交通",
+    "道路",
+    "交通量",
+    "旅行速度",
+    "混雑度",
+    "道路交通センサス",
+    "全国道路・街路交通情勢調査",
+    "日本",
+    "全国",
+    "国土交通省"
+  ],
   "providers": [
     {
       "name": "国土交通省",
@@ -885,8 +909,8 @@
     "jp-mlit-road-traffic-census-2021": {
       "href": "./jp-mlit-road-traffic-census-2021.parquet",
       "type": "application/vnd.apache.parquet",
-      "file:size": 61618323,
-      "file:checksum": "1220898e62aa6cb7031518fc28462fdb26552d6a9c0135b298d776b137558dda927c",
+      "file:size": 56429486,
+      "file:checksum": "122010c0a251d36ed52458ec97a002e69852ea99873f4cbd177944863e92d1d756c3",
       "roles": [
         "data"
       ]
@@ -904,34 +928,10 @@
       "href": "./README.md",
       "type": "text/markdown",
       "file:size": 52542,
-      "file:checksum": "122019f8f48053e70c54ba334c64afec7ecf84e16775fdb651742c217f81edcd665b",
+      "file:checksum": "1220a03c144f6551dccac75262e24d3666dd2b201e51308d5997554926a6834d5b91",
       "roles": [
         "documentation"
       ]
     }
-  },
-  "keywords": [
-    "交通",
-    "道路",
-    "交通量",
-    "旅行速度",
-    "混雑度",
-    "道路交通センサス",
-    "全国道路・街路交通情勢調査",
-    "日本",
-    "全国",
-    "国土交通省"
-  ],
-  "attribution": "「令和3年度 全国道路・街路交通情勢調査 一般交通量調査 箇所別基本表」（国土交通省）を加工して作成",
-  "language": {
-    "code": "ja",
-    "name": "日本語",
-    "alternate": "Japanese"
-  },
-  "languages": [
-    {
-      "code": "en",
-      "name": "English"
-    }
-  ]
+  }
 }

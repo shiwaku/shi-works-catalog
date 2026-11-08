@@ -4,7 +4,7 @@
 
 令和3年度（2021年）全国道路・街路交通情勢調査（道路交通センサス）一般交通量調査の箇所別基本表です。国土交通省が公開しています。高速道路、一般国道、都道府県道、指定市の主な市道の区間ごとに、交通量（12時間・24時間、上り・下り、小型車・大型車）、旅行速度（混雑時・非混雑時）、混雑度と、車線数・幅員・歩道・中央分離帯・最高速度・沿道状況などの道路状況を持ちます。事故が起きた道路の交通量や構造を調べる、交通量あたりの事故の起きやすさを比べる、といった分析に使えます。
 
-- ファイル: [`jp-mlit-road-traffic-census-2021.parquet`](https://catalog.shi-works.com/jp-mlit/road-traffic-census-2021/jp-mlit-road-traffic-census-2021.parquet)（GeoParquet 1.1、約59 MB）
+- ファイル: [`jp-mlit-road-traffic-census-2021.parquet`](https://catalog.shi-works.com/jp-mlit/road-traffic-census-2021/jp-mlit-road-traffic-census-2021.parquet)（GeoParquet 1.1、約56 MB）
 - 件数: 99,417行（1区間1行。箇所別基本表の行と同じ）。うち353行は線がない（下の「既知の注意点」）
 - 範囲: 日本全国。道路状況は2021年4月1日時点、交通量は主に2021年9〜12月の平日の観測と推定
 - 延長の合計: 196,237.7 km

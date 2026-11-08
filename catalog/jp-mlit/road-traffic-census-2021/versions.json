@@ -1,6 +1,6 @@
 {
   "spec_version": "1.0.0",
-  "current_version": "1.0.1",
+  "current_version": "1.0.2",
   "versions": [
     {
       "version": "1.0.0",
@@ -53,6 +53,38 @@
           "size_bytes": 10208,
           "href": "jp-mlit/road-traffic-census-2021/README.md",
           "mtime": 1794123694.0752265
+        }
+      },
+      "changes": [
+        "jp-mlit-road-traffic-census-2021.parquet",
+        "README.md"
+      ]
+    },
+    {
+      "version": "1.0.2",
+      "created": "2026-11-08T11:46:06.989105Z",
+      "breaking": false,
+      "assets": {
+        "jp-mlit-road-traffic-census-2021.parquet": {
+          "sha256": "10c0a251d36ed52458ec97a002e69852ea99873f4cbd177944863e92d1d756c3",
+          "size_bytes": 56429486,
+          "href": "jp-mlit/road-traffic-census-2021/jp-mlit-road-traffic-census-2021.parquet",
+          "source_mtime": 1794138365.6816795,
+          "mtime": 1794138365.6816795,
+          "feature_count": 99417,
+          "schema_fingerprint": "7385d8cc589fae0f"
+        },
+        "jp-mlit-road-traffic-census-2021.thumb.jpg": {
+          "sha256": "c9501296aa7cb89b397e20b8f16e5a5a7842ed595faf3e7f06712ad13dd3daac",
+          "size_bytes": 11469,
+          "href": "jp-mlit/road-traffic-census-2021/jp-mlit-road-traffic-census-2021.thumb.jpg",
+          "mtime": 1794138328.0422215
+        },
+        "README.md": {
+          "sha256": "19f8f48053e70c54ba334c64afec7ecf84e16775fdb651742c217f81edcd665b",
+          "size_bytes": 52542,
+          "href": "jp-mlit/road-traffic-census-2021/README.md",
+          "mtime": 1794138328.0422215
         }
       },
       "changes": [
