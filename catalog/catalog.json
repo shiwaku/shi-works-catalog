@@ -65,7 +65,7 @@
     "https://schemas.portolan-sdi.org/portolan/v0.2.0/schema.json",
     "https://stac-extensions.github.io/language/v1.0.0/schema.json"
   ],
-  "updated": "2026-11-08T07:43:02Z",
+  "updated": "2026-11-08T11:39:55Z",
   "language": {
     "code": "ja",
     "name": "日本語",

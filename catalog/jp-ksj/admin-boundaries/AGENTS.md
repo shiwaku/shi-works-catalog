@@ -70,7 +70,10 @@ unzip N03-20260101_GML.zip N03-20260101.geojson
 python scripts/jp-ksj-admin-boundaries/build.py --src N03-20260101.geojson
 # 3. 空間の順に並べ、bbox 列を足し、GeoParquet 1.1 で書き直す。collection.json を作る
 cd catalog && portolan add jp-ksj/admin-boundaries/jp-ksj-admin-boundaries.parquet --force
-# 4. 列の説明・キーワード・期間・言語・出典の表示を足し、英語版を作る
+# 4. 行グループをジオメトリ約 4 MB ごとに分け直し（1つだと範囲で絞っても全体を読むため）、もう一度登録する
+cd .. && python scripts/rowgroups.py catalog/jp-ksj/admin-boundaries/jp-ksj-admin-boundaries.parquet
+cd catalog && portolan add jp-ksj/admin-boundaries/jp-ksj-admin-boundaries.parquet --force
+# 5. 列の説明・キーワード・期間・言語・出典の表示を足し、英語版を作る
 cd .. && python scripts/finalize_metadata.py
 ```
 

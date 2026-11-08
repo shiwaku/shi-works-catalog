@@ -61,7 +61,10 @@ done
 python scripts/jp-stat-densely-inhabited-districts-2020/build.py --src .
 # 3. 空間の順に並べ、bbox 列を足し、GeoParquet 1.1 で書き直す。collection.json を作る
 cd catalog && portolan add jp-stat/densely-inhabited-districts-2020/jp-stat-densely-inhabited-districts-2020.parquet --force
-# 4. 列の説明・キーワード・期間・言語・出典の表示を足し、英語版を作る
+# 4. 行グループをジオメトリ約 4 MB ごとに分け直し（1つだと範囲で絞っても全体を読むため）、もう一度登録する
+cd .. && python scripts/rowgroups.py catalog/jp-stat/densely-inhabited-districts-2020/jp-stat-densely-inhabited-districts-2020.parquet
+cd catalog && portolan add jp-stat/densely-inhabited-districts-2020/jp-stat-densely-inhabited-districts-2020.parquet --force
+# 5. 列の説明・キーワード・期間・言語・出典の表示を足し、英語版を作る
 cd .. && python scripts/finalize_metadata.py
 ```
 

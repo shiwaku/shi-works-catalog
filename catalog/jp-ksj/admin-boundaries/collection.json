@@ -7,7 +7,8 @@
     {
       "rel": "root",
       "href": "../../catalog.json",
-      "type": "application/json"
+      "type": "application/json",
+      "title": "shi-works catalog"
     },
     {
       "rel": "license",
@@ -23,7 +24,8 @@
     {
       "rel": "parent",
       "href": "../catalog.json",
-      "type": "application/json"
+      "type": "application/json",
+      "title": "国土数値情報"
     },
     {
       "rel": "agents",
@@ -52,7 +54,7 @@
     "https://stac-extensions.github.io/language/v1.0.0/schema.json",
     "https://stac-extensions.github.io/attribution/v0.1.0/schema.json"
   ],
-  "updated": "2026-11-07T22:55:39Z",
+  "updated": "2026-11-08T11:39:53Z",
   "geoparquet:geometry_type": "MultiPolygon",
   "geoparquet:feature_count": 1905,
   "table:row_count": 1905,
@@ -104,6 +106,18 @@
       "description": "市区町村（政令指定都市は区）の範囲（マルチポリゴン、EPSG:4326）。元データでは島ごとに別の行だったものを、1つのマルチポリゴンにまとめた（形は変えていない）。"
     }
   ],
+  "language": {
+    "code": "ja",
+    "name": "日本語",
+    "alternate": "Japanese"
+  },
+  "languages": [
+    {
+      "code": "en",
+      "name": "English"
+    }
+  ],
+  "attribution": "「国土数値情報（行政区域データ）」（国土交通省）を加工して作成",
   "title": "行政区域",
   "extent": {
     "spatial": {
@@ -126,6 +140,15 @@
     }
   },
   "license": "CC-BY-4.0",
+  "keywords": [
+    "境界・住所",
+    "行政区域",
+    "市区町村",
+    "日本",
+    "全国",
+    "国土数値情報",
+    "国土交通省"
+  ],
   "providers": [
     {
       "name": "国土交通省",
@@ -148,8 +171,8 @@
     "jp-ksj-admin-boundaries": {
       "href": "./jp-ksj-admin-boundaries.parquet",
       "type": "application/vnd.apache.parquet",
-      "file:size": 179034431,
-      "file:checksum": "122071d416345dc610d3763a405d744c9f040e06aeb0bcfff2c95ff93339b0d305d3",
+      "file:size": 170730424,
+      "file:checksum": "1220e421225db99cd6e155a73232055270cff44a4151a0ce189155f5b7302c4a6051",
       "roles": [
         "data"
       ]
@@ -157,32 +180,20 @@
     "thumbnail": {
       "href": "./jp-ksj-admin-boundaries.thumb.jpg",
       "type": "image/jpeg",
+      "file:size": 8683,
+      "file:checksum": "1220e5f345b371377420cbd74c270ead3a276554105e3609acead3f875e187e640b2",
       "roles": [
         "thumbnail"
-      ],
-      "file:size": 8683,
-      "file:checksum": "1220e5f345b371377420cbd74c270ead3a276554105e3609acead3f875e187e640b2"
+      ]
+    },
+    "documentation": {
+      "href": "./README.md",
+      "type": "text/markdown",
+      "file:size": 8170,
+      "file:checksum": "1220ebca0e9c353330a5a73936c41b574143f21c971ec085301a74c906b8896b420c",
+      "roles": [
+        "documentation"
+      ]
     }
-  },
-  "keywords": [
-    "境界・住所",
-    "行政区域",
-    "市区町村",
-    "日本",
-    "全国",
-    "国土数値情報",
-    "国土交通省"
-  ],
-  "language": {
-    "code": "ja",
-    "name": "日本語",
-    "alternate": "Japanese"
-  },
-  "languages": [
-    {
-      "code": "en",
-      "name": "English"
-    }
-  ],
-  "attribution": "「国土数値情報（行政区域データ）」（国土交通省）を加工して作成"
+  }
 }

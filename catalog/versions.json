@@ -10,10 +10,10 @@
       "total_size_bytes": 132110172
     },
     "jp-ksj/admin-boundaries": {
-      "current_version": "1.0.0",
-      "updated": "2026-11-07T22:55:39.199802+00:00",
-      "asset_count": 1,
-      "total_size_bytes": 179034431
+      "current_version": "1.0.1",
+      "updated": "2026-11-08T11:39:53.776489+00:00",
+      "asset_count": 3,
+      "total_size_bytes": 170747277
     },
     "gtfs-gis/population-mesh-100m-2020": {
       "current_version": "1.0.0",
@@ -22,10 +22,10 @@
       "total_size_bytes": 180371344
     },
     "jp-stat/densely-inhabited-districts-2020": {
-      "current_version": "1.0.0",
-      "updated": "2026-11-08T01:22:50.626169+00:00",
-      "asset_count": 1,
-      "total_size_bytes": 21421987
+      "current_version": "1.0.1",
+      "updated": "2026-11-08T11:39:55.132285+00:00",
+      "asset_count": 3,
+      "total_size_bytes": 20602243
     },
     "jp-mlit/road-traffic-census-2021": {
       "current_version": "1.0.1",
@@ -34,5 +34,5 @@
       "total_size_bytes": 61640000
     }
   },
-  "updated": "2026-11-08T07:43:02.868564+00:00"
+  "updated": "2026-11-08T11:39:55.132285+00:00"
 }
