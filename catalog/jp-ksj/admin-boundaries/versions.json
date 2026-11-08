@@ -1,6 +1,6 @@
 {
   "spec_version": "1.0.0",
-  "current_version": "1.0.0",
+  "current_version": "1.0.1",
   "versions": [
     {
       "version": "1.0.0",
@@ -26,6 +26,38 @@
       "changes": [
         "jp-ksj-admin-boundaries.parquet",
         "jp-ksj-admin-boundaries.thumb.jpg"
+      ]
+    },
+    {
+      "version": "1.0.1",
+      "created": "2026-11-08T11:39:53.772948Z",
+      "breaking": false,
+      "assets": {
+        "jp-ksj-admin-boundaries.parquet": {
+          "sha256": "e421225db99cd6e155a73232055270cff44a4151a0ce189155f5b7302c4a6051",
+          "size_bytes": 170730424,
+          "href": "jp-ksj/admin-boundaries/jp-ksj-admin-boundaries.parquet",
+          "source_mtime": 1794137990.3236592,
+          "mtime": 1794137990.3236592,
+          "feature_count": 1905,
+          "schema_fingerprint": "75846225e30fd790"
+        },
+        "jp-ksj-admin-boundaries.thumb.jpg": {
+          "sha256": "e5f345b371377420cbd74c270ead3a276554105e3609acead3f875e187e640b2",
+          "size_bytes": 8683,
+          "href": "jp-ksj/admin-boundaries/jp-ksj-admin-boundaries.thumb.jpg",
+          "mtime": 1794098389.1051226
+        },
+        "README.md": {
+          "sha256": "ebca0e9c353330a5a73936c41b574143f21c971ec085301a74c906b8896b420c",
+          "size_bytes": 8170,
+          "href": "jp-ksj/admin-boundaries/README.md",
+          "mtime": 1794123866.0566535
+        }
+      },
+      "changes": [
+        "jp-ksj-admin-boundaries.parquet",
+        "README.md"
       ]
     }
   ]

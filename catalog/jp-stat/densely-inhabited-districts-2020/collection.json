@@ -2,12 +2,13 @@
   "type": "Collection",
   "id": "jp-stat/densely-inhabited-districts-2020",
   "stac_version": "1.1.0",
-  "description": "令和2年国勢調査の人口集中地区（DID）の境界データ（総務省統計局、e-Stat）。人口集中地区を市区町村の境界で分けた1,463地区の範囲と人口・面積を、1地区1行のマルチポリゴンで持つ。",
+  "description": "令和2年国勢調査の人口集中地区（DID）の境界データ（総務省統計局、e-Stat）。全国1,463地区の範囲と人口・面積を、1地区1行のマルチポリゴンで持つ。",
   "links": [
     {
       "rel": "root",
       "href": "../../catalog.json",
-      "type": "application/json"
+      "type": "application/json",
+      "title": "shi-works catalog"
     },
     {
       "rel": "license",
@@ -23,7 +24,8 @@
     {
       "rel": "parent",
       "href": "../catalog.json",
-      "type": "application/json"
+      "type": "application/json",
+      "title": "総務省統計局"
     },
     {
       "rel": "agents",
@@ -52,7 +54,7 @@
     "https://stac-extensions.github.io/attribution/v0.1.0/schema.json",
     "https://stac-extensions.github.io/language/v1.0.0/schema.json"
   ],
-  "updated": "2026-11-08T01:22:50Z",
+  "updated": "2026-11-08T11:39:55Z",
   "geoparquet:geometry_type": "MultiPolygon",
   "geoparquet:feature_count": 1463,
   "table:row_count": 1463,
@@ -99,6 +101,18 @@
       "description": "人口集中地区の範囲（マルチポリゴン、EPSG:4326）。元データの5行にあった自己接触などの不正な形は ST_MakeValid で直した（面積は変わらない）。"
     }
   ],
+  "attribution": "「令和2年国勢調査 人口集中地区境界データ」（総務省統計局）を加工して作成",
+  "language": {
+    "code": "ja",
+    "name": "日本語",
+    "alternate": "Japanese"
+  },
+  "languages": [
+    {
+      "code": "en",
+      "name": "English"
+    }
+  ],
   "title": "人口集中地区（2020年）",
   "extent": {
     "spatial": {
@@ -121,6 +135,16 @@
     }
   },
   "license": "other",
+  "keywords": [
+    "人口",
+    "人口集中地区",
+    "DID",
+    "国勢調査",
+    "日本",
+    "全国",
+    "総務省統計局",
+    "e-Stat"
+  ],
   "providers": [
     {
       "name": "総務省統計局",
@@ -143,8 +167,8 @@
     "jp-stat-densely-inhabited-districts-2020": {
       "href": "./jp-stat-densely-inhabited-districts-2020.parquet",
       "type": "application/vnd.apache.parquet",
-      "file:size": 21421987,
-      "file:checksum": "12204b18edb5e4539e2236ef584ba2104d4fe97e3e981c92d099456d24452072931f",
+      "file:size": 20585679,
+      "file:checksum": "1220a3863292264feee3ab5f82c2a94256247782a5dca359590bbc46a2dfdb10347b",
       "roles": [
         "data"
       ]
@@ -152,33 +176,20 @@
     "thumbnail": {
       "href": "./jp-stat-densely-inhabited-districts-2020.thumb.jpg",
       "type": "image/jpeg",
+      "file:size": 8063,
+      "file:checksum": "122010c23744f652f6d662b031fbe226893d38c0dba17987fded9b1da2599aacbeff",
       "roles": [
         "thumbnail"
-      ],
-      "file:size": 8063,
-      "file:checksum": "122010c23744f652f6d662b031fbe226893d38c0dba17987fded9b1da2599aacbeff"
+      ]
+    },
+    "documentation": {
+      "href": "./README.md",
+      "type": "text/markdown",
+      "file:size": 8501,
+      "file:checksum": "1220c938b2cf84d9f99a7b54f087ff203acd00317ff9f38d3bd96f07538864089bc4",
+      "roles": [
+        "documentation"
+      ]
     }
-  },
-  "keywords": [
-    "人口",
-    "人口集中地区",
-    "DID",
-    "国勢調査",
-    "日本",
-    "全国",
-    "総務省統計局",
-    "e-Stat"
-  ],
-  "attribution": "「令和2年国勢調査 人口集中地区境界データ」（総務省統計局）を加工して作成",
-  "language": {
-    "code": "ja",
-    "name": "日本語",
-    "alternate": "Japanese"
-  },
-  "languages": [
-    {
-      "code": "en",
-      "name": "English"
-    }
-  ]
+  }
 }
