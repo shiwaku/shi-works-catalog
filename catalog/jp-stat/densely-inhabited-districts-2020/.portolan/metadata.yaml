@@ -1,0 +1,36 @@
+# 人口集中地区（令和2年国勢調査）のメタデータ（日本語。正本）
+# 英語版は scripts/finalize_metadata.py が en/ の木に作る（docs/metadata.md 第2章）
+
+title: "人口集中地区（2020年）"
+description: "令和2年国勢調査の人口集中地区（DID）の境界データ（総務省統計局、e-Stat）。全国1,463地区の範囲と人口・面積を、1地区1行のマルチポリゴンで持つ。"
+
+license: "other"
+license_url: "https://www.e-stat.go.jp/terms-of-use"
+
+providers:
+  - name: "総務省統計局"
+    roles: ["producer", "licensor"]
+    url: "https://www.e-stat.go.jp/gis/statmap-search?page=1&type=2&aggregateUnitForBoundary=D&toukeiCode=00200521&toukeiYear=2020&serveyId=D002005112020&datum=2011"
+  - name: "shi-works"
+    roles: ["processor", "host"]
+    url: "https://github.com/shiwaku/shi-works-catalog"
+
+source_url: "https://www.e-stat.go.jp/gis/statmap-search?page=1&type=2&aggregateUnitForBoundary=D&toukeiCode=00200521&toukeiYear=2020&serveyId=D002005112020&datum=2011"
+
+# 出典の表示。e-Stat の利用規約の「加工して作成」の書き方に合わせる（docs/license.md 第3章）
+attribution: "「令和2年国勢調査 人口集中地区境界データ」（総務省統計局）を加工して作成"
+
+keywords:
+  - "人口"
+  - "人口集中地区"
+  - "DID"
+  - "国勢調査"
+  - "日本"
+  - "全国"
+  - "総務省統計局"
+  - "e-Stat"
+
+defaults:
+  temporal:
+    start: "2020-10-01"
+    end: "2020-10-01"

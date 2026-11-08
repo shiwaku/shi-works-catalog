@@ -1,0 +1,32 @@
+{
+  "spec_version": "1.0.0",
+  "current_version": "1.0.0",
+  "versions": [
+    {
+      "version": "1.0.0",
+      "created": "2026-11-08T01:22:50.625666Z",
+      "breaking": false,
+      "assets": {
+        "jp-stat-densely-inhabited-districts-2020.parquet": {
+          "sha256": "4b18edb5e4539e2236ef584ba2104d4fe97e3e981c92d099456d24452072931f",
+          "size_bytes": 21421987,
+          "href": "jp-stat/densely-inhabited-districts-2020/jp-stat-densely-inhabited-districts-2020.parquet",
+          "source_mtime": 1794100970.5339673,
+          "mtime": 1794100970.5339673,
+          "feature_count": 1463,
+          "schema_fingerprint": "c0d423954496b67c"
+        },
+        "jp-stat-densely-inhabited-districts-2020.thumb.jpg": {
+          "sha256": "10c23744f652f6d662b031fbe226893d38c0dba17987fded9b1da2599aacbeff",
+          "size_bytes": 8063,
+          "href": "jp-stat/densely-inhabited-districts-2020/jp-stat-densely-inhabited-districts-2020.thumb.jpg",
+          "mtime": 1794100972.0746777
+        }
+      },
+      "changes": [
+        "jp-stat-densely-inhabited-districts-2020.parquet",
+        "jp-stat-densely-inhabited-districts-2020.thumb.jpg"
+      ]
+    }
+  ]
+}

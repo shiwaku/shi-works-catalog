@@ -66,3 +66,23 @@ gtfs-gis/population-mesh-100m-2020/collection.json:
   attribution: "\"Simplified 100 m mesh population (2020)\" (Akira Nishizawa, GTFS-GIS.jp, CC BY 4.0), modified"
   providers:
     "西澤明（GTFS-GIS.jp）": "Akira Nishizawa (GTFS-GIS.jp)"
+
+jp-stat/catalog.json:
+  title: "Statistics Bureau of Japan"
+  description: "Statistics of the Statistics Bureau of Japan (Ministry of Internal Affairs and Communications), such as the Population Census, and boundary data published on the e-Stat portal."
+
+jp-stat/densely-inhabited-districts-2020/collection.json:
+  title: "Densely inhabited districts (2020)"
+  description: "Boundary data of the densely inhabited districts (DID) of the 2020 Census (Statistics Bureau of Japan, e-Stat). Boundaries, population and area of all 1,463 districts in Japan, one multipolygon row per district."
+  keywords:
+    - "population"
+    - "densely inhabited district"
+    - "DID"
+    - "census"
+    - "Japan"
+    - "nationwide"
+    - "Statistics Bureau of Japan"
+    - "e-Stat"
+  attribution: "\"2020 Population Census, boundary data of densely inhabited districts\" (Statistics Bureau of Japan), modified"
+  providers:
+    "総務省統計局": "Statistics Bureau of Japan"
