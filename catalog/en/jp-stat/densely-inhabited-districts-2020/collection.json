@@ -7,7 +7,8 @@
     {
       "rel": "root",
       "href": "../../catalog.json",
-      "type": "application/json"
+      "type": "application/json",
+      "title": "shi-works catalog"
     },
     {
       "rel": "license",
@@ -23,7 +24,8 @@
     {
       "rel": "parent",
       "href": "../catalog.json",
-      "type": "application/json"
+      "type": "application/json",
+      "title": "総務省統計局"
     },
     {
       "rel": "agents",
@@ -53,7 +55,7 @@
     "https://stac-extensions.github.io/attribution/v0.1.0/schema.json",
     "https://stac-extensions.github.io/language/v1.0.0/schema.json"
   ],
-  "updated": "2026-11-08T01:22:50Z",
+  "updated": "2026-11-08T11:39:55Z",
   "geoparquet:geometry_type": "MultiPolygon",
   "geoparquet:feature_count": 1463,
   "table:row_count": 1463,
@@ -100,6 +102,18 @@
       "description": "Boundary of the densely inhabited district as a multipolygon in EPSG:4326. Invalid shapes (such as self-touching rings) in five source rows were repaired with ST_MakeValid; the areas are unchanged."
     }
   ],
+  "attribution": "\"2020 Population Census, boundary data of densely inhabited districts\" (Statistics Bureau of Japan), modified",
+  "language": {
+    "code": "en",
+    "name": "English"
+  },
+  "languages": [
+    {
+      "code": "ja",
+      "name": "日本語",
+      "alternate": "Japanese"
+    }
+  ],
   "title": "Densely inhabited districts (2020)",
   "extent": {
     "spatial": {
@@ -122,6 +136,16 @@
     }
   },
   "license": "other",
+  "keywords": [
+    "population",
+    "densely inhabited district",
+    "DID",
+    "census",
+    "Japan",
+    "nationwide",
+    "Statistics Bureau of Japan",
+    "e-Stat"
+  ],
   "providers": [
     {
       "name": "Statistics Bureau of Japan",
@@ -144,8 +168,8 @@
     "jp-stat-densely-inhabited-districts-2020": {
       "href": "../../../jp-stat/densely-inhabited-districts-2020/jp-stat-densely-inhabited-districts-2020.parquet",
       "type": "application/vnd.apache.parquet",
-      "file:size": 21421987,
-      "file:checksum": "12204b18edb5e4539e2236ef584ba2104d4fe97e3e981c92d099456d24452072931f",
+      "file:size": 20585679,
+      "file:checksum": "1220a3863292264feee3ab5f82c2a94256247782a5dca359590bbc46a2dfdb10347b",
       "roles": [
         "data"
       ]
@@ -153,33 +177,20 @@
     "thumbnail": {
       "href": "../../../jp-stat/densely-inhabited-districts-2020/jp-stat-densely-inhabited-districts-2020.thumb.jpg",
       "type": "image/jpeg",
+      "file:size": 8063,
+      "file:checksum": "122010c23744f652f6d662b031fbe226893d38c0dba17987fded9b1da2599aacbeff",
       "roles": [
         "thumbnail"
-      ],
-      "file:size": 8063,
-      "file:checksum": "122010c23744f652f6d662b031fbe226893d38c0dba17987fded9b1da2599aacbeff"
+      ]
+    },
+    "documentation": {
+      "href": "./README.md",
+      "type": "text/markdown",
+      "file:size": 8165,
+      "file:checksum": "1220624f09daf29b4a4efac2d0f192aeae697848a85802278389d31f35135593efc6",
+      "roles": [
+        "documentation"
+      ]
     }
-  },
-  "keywords": [
-    "population",
-    "densely inhabited district",
-    "DID",
-    "census",
-    "Japan",
-    "nationwide",
-    "Statistics Bureau of Japan",
-    "e-Stat"
-  ],
-  "attribution": "\"2020 Population Census, boundary data of densely inhabited districts\" (Statistics Bureau of Japan), modified",
-  "language": {
-    "code": "en",
-    "name": "English"
-  },
-  "languages": [
-    {
-      "code": "ja",
-      "name": "日本語",
-      "alternate": "Japanese"
-    }
-  ]
+  }
 }

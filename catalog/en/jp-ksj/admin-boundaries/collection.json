@@ -7,7 +7,8 @@
     {
       "rel": "root",
       "href": "../../catalog.json",
-      "type": "application/json"
+      "type": "application/json",
+      "title": "shi-works catalog"
     },
     {
       "rel": "license",
@@ -23,7 +24,8 @@
     {
       "rel": "parent",
       "href": "../catalog.json",
-      "type": "application/json"
+      "type": "application/json",
+      "title": "国土数値情報"
     },
     {
       "rel": "agents",
@@ -53,7 +55,7 @@
     "https://stac-extensions.github.io/language/v1.0.0/schema.json",
     "https://stac-extensions.github.io/attribution/v0.1.0/schema.json"
   ],
-  "updated": "2026-11-07T22:55:39Z",
+  "updated": "2026-11-08T11:39:53Z",
   "geoparquet:geometry_type": "MultiPolygon",
   "geoparquet:feature_count": 1905,
   "table:row_count": 1905,
@@ -105,6 +107,18 @@
       "description": "Boundary of the municipality (ward for designated cities) as a multipolygon in EPSG:4326. Islands that were separate rows in the source are combined into one multipolygon; the shapes are unchanged."
     }
   ],
+  "language": {
+    "code": "en",
+    "name": "English"
+  },
+  "languages": [
+    {
+      "code": "ja",
+      "name": "日本語",
+      "alternate": "Japanese"
+    }
+  ],
+  "attribution": "\"National Land Numerical Information (administrative boundaries)\" (Ministry of Land, Infrastructure, Transport and Tourism), modified",
   "title": "Administrative boundaries",
   "extent": {
     "spatial": {
@@ -127,6 +141,17 @@
     }
   },
   "license": "CC-BY-4.0",
+  "keywords": [
+    "boundaries",
+    "administrative boundaries",
+    "municipalities",
+    "Japan",
+    "nationwide",
+    "National Land Numerical Information",
+    "KSJ",
+    "Ministry of Land, Infrastructure, Transport and Tourism",
+    "MLIT"
+  ],
   "providers": [
     {
       "name": "Ministry of Land, Infrastructure, Transport and Tourism",
@@ -149,8 +174,8 @@
     "jp-ksj-admin-boundaries": {
       "href": "../../../jp-ksj/admin-boundaries/jp-ksj-admin-boundaries.parquet",
       "type": "application/vnd.apache.parquet",
-      "file:size": 179034431,
-      "file:checksum": "122071d416345dc610d3763a405d744c9f040e06aeb0bcfff2c95ff93339b0d305d3",
+      "file:size": 170730424,
+      "file:checksum": "1220e421225db99cd6e155a73232055270cff44a4151a0ce189155f5b7302c4a6051",
       "roles": [
         "data"
       ]
@@ -158,34 +183,20 @@
     "thumbnail": {
       "href": "../../../jp-ksj/admin-boundaries/jp-ksj-admin-boundaries.thumb.jpg",
       "type": "image/jpeg",
+      "file:size": 8683,
+      "file:checksum": "1220e5f345b371377420cbd74c270ead3a276554105e3609acead3f875e187e640b2",
       "roles": [
         "thumbnail"
-      ],
-      "file:size": 8683,
-      "file:checksum": "1220e5f345b371377420cbd74c270ead3a276554105e3609acead3f875e187e640b2"
+      ]
+    },
+    "documentation": {
+      "href": "./README.md",
+      "type": "text/markdown",
+      "file:size": 7814,
+      "file:checksum": "12201b074265c5763dbdbd7061daef44f4857bd2bc5a3f8e67d4ca0affb7061ca28a",
+      "roles": [
+        "documentation"
+      ]
     }
-  },
-  "keywords": [
-    "boundaries",
-    "administrative boundaries",
-    "municipalities",
-    "Japan",
-    "nationwide",
-    "National Land Numerical Information",
-    "KSJ",
-    "Ministry of Land, Infrastructure, Transport and Tourism",
-    "MLIT"
-  ],
-  "language": {
-    "code": "en",
-    "name": "English"
-  },
-  "languages": [
-    {
-      "code": "ja",
-      "name": "日本語",
-      "alternate": "Japanese"
-    }
-  ],
-  "attribution": "\"National Land Numerical Information (administrative boundaries)\" (Ministry of Land, Infrastructure, Transport and Tourism), modified"
+  }
 }
