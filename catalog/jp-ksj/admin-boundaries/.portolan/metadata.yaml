@@ -1,0 +1,35 @@
+# 行政区域（国土数値情報 N03）のメタデータ（日本語。正本）
+# 英語版は scripts/finalize_metadata.py が en/ の木に作る（docs/metadata.md 第2章）
+
+title: "行政区域"
+description: "国土数値情報の行政区域データ（N03）の2026年1月1日時点の版。全国の市区町村（政令指定都市は区）1,905件の範囲を、1市区町村1行のマルチポリゴンで持つ。"
+
+license: "CC-BY-4.0"
+license_url: "https://creativecommons.org/licenses/by/4.0/deed.ja"
+
+providers:
+  - name: "国土交通省"
+    roles: ["producer", "licensor"]
+    url: "https://nlftp.mlit.go.jp/ksj/gml/datalist/KsjTmplt-N03-2026.html"
+  - name: "shi-works"
+    roles: ["processor", "host"]
+    url: "https://github.com/shiwaku/shi-works-catalog"
+
+source_url: "https://nlftp.mlit.go.jp/ksj/gml/datalist/KsjTmplt-N03-2026.html"
+
+# 出典の表示。国土数値情報の利用規約の「加工して作成」の書き方に合わせる
+attribution: "「国土数値情報（行政区域データ）」（国土交通省）を加工して作成"
+
+keywords:
+  - "境界・住所"
+  - "行政区域"
+  - "市区町村"
+  - "日本"
+  - "全国"
+  - "国土数値情報"
+  - "国土交通省"
+
+defaults:
+  temporal:
+    start: "2026-01-01"
+    end: "2026-01-01"

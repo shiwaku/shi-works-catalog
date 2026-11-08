@@ -1,0 +1,32 @@
+{
+  "spec_version": "1.0.0",
+  "current_version": "1.0.0",
+  "versions": [
+    {
+      "version": "1.0.0",
+      "created": "2026-11-07T22:55:39.199802Z",
+      "breaking": false,
+      "assets": {
+        "jp-ksj-admin-boundaries.parquet": {
+          "sha256": "71d416345dc610d3763a405d744c9f040e06aeb0bcfff2c95ff93339b0d305d3",
+          "size_bytes": 179034431,
+          "href": "jp-ksj/admin-boundaries/jp-ksj-admin-boundaries.parquet",
+          "source_mtime": 1794092138.934656,
+          "mtime": 1794092138.934656,
+          "feature_count": 1905,
+          "schema_fingerprint": "75846225e30fd790"
+        },
+        "jp-ksj-admin-boundaries.thumb.jpg": {
+          "sha256": "e5f345b371377420cbd74c270ead3a276554105e3609acead3f875e187e640b2",
+          "size_bytes": 8683,
+          "href": "jp-ksj/admin-boundaries/jp-ksj-admin-boundaries.thumb.jpg",
+          "mtime": 1794092147.6203878
+        }
+      },
+      "changes": [
+        "jp-ksj-admin-boundaries.parquet",
+        "jp-ksj-admin-boundaries.thumb.jpg"
+      ]
+    }
+  ]
+}

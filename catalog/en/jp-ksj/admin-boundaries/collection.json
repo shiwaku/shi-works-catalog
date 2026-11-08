@@ -1,0 +1,189 @@
+{
+  "type": "Collection",
+  "id": "jp-ksj/admin-boundaries",
+  "stac_version": "1.1.0",
+  "description": "Administrative boundary data (N03) of the National Land Numerical Information, as of 1 January 2026. Boundaries of all 1,905 municipalities in Japan (wards for designated cities), one multipolygon row per municipality.",
+  "links": [
+    {
+      "rel": "root",
+      "href": "../../catalog.json",
+      "type": "application/json"
+    },
+    {
+      "rel": "license",
+      "href": "https://creativecommons.org/licenses/by/4.0/deed.ja",
+      "title": "License"
+    },
+    {
+      "rel": "via",
+      "href": "https://nlftp.mlit.go.jp/ksj/gml/datalist/KsjTmplt-N03-2026.html",
+      "type": "text/html",
+      "title": "Original source"
+    },
+    {
+      "rel": "parent",
+      "href": "../catalog.json",
+      "type": "application/json"
+    },
+    {
+      "rel": "agents",
+      "href": "./AGENTS.md",
+      "type": "text/markdown",
+      "title": "Agent/LLM usage guide",
+      "hreflang": "ja"
+    },
+    {
+      "rel": "describedby",
+      "href": "./README.md",
+      "type": "text/markdown",
+      "title": "Human-readable documentation"
+    },
+    {
+      "rel": "alternate",
+      "href": "../../../jp-ksj/admin-boundaries/collection.json",
+      "type": "application/json",
+      "hreflang": "ja",
+      "title": "日本語"
+    }
+  ],
+  "stac_extensions": [
+    "https://stac-extensions.github.io/table/v1.2.0/schema.json",
+    "https://stac-extensions.github.io/file/v2.1.0/schema.json",
+    "https://schemas.portolan-sdi.org/portolan/v0.2.0/schema.json",
+    "https://stac-extensions.github.io/language/v1.0.0/schema.json"
+  ],
+  "updated": "2026-11-07T22:55:39Z",
+  "geoparquet:geometry_type": "MultiPolygon",
+  "geoparquet:feature_count": 1905,
+  "table:row_count": 1905,
+  "table:primary_geometry": "geometry",
+  "table:columns": [
+    {
+      "name": "admin_code",
+      "type": "string",
+      "description": "Original column: N03_007. Local government code (5-digit string, without the check digit) - 2-digit prefecture code followed by a 3-digit municipality code. Designated cities are split into wards, each with its own code. Areas of undetermined jurisdiction are \"<prefecture code>000\". Unique per row."
+    },
+    {
+      "name": "pref_code",
+      "type": "string",
+      "description": "Added column (not in the source). Prefecture code (2-digit string, 01 Hokkaido to 47 Okinawa). The first two digits of admin_code."
+    },
+    {
+      "name": "pref_name",
+      "type": "string",
+      "description": "Original column: N03_001. Prefecture name (in Japanese)."
+    },
+    {
+      "name": "subprefecture_name",
+      "type": "string",
+      "description": "Original column: N03_002. Name of the Hokkaido subprefecture (in Japanese). Null outside Hokkaido."
+    },
+    {
+      "name": "county_name",
+      "type": "string",
+      "description": "Original column: N03_003. County name (in Japanese). Only for towns and villages that belong to a county; null for cities, wards and towns or villages outside a county."
+    },
+    {
+      "name": "municipality_name",
+      "type": "string",
+      "description": "Original column: N03_004. Municipality name (city, town, village, or special ward of Tokyo; in Japanese). On rows for wards of designated cities this is the city name (e.g. \"札幌市\") and the ward is in ward_name. \"所属未定地\" on rows for areas of undetermined jurisdiction."
+    },
+    {
+      "name": "ward_name",
+      "type": "string",
+      "description": "Original column: N03_005. Ward name of a designated city (in Japanese, e.g. \"中央区\"). Null outside designated cities. Tokyo's special wards are in municipality_name, not here."
+    },
+    {
+      "name": "bbox",
+      "type": "struct<xmin: double, ymin: double, xmax: double, ymax: double>",
+      "description": "Feature bounding box (xmin, ymin, xmax, ymax). The GeoParquet 1.1 bbox covering column, used to skip row groups in spatial filters."
+    },
+    {
+      "name": "geometry",
+      "type": "binary",
+      "description": "Boundary of the municipality (ward for designated cities) as a multipolygon in EPSG:4326. Islands that were separate rows in the source are combined into one multipolygon; the shapes are unchanged."
+    }
+  ],
+  "title": "Administrative boundaries",
+  "extent": {
+    "spatial": {
+      "bbox": [
+        [
+          122.932606368,
+          20.422746414,
+          153.986675123,
+          45.557243414
+        ]
+      ]
+    },
+    "temporal": {
+      "interval": [
+        [
+          "2025-12-31T15:00:00Z",
+          "2026-01-01T14:59:59Z"
+        ]
+      ]
+    }
+  },
+  "license": "CC-BY-4.0",
+  "providers": [
+    {
+      "name": "Ministry of Land, Infrastructure, Transport and Tourism",
+      "roles": [
+        "producer",
+        "licensor"
+      ],
+      "url": "https://nlftp.mlit.go.jp/ksj/gml/datalist/KsjTmplt-N03-2026.html"
+    },
+    {
+      "name": "shi-works",
+      "roles": [
+        "processor",
+        "host"
+      ],
+      "url": "https://github.com/shiwaku/shi-works-catalog"
+    }
+  ],
+  "assets": {
+    "jp-ksj-admin-boundaries": {
+      "href": "../../../jp-ksj/admin-boundaries/jp-ksj-admin-boundaries.parquet",
+      "type": "application/vnd.apache.parquet",
+      "file:size": 179034431,
+      "file:checksum": "122071d416345dc610d3763a405d744c9f040e06aeb0bcfff2c95ff93339b0d305d3",
+      "roles": [
+        "data"
+      ]
+    },
+    "thumbnail": {
+      "href": "../../../jp-ksj/admin-boundaries/jp-ksj-admin-boundaries.thumb.jpg",
+      "type": "image/jpeg",
+      "roles": [
+        "thumbnail"
+      ],
+      "file:size": 8683,
+      "file:checksum": "1220e5f345b371377420cbd74c270ead3a276554105e3609acead3f875e187e640b2"
+    }
+  },
+  "keywords": [
+    "boundaries",
+    "administrative boundaries",
+    "municipalities",
+    "Japan",
+    "nationwide",
+    "National Land Numerical Information",
+    "KSJ",
+    "Ministry of Land, Infrastructure, Transport and Tourism",
+    "MLIT"
+  ],
+  "language": {
+    "code": "en",
+    "name": "English"
+  },
+  "languages": [
+    {
+      "code": "ja",
+      "name": "日本語",
+      "alternate": "Japanese"
+    }
+  ]
+}
