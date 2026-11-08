@@ -47,6 +47,12 @@
       "title": "総務省統計局"
     },
     {
+      "rel": "child",
+      "href": "./jp-mlit/catalog.json",
+      "type": "application/json",
+      "title": "国土交通省"
+    },
+    {
       "rel": "alternate",
       "href": "./en/catalog.json",
       "type": "application/json",
@@ -59,7 +65,7 @@
     "https://schemas.portolan-sdi.org/portolan/v0.2.0/schema.json",
     "https://stac-extensions.github.io/language/v1.0.0/schema.json"
   ],
-  "updated": "2026-11-08T01:22:50Z",
+  "updated": "2026-11-08T07:43:02Z",
   "language": {
     "code": "ja",
     "name": "日本語",

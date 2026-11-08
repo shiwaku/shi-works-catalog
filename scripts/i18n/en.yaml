@@ -86,3 +86,24 @@ jp-stat/densely-inhabited-districts-2020/collection.json:
   attribution: "\"2020 Population Census, boundary data of densely inhabited districts\" (Statistics Bureau of Japan), modified"
   providers:
     "総務省統計局": "Statistics Bureau of Japan"
+
+jp-mlit/catalog.json:
+  title: "Ministry of Land, Infrastructure, Transport and Tourism"
+  description: "Road and transport data of the Ministry of Land, Infrastructure, Transport and Tourism (MLIT), such as the road traffic census. National Land Numerical Information and PLATEAU are separate stewards (jp-ksj, jp-plateau)."
+
+jp-mlit/road-traffic-census-2021/collection.json:
+  title: "Road traffic census (2021)"
+  description: "Section table (箇所別基本表) of the general traffic volume survey of the 2021 Road Traffic Census (MLIT). Traffic volume, travel speed, congestion degree and road conditions such as lanes, widths and sidewalks for all 99,417 sections of expressways, national highways and prefectural roads in Japan, one multilinestring row per section."
+  keywords:
+    - "transport"
+    - "road"
+    - "traffic volume"
+    - "travel speed"
+    - "congestion"
+    - "road traffic census"
+    - "Japan"
+    - "nationwide"
+    - "MLIT"
+  attribution: "\"2021 Road Traffic Census, general traffic volume survey, section table\" (MLIT), modified"
+  providers:
+    "国土交通省": "Ministry of Land, Infrastructure, Transport and Tourism (MLIT)"

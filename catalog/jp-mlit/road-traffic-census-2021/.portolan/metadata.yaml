@@ -1,0 +1,38 @@
+# 道路交通センサス（令和3年度）のメタデータ（日本語。正本）
+# 英語版は scripts/finalize_metadata.py が en/ の木に作る（docs/metadata.md 第2章）
+
+title: "道路交通センサス（2021年）"
+description: "令和3年度 全国道路・街路交通情勢調査（道路交通センサス）一般交通量調査の箇所別基本表（国土交通省）。高速道路・国道・都道府県道など全国99,417区間の交通量、旅行速度、混雑度、車線数・幅員・歩道などの道路状況を、1区間1行のマルチラインで持つ。"
+
+license: "other"
+license_url: "https://www.mlit.go.jp/link.html"
+
+providers:
+  - name: "国土交通省"
+    roles: ["producer", "licensor"]
+    url: "https://www.mlit.go.jp/road/census/r3/index.html"
+  - name: "shi-works"
+    roles: ["processor", "host"]
+    url: "https://github.com/shiwaku/shi-works-catalog"
+
+source_url: "https://www.mlit.go.jp/road/census/r3/index.html"
+
+# 出典の表示。国土交通省の利用ルール（公共データ利用規約第1.0版に準拠）の「加工して作成」の書き方に合わせる（docs/license.md 第3章）
+attribution: "「令和3年度 全国道路・街路交通情勢調査 一般交通量調査 箇所別基本表」（国土交通省）を加工して作成"
+
+keywords:
+  - "交通"
+  - "道路"
+  - "交通量"
+  - "旅行速度"
+  - "混雑度"
+  - "道路交通センサス"
+  - "全国道路・街路交通情勢調査"
+  - "日本"
+  - "全国"
+  - "国土交通省"
+
+defaults:
+  temporal:
+    start: "2021-04-01"
+    end: "2022-01-31"
