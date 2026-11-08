@@ -49,7 +49,8 @@
     "https://stac-extensions.github.io/table/v1.2.0/schema.json",
     "https://stac-extensions.github.io/file/v2.1.0/schema.json",
     "https://schemas.portolan-sdi.org/portolan/v0.2.0/schema.json",
-    "https://stac-extensions.github.io/language/v1.0.0/schema.json"
+    "https://stac-extensions.github.io/language/v1.0.0/schema.json",
+    "https://stac-extensions.github.io/attribution/v0.1.0/schema.json"
   ],
   "updated": "2026-11-07T22:55:39Z",
   "geoparquet:geometry_type": "MultiPolygon",
@@ -182,5 +183,6 @@
       "code": "en",
       "name": "English"
     }
-  ]
+  ],
+  "attribution": "「国土数値情報（行政区域データ）」（国土交通省）を加工して作成"
 }
