@@ -1,0 +1,32 @@
+{
+  "spec_version": "1.0.0",
+  "current_version": "1.0.0",
+  "versions": [
+    {
+      "version": "1.0.0",
+      "created": "2026-11-08T01:10:25.468771Z",
+      "breaking": false,
+      "assets": {
+        "gtfs-gis-population-mesh-100m-2020.parquet": {
+          "sha256": "a810a1eb8dd833fd4995cfc165d75b13bcccc8ab54638e373e2622cbce067058",
+          "size_bytes": 180371344,
+          "href": "gtfs-gis/population-mesh-100m-2020/gtfs-gis-population-mesh-100m-2020.parquet",
+          "source_mtime": 1794100225.1672442,
+          "mtime": 1794100225.1672442,
+          "feature_count": 4979919,
+          "schema_fingerprint": "db2cabd3d041c3e6"
+        },
+        "gtfs-gis-population-mesh-100m-2020.thumb.jpg": {
+          "sha256": "a4603118133c95b4d21bdc23c0496a3248d0ecae4a736197e9326885c0195e50",
+          "size_bytes": 3576,
+          "href": "gtfs-gis/population-mesh-100m-2020/gtfs-gis-population-mesh-100m-2020.thumb.jpg",
+          "mtime": 1794100238.9471662
+        }
+      },
+      "changes": [
+        "gtfs-gis-population-mesh-100m-2020.parquet",
+        "gtfs-gis-population-mesh-100m-2020.thumb.jpg"
+      ]
+    }
+  ]
+}

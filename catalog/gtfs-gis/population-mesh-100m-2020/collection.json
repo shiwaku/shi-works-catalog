@@ -1,0 +1,188 @@
+{
+  "type": "Collection",
+  "id": "gtfs-gis/population-mesh-100m-2020",
+  "stac_version": "1.1.0",
+  "description": "令和2年国勢調査の250mメッシュの人口を、建物の面積で100mメッシュに按分した推計人口（西澤明、GTFS-GIS.jp）。全国4,979,919メッシュの総人口と年齢区分別の人口を、1メッシュ1行のポリゴンで持つ。",
+  "links": [
+    {
+      "rel": "root",
+      "href": "../../catalog.json",
+      "type": "application/json"
+    },
+    {
+      "rel": "license",
+      "href": "https://creativecommons.org/licenses/by/4.0/deed.ja",
+      "title": "License"
+    },
+    {
+      "rel": "via",
+      "href": "https://gtfs-gis.jp/teikyo/kani_100m_download2020.html",
+      "type": "text/html",
+      "title": "Original source"
+    },
+    {
+      "rel": "parent",
+      "href": "../catalog.json",
+      "type": "application/json"
+    },
+    {
+      "rel": "agents",
+      "href": "./AGENTS.md",
+      "type": "text/markdown",
+      "title": "Agent/LLM usage guide"
+    },
+    {
+      "rel": "describedby",
+      "href": "./README.md",
+      "type": "text/markdown",
+      "title": "Human-readable documentation"
+    },
+    {
+      "rel": "alternate",
+      "href": "../../en/gtfs-gis/population-mesh-100m-2020/collection.json",
+      "type": "application/json",
+      "hreflang": "en",
+      "title": "English"
+    }
+  ],
+  "stac_extensions": [
+    "https://stac-extensions.github.io/table/v1.2.0/schema.json",
+    "https://stac-extensions.github.io/file/v2.1.0/schema.json",
+    "https://schemas.portolan-sdi.org/portolan/v0.2.0/schema.json",
+    "https://stac-extensions.github.io/attribution/v0.1.0/schema.json",
+    "https://stac-extensions.github.io/language/v1.0.0/schema.json"
+  ],
+  "updated": "2026-11-08T01:10:25Z",
+  "geoparquet:geometry_type": "Polygon",
+  "geoparquet:feature_count": 4979919,
+  "table:row_count": 4979919,
+  "table:primary_geometry": "geometry",
+  "table:columns": [
+    {
+      "name": "mesh_code",
+      "type": "string",
+      "description": "元の列名: Meshcode。100mメッシュのコード（10桁の文字列）。3次メッシュ（約1km）のコード8桁に、3次メッシュを縦横10等分した区画の番号（緯度方向1桁、経度方向1桁）を足したもの。1行に1つで、重複しない。"
+    },
+    {
+      "name": "pop_total",
+      "type": "double",
+      "description": "元の列名: PopT。総人口（推計。小数を含む）。国勢調査の250mメッシュの人口を、建物の面積で100mメッシュに按分した値。年齢3区分の和より大きいことがある（全国で約293万人多い。年齢不詳を含むためと考えられる）。"
+    },
+    {
+      "name": "pop_0_14",
+      "type": "double",
+      "description": "元の列名: Pop0_14。0〜14歳の人口（推計。小数を含む）。"
+    },
+    {
+      "name": "pop_15_64",
+      "type": "double",
+      "description": "元の列名: Pop15_64。15〜64歳の人口（推計。小数を含む）。"
+    },
+    {
+      "name": "pop_65_over",
+      "type": "double",
+      "description": "元の列名: Pop65over。65歳以上の人口（推計。小数を含む）。"
+    },
+    {
+      "name": "pop_75_over",
+      "type": "double",
+      "description": "元の列名: Pop75over。75歳以上の人口（推計。小数を含む）。pop_65_over の内数。"
+    },
+    {
+      "name": "pop_85_over",
+      "type": "double",
+      "description": "元の列名: Pop85over。85歳以上の人口（推計。小数を含む）。pop_75_over の内数。"
+    },
+    {
+      "name": "bbox",
+      "type": "struct<xmin: double, ymin: double, xmax: double, ymax: double>",
+      "description": "地物の範囲（xmin、ymin、xmax、ymax）。GeoParquet 1.1 の bbox 列で、範囲で絞るときに行グループを読み飛ばすのに使う。"
+    },
+    {
+      "name": "geometry",
+      "type": "binary",
+      "description": "100mメッシュの範囲（ポリゴン、EPSG:4326）。緯度3秒×経度4.5秒の長方形。mesh_code から計算した（元の shape ファイルの形と同じ）。"
+    }
+  ],
+  "title": "令和2年 簡易100mメッシュ人口",
+  "extent": {
+    "spatial": {
+      "bbox": [
+        [
+          122.94,
+          24.058333333333334,
+          153.97875,
+          45.5225
+        ]
+      ]
+    },
+    "temporal": {
+      "interval": [
+        [
+          "2020-09-30T15:00:00Z",
+          "2020-10-01T14:59:59Z"
+        ]
+      ]
+    }
+  },
+  "license": "CC-BY-4.0",
+  "providers": [
+    {
+      "name": "西澤明（GTFS-GIS.jp）",
+      "roles": [
+        "producer",
+        "licensor"
+      ],
+      "url": "https://gtfs-gis.jp/teikyo/"
+    },
+    {
+      "name": "shi-works",
+      "roles": [
+        "processor",
+        "host"
+      ],
+      "url": "https://github.com/shiwaku/shi-works-catalog"
+    }
+  ],
+  "assets": {
+    "gtfs-gis-population-mesh-100m-2020": {
+      "href": "./gtfs-gis-population-mesh-100m-2020.parquet",
+      "type": "application/vnd.apache.parquet",
+      "file:size": 180371344,
+      "file:checksum": "1220a810a1eb8dd833fd4995cfc165d75b13bcccc8ab54638e373e2622cbce067058",
+      "roles": [
+        "data"
+      ]
+    },
+    "thumbnail": {
+      "href": "./gtfs-gis-population-mesh-100m-2020.thumb.jpg",
+      "type": "image/jpeg",
+      "roles": [
+        "thumbnail"
+      ],
+      "file:size": 3576,
+      "file:checksum": "1220a4603118133c95b4d21bdc23c0496a3248d0ecae4a736197e9326885c0195e50"
+    }
+  },
+  "keywords": [
+    "人口",
+    "人口メッシュ",
+    "100mメッシュ",
+    "国勢調査",
+    "日本",
+    "全国",
+    "GTFS-GIS.jp"
+  ],
+  "attribution": "「令和2年簡易100mメッシュ人口」（西澤明、GTFS-GIS.jp、CC BY 4.0）を加工して作成",
+  "language": {
+    "code": "ja",
+    "name": "日本語",
+    "alternate": "Japanese"
+  },
+  "languages": [
+    {
+      "code": "en",
+      "name": "English"
+    }
+  ]
+}

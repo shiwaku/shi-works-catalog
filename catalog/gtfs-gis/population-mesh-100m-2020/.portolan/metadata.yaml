@@ -1,0 +1,35 @@
+# 令和2年 簡易100mメッシュ人口（GTFS-GIS.jp）のメタデータ（日本語。正本）
+# 英語版は scripts/finalize_metadata.py が en/ の木に作る（docs/metadata.md 第2章）
+
+title: "令和2年 簡易100mメッシュ人口"
+description: "令和2年国勢調査の250mメッシュの人口を、建物の面積で100mメッシュに按分した推計人口（西澤明、GTFS-GIS.jp）。全国4,979,919メッシュの総人口と年齢区分別の人口を、1メッシュ1行のポリゴンで持つ。"
+
+license: "CC-BY-4.0"
+license_url: "https://creativecommons.org/licenses/by/4.0/deed.ja"
+
+providers:
+  - name: "西澤明（GTFS-GIS.jp）"
+    roles: ["producer", "licensor"]
+    url: "https://gtfs-gis.jp/teikyo/"
+  - name: "shi-works"
+    roles: ["processor", "host"]
+    url: "https://github.com/shiwaku/shi-works-catalog"
+
+source_url: "https://gtfs-gis.jp/teikyo/kani_100m_download2020.html"
+
+# 出典の表示。CC BY の表示（作者、題名、ライセンス、変更したこと）に合わせる
+attribution: "「令和2年簡易100mメッシュ人口」（西澤明、GTFS-GIS.jp、CC BY 4.0）を加工して作成"
+
+keywords:
+  - "人口"
+  - "人口メッシュ"
+  - "100mメッシュ"
+  - "国勢調査"
+  - "日本"
+  - "全国"
+  - "GTFS-GIS.jp"
+
+defaults:
+  temporal:
+    start: "2020-10-01"
+    end: "2020-10-01"

@@ -1,0 +1,59 @@
+{
+  "type": "Catalog",
+  "id": "gtfs-gis",
+  "stac_version": "1.1.0",
+  "title": "GTFS-GIS.jp",
+  "description": "西澤明（東京大学空間情報科学研究センター）が作成・加工して GTFS-GIS.jp の地域データ提供ページで公開しているデータ（簡易100mメッシュ人口、鉄道の運行本数など）。",
+  "links": [
+    {
+      "rel": "root",
+      "href": "../catalog.json",
+      "type": "application/json"
+    },
+    {
+      "rel": "parent",
+      "href": "../catalog.json",
+      "type": "application/json"
+    },
+    {
+      "rel": "agents",
+      "href": "./AGENTS.md",
+      "type": "text/markdown",
+      "title": "Agent/LLM usage guide"
+    },
+    {
+      "rel": "child",
+      "href": "./population-mesh-100m-2020/collection.json",
+      "type": "application/json",
+      "title": "令和2年 簡易100mメッシュ人口"
+    },
+    {
+      "rel": "describedby",
+      "href": "./README.md",
+      "type": "text/markdown",
+      "title": "Human-readable documentation"
+    },
+    {
+      "rel": "alternate",
+      "href": "../en/gtfs-gis/catalog.json",
+      "type": "application/json",
+      "hreflang": "en",
+      "title": "English"
+    }
+  ],
+  "stac_extensions": [
+    "https://schemas.portolan-sdi.org/portolan/v0.2.0/schema.json",
+    "https://stac-extensions.github.io/language/v1.0.0/schema.json"
+  ],
+  "language": {
+    "code": "ja",
+    "name": "日本語",
+    "alternate": "Japanese"
+  },
+  "languages": [
+    {
+      "code": "en",
+      "name": "English"
+    }
+  ]
+}

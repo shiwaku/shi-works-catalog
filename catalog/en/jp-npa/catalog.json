@@ -26,7 +26,7 @@
       "rel": "child",
       "href": "./traffic-accident/collection.json",
       "type": "application/json",
-      "title": "交通事故統計（本票）"
+      "title": "Traffic accident statistics (main records)"
     },
     {
       "rel": "describedby",

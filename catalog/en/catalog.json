@@ -27,13 +27,19 @@
       "rel": "child",
       "href": "./jp-npa/catalog.json",
       "type": "application/json",
-      "title": "警察庁"
+      "title": "National Police Agency"
     },
     {
       "rel": "child",
       "href": "./jp-ksj/catalog.json",
       "type": "application/json",
-      "title": "国土数値情報"
+      "title": "National Land Numerical Information"
+    },
+    {
+      "rel": "child",
+      "href": "./gtfs-gis/catalog.json",
+      "type": "application/json",
+      "title": "GTFS-GIS.jp"
     },
     {
       "rel": "alternate",
@@ -48,7 +54,7 @@
     "https://schemas.portolan-sdi.org/portolan/v0.2.0/schema.json",
     "https://stac-extensions.github.io/language/v1.0.0/schema.json"
   ],
-  "updated": "2026-11-07T22:55:39Z",
+  "updated": "2026-11-08T01:10:25Z",
   "language": {
     "code": "en",
     "name": "English"

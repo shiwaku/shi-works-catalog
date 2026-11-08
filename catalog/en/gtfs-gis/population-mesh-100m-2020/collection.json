@@ -1,0 +1,189 @@
+{
+  "type": "Collection",
+  "id": "gtfs-gis/population-mesh-100m-2020",
+  "stac_version": "1.1.0",
+  "description": "Estimated population of 100 m mesh cells, apportioning the 250 m mesh population of the 2020 Census by building floor area (Akira Nishizawa, GTFS-GIS.jp). Total population and population by age group for 4,979,919 cells across Japan, one polygon row per cell.",
+  "links": [
+    {
+      "rel": "root",
+      "href": "../../catalog.json",
+      "type": "application/json"
+    },
+    {
+      "rel": "license",
+      "href": "https://creativecommons.org/licenses/by/4.0/deed.ja",
+      "title": "License"
+    },
+    {
+      "rel": "via",
+      "href": "https://gtfs-gis.jp/teikyo/kani_100m_download2020.html",
+      "type": "text/html",
+      "title": "Original source"
+    },
+    {
+      "rel": "parent",
+      "href": "../catalog.json",
+      "type": "application/json"
+    },
+    {
+      "rel": "agents",
+      "href": "./AGENTS.md",
+      "type": "text/markdown",
+      "title": "Agent/LLM usage guide",
+      "hreflang": "ja"
+    },
+    {
+      "rel": "describedby",
+      "href": "./README.md",
+      "type": "text/markdown",
+      "title": "Human-readable documentation"
+    },
+    {
+      "rel": "alternate",
+      "href": "../../../gtfs-gis/population-mesh-100m-2020/collection.json",
+      "type": "application/json",
+      "hreflang": "ja",
+      "title": "日本語"
+    }
+  ],
+  "stac_extensions": [
+    "https://stac-extensions.github.io/table/v1.2.0/schema.json",
+    "https://stac-extensions.github.io/file/v2.1.0/schema.json",
+    "https://schemas.portolan-sdi.org/portolan/v0.2.0/schema.json",
+    "https://stac-extensions.github.io/attribution/v0.1.0/schema.json",
+    "https://stac-extensions.github.io/language/v1.0.0/schema.json"
+  ],
+  "updated": "2026-11-08T01:10:25Z",
+  "geoparquet:geometry_type": "Polygon",
+  "geoparquet:feature_count": 4979919,
+  "table:row_count": 4979919,
+  "table:primary_geometry": "geometry",
+  "table:columns": [
+    {
+      "name": "mesh_code",
+      "type": "string",
+      "description": "Original column: Meshcode. 100 m mesh code (10-digit string) - the 8-digit tertiary mesh (about 1 km) code followed by one digit each for the row (latitude) and column (longitude) of the cell when the tertiary mesh is divided into 10 by 10. Unique per row."
+    },
+    {
+      "name": "pop_total",
+      "type": "double",
+      "description": "Original column: PopT. Total population (estimated; fractional). The population of the census 250 m mesh, apportioned to 100 m cells by building floor area. Can be larger than the sum of the three age groups (by about 2.93 million nationwide), probably because it includes persons of unknown age."
+    },
+    {
+      "name": "pop_0_14",
+      "type": "double",
+      "description": "Original column: Pop0_14. Population aged 0-14 (estimated; fractional)."
+    },
+    {
+      "name": "pop_15_64",
+      "type": "double",
+      "description": "Original column: Pop15_64. Population aged 15-64 (estimated; fractional)."
+    },
+    {
+      "name": "pop_65_over",
+      "type": "double",
+      "description": "Original column: Pop65over. Population aged 65 and over (estimated; fractional)."
+    },
+    {
+      "name": "pop_75_over",
+      "type": "double",
+      "description": "Original column: Pop75over. Population aged 75 and over (estimated; fractional). Included in pop_65_over."
+    },
+    {
+      "name": "pop_85_over",
+      "type": "double",
+      "description": "Original column: Pop85over. Population aged 85 and over (estimated; fractional). Included in pop_75_over."
+    },
+    {
+      "name": "bbox",
+      "type": "struct<xmin: double, ymin: double, xmax: double, ymax: double>",
+      "description": "Feature bounding box (xmin, ymin, xmax, ymax). The GeoParquet 1.1 bbox covering column, used to skip row groups in spatial filters."
+    },
+    {
+      "name": "geometry",
+      "type": "binary",
+      "description": "The 100 m mesh cell as a polygon in EPSG:4326 - a rectangle of 3 seconds of latitude by 4.5 seconds of longitude, computed from mesh_code (identical to the shapes in the source shapefiles)."
+    }
+  ],
+  "title": "Simplified 100 m mesh population (2020)",
+  "extent": {
+    "spatial": {
+      "bbox": [
+        [
+          122.94,
+          24.058333333333334,
+          153.97875,
+          45.5225
+        ]
+      ]
+    },
+    "temporal": {
+      "interval": [
+        [
+          "2020-09-30T15:00:00Z",
+          "2020-10-01T14:59:59Z"
+        ]
+      ]
+    }
+  },
+  "license": "CC-BY-4.0",
+  "providers": [
+    {
+      "name": "Akira Nishizawa (GTFS-GIS.jp)",
+      "roles": [
+        "producer",
+        "licensor"
+      ],
+      "url": "https://gtfs-gis.jp/teikyo/"
+    },
+    {
+      "name": "shi-works",
+      "roles": [
+        "processor",
+        "host"
+      ],
+      "url": "https://github.com/shiwaku/shi-works-catalog"
+    }
+  ],
+  "assets": {
+    "gtfs-gis-population-mesh-100m-2020": {
+      "href": "../../../gtfs-gis/population-mesh-100m-2020/gtfs-gis-population-mesh-100m-2020.parquet",
+      "type": "application/vnd.apache.parquet",
+      "file:size": 180371344,
+      "file:checksum": "1220a810a1eb8dd833fd4995cfc165d75b13bcccc8ab54638e373e2622cbce067058",
+      "roles": [
+        "data"
+      ]
+    },
+    "thumbnail": {
+      "href": "../../../gtfs-gis/population-mesh-100m-2020/gtfs-gis-population-mesh-100m-2020.thumb.jpg",
+      "type": "image/jpeg",
+      "roles": [
+        "thumbnail"
+      ],
+      "file:size": 3576,
+      "file:checksum": "1220a4603118133c95b4d21bdc23c0496a3248d0ecae4a736197e9326885c0195e50"
+    }
+  },
+  "keywords": [
+    "population",
+    "population mesh",
+    "100 m mesh",
+    "census",
+    "Japan",
+    "nationwide",
+    "GTFS-GIS.jp"
+  ],
+  "attribution": "\"Simplified 100 m mesh population (2020)\" (Akira Nishizawa, GTFS-GIS.jp, CC BY 4.0), modified",
+  "language": {
+    "code": "en",
+    "name": "English"
+  },
+  "languages": [
+    {
+      "code": "ja",
+      "name": "日本語",
+      "alternate": "Japanese"
+    }
+  ]
+}
