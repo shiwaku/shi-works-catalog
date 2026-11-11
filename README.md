@@ -6,6 +6,7 @@
 - データの置き場所: Cloudflare R2 の専用バケット `shi-works-catalog`。カタログとデータを同じツリーに置き、shi-works のデータ配信の本体にする（既存データは移行が済むまで `shi-works` バケット、`https://shi-works.com/` のまま）
 - 手元のカタログ: [catalog/](catalog/)
 - 要件定義: [docs/requirements.md](docs/requirements.md)
+- QGIS・Web のクライアントで見る: [docs/portolan-clients.md](docs/portolan-clients.md)
 
 ## 注意
 
